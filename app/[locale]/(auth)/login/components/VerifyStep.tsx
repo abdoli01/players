@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useTranslations } from 'next-intl';
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -15,15 +16,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const verifySchema = z.object({
-    token: z
-        .string()
-        .min(1, "کد تایید الزامی است")
-        .length(6, "کد تایید باید 6 رقم باشد")
-        .regex(/^\d+$/, "کد تایید باید فقط عدد باشد"),
-});
+const createVerifySchema = (messages: { required: string; length: string; numeric: string }) =>
+    z.object({
+        token: z
+            .string()
+            .min(1, messages.required)
+            .length(6, messages.length)
+            .regex(/^\d+$/, messages.numeric),
+    });
 
-type VerifyFormValues = z.infer<typeof verifySchema>;
+type VerifyFormValues = z.infer<ReturnType<typeof createVerifySchema>>;
 
 interface VerifyStepProps {
     phone: string;
@@ -40,8 +42,19 @@ export default function VerifyStep({
     isRegistered,
     setStep,
 }: VerifyStepProps) {
+    const t = useTranslations();
     const [loading, setLoading] = useState<boolean>(false);
     const [sent, setSent] = useState<boolean>(!isRegistered);
+
+    const verifySchema = useMemo(
+        () =>
+            createVerifySchema({
+                required: t('auth.login.verify.code.required'),
+                length: t('auth.login.verify.code.length'),
+                numeric: t('auth.login.verify.code.numeric'),
+            }),
+        [t]
+    );
 
     const form = useForm<VerifyFormValues>({
         resolver: zodResolver(verifySchema),
@@ -55,7 +68,7 @@ export default function VerifyStep({
         setTimeout(() => {
             setSent(true);
             setLoading(false);
-            alert("کد جدید ارسال شد");
+            alert(t('auth.login.verify.sent'));
         }, 700);
     };
 
@@ -63,7 +76,7 @@ export default function VerifyStep({
         if (values.token !== "123456") {
             form.setError("token", {
                 type: "manual",
-                message: "کد اشتباه است",
+                message: t('auth.login.verify.code.wrong'),
             });
             return;
         }
@@ -71,7 +84,7 @@ export default function VerifyStep({
         setToken(values.token);
 
         if (isRegistered) {
-            alert("ورود موفقیت‌آمیز");
+            alert(t('auth.login.verify.success'));
         } else {
             setStep("register");
         }
@@ -79,12 +92,12 @@ export default function VerifyStep({
 
     return (
         <div className="space-y-4">
-            <h1 className="text-xl font-bold text-center">کد تایید</h1>
+            <h1 className="text-xl font-bold text-center">{t('auth.login.verify.title')}</h1>
 
             <p className="text-center text-sm text-muted-foreground">
                 {isRegistered
-                    ? "اگر کد قبلی را داری وارد کن. اگر نداری، ارسال مجدد را بزن."
-                    : `کد برای ${phone} ارسال شد.`}
+                    ? t('auth.login.verify.messageRegistered')
+                    : t('auth.login.verify.messageNew', { phone })}
             </p>
 
             <Form {...form}>
@@ -94,11 +107,11 @@ export default function VerifyStep({
                         name="token"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>کد تایید</FormLabel>
+                                <FormLabel>{t('auth.login.verify.code.label')}</FormLabel>
                                 <FormControl>
                                     <Input
                                         maxLength={6}
-                                        placeholder="123456"
+                                        placeholder={t('auth.login.verify.code.placeholder')}
                                         className="text-center"
                                         {...field}
                                     />
@@ -109,7 +122,7 @@ export default function VerifyStep({
                     />
 
                     <Button type="submit" className="w-full">
-                        تایید
+                        {t('common.submit')}
                     </Button>
                 </form>
             </Form>
@@ -120,7 +133,7 @@ export default function VerifyStep({
                 disabled={loading}
                 className="w-full"
             >
-                {loading ? "در حال ارسال..." : "ارسال دوباره کد"}
+                {loading ? t('auth.login.verify.sending') : t('auth.login.verify.resend')}
             </Button>
         </div>
     );

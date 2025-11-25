@@ -1,8 +1,10 @@
 "use client";
 
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useTranslations } from 'next-intl';
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -14,26 +16,49 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const registerSchema = z.object({
-    firstName: z
-        .string()
-        .min(1, "نام الزامی است")
-        .min(2, "نام باید حداقل 2 کاراکتر باشد")
-        .regex(/^[\u0600-\u06FF\s]+$/, "نام باید فارسی باشد"),
-    lastName: z
-        .string()
-        .min(1, "نام خانوادگی الزامی است")
-        .min(2, "نام خانوادگی باید حداقل 2 کاراکتر باشد")
-        .regex(/^[\u0600-\u06FF\s]+$/, "نام خانوادگی باید فارسی باشد"),
-});
+const createRegisterSchema = (messages: {
+    firstName: { required: string; minLength: string; persian: string };
+    lastName: { required: string; minLength: string; persian: string };
+}) =>
+    z.object({
+        firstName: z
+            .string()
+            .min(1, messages.firstName.required)
+            .min(2, messages.firstName.minLength)
+            .regex(/^[\u0600-\u06FF\s]+$/, messages.firstName.persian),
+        lastName: z
+            .string()
+            .min(1, messages.lastName.required)
+            .min(2, messages.lastName.minLength)
+            .regex(/^[\u0600-\u06FF\s]+$/, messages.lastName.persian),
+    });
 
-type RegisterFormValues = z.infer<typeof registerSchema>;
+type RegisterFormValues = z.infer<ReturnType<typeof createRegisterSchema>>;
 
 interface RegisterStepProps {
     phone: string;
 }
 
 export default function RegisterStep({ phone }: RegisterStepProps) {
+    const t = useTranslations();
+
+    const registerSchema = useMemo(
+        () =>
+            createRegisterSchema({
+                firstName: {
+                    required: t('auth.login.register.firstName.required'),
+                    minLength: t('auth.login.register.firstName.minLength'),
+                    persian: t('auth.login.register.firstName.persian'),
+                },
+                lastName: {
+                    required: t('auth.login.register.lastName.required'),
+                    minLength: t('auth.login.register.lastName.minLength'),
+                    persian: t('auth.login.register.lastName.persian'),
+                },
+            }),
+        [t]
+    );
+
     const form = useForm<RegisterFormValues>({
         resolver: zodResolver(registerSchema),
         defaultValues: {
@@ -43,15 +68,14 @@ export default function RegisterStep({ phone }: RegisterStepProps) {
     });
 
     const onSubmit = async (values: RegisterFormValues) => {
-        // در اینجا می‌توانید API call برای ثبت نام انجام دهید
-        alert(`ثبت نام شد: ${values.firstName} ${values.lastName}`);
+        alert(t('auth.login.register.success', { firstName: values.firstName, lastName: values.lastName }));
         console.log("Phone:", phone);
         console.log("User Data:", values);
     };
 
     return (
         <div className="space-y-4">
-            <h1 className="text-xl font-bold text-center">ثبت نام جدید</h1>
+            <h1 className="text-xl font-bold text-center">{t('auth.login.register.title')}</h1>
 
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -60,9 +84,9 @@ export default function RegisterStep({ phone }: RegisterStepProps) {
                         name="firstName"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>نام</FormLabel>
+                                <FormLabel>{t('auth.login.register.firstName.label')}</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="نام" {...field} />
+                                    <Input placeholder={t('auth.login.register.firstName.placeholder')} {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -74,9 +98,9 @@ export default function RegisterStep({ phone }: RegisterStepProps) {
                         name="lastName"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>نام خانوادگی</FormLabel>
+                                <FormLabel>{t('auth.login.register.lastName.label')}</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="نام خانوادگی" {...field} />
+                                    <Input placeholder={t('auth.login.register.lastName.placeholder')} {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -84,7 +108,7 @@ export default function RegisterStep({ phone }: RegisterStepProps) {
                     />
 
                     <Button type="submit" className="w-full">
-                        ثبت نام
+                        {t('auth.login.register.submit')}
                     </Button>
                 </form>
             </Form>

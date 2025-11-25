@@ -1,9 +1,13 @@
-import React from 'react';
+"use client";
+
+import { useTranslations } from 'next-intl';
 
 const Settings = () => {
+    const t = useTranslations();
+    
     return (
         <div>
-            Settings
+            {t('pages.settings')}
         </div>
     );
 };

@@ -1,9 +1,13 @@
-import React from 'react';
+"use client";
+
+import { useTranslations } from 'next-intl';
 
 const Inbox = () => {
+    const t = useTranslations();
+    
     return (
         <div>
-            Inbox
+            {t('pages.inbox')}
         </div>
     );
 };

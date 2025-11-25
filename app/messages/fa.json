@@ -1,6 +1,98 @@
 {
   "home": {
-    "title": "سلام دنیا",
+    "title": "خانه",
+    "greeting": "سلام",
     "desc": "به پروژه خوش آمدی"
+  },
+  "common": {
+    "back": "برگشت",
+    "continue": "ادامه",
+    "submit": "ارسال",
+    "cancel": "لغو",
+    "save": "ذخیره",
+    "delete": "حذف",
+    "edit": "ویرایش",
+    "loading": "در حال بارگذاری...",
+    "error": "خطا"
+  },
+  "navbar": {
+    "title": "نوبار",
+    "login": "ورود",
+    "dashboard": "داشبورد"
+  },
+  "sidebar": {
+    "brand": "Metrica",
+    "home": "خانه",
+    "inbox": "نامه ها",
+    "calendar": "تقویم",
+    "search": "جست و جو",
+    "settings": "تنظیمات"
+  },
+  "dashboard": {
+    "header": "هدر داشبورد",
+    "footer": "فوتر داشبورد",
+    "pageTitle": "داشبورد"
+  },
+  "auth": {
+    "login": {
+      "title": "ورود / ثبت ‌نام",
+      "phone": {
+        "label": "شماره موبایل",
+        "placeholder": "09123456789",
+        "required": "شماره موبایل الزامی است",
+        "invalid": "شماره موبایل باید با 09 شروع شود و 11 رقم باشد",
+        "checking": "در حال بررسی..."
+      },
+      "verify": {
+        "title": "کد تایید",
+        "code": {
+          "label": "کد تایید",
+          "placeholder": "123456",
+          "required": "کد تایید الزامی است",
+          "length": "کد تایید باید 6 رقم باشد",
+          "numeric": "کد تایید باید فقط عدد باشد",
+          "wrong": "کد اشتباه است"
+        },
+        "resend": "ارسال دوباره کد",
+        "sending": "در حال ارسال...",
+        "sent": "کد جدید ارسال شد",
+        "messageRegistered": "اگر کد قبلی را داری وارد کن. اگر نداری، ارسال مجدد را بزن.",
+        "messageNew": "کد برای {phone} ارسال شد.",
+        "success": "ورود موفقیت‌آمیز"
+      },
+      "register": {
+        "title": "ثبت نام جدید",
+        "firstName": {
+          "label": "نام",
+          "placeholder": "نام",
+          "required": "نام الزامی است",
+          "minLength": "نام باید حداقل 2 کاراکتر باشد",
+          "persian": "نام باید فارسی باشد"
+        },
+        "lastName": {
+          "label": "نام خانوادگی",
+          "placeholder": "نام خانوادگی",
+          "required": "نام خانوادگی الزامی است",
+          "minLength": "نام خانوادگی باید حداقل 2 کاراکتر باشد",
+          "persian": "نام خانوادگی باید فارسی باشد"
+        },
+        "submit": "ثبت نام",
+        "success": "ثبت نام شد: {firstName} {lastName}"
+      }
+    }
+  },
+  "theme": {
+    "light": "روشن",
+    "dark": "تاریک",
+    "system": "سیستم"
+  },
+  "counter": {
+    "title": "شمارنده"
+  },
+  "pages": {
+    "calendar": "تقویم",
+    "inbox": "صندوق ورودی",
+    "search": "جستجو",
+    "settings": "تنظیمات"
   }
 }

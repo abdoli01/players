@@ -1,6 +1,98 @@
 {
   "home": {
-    "title": "Hello World",
+    "title": "Home",
+    "greeting": "Hello",
     "desc": "Welcome to the project"
+  },
+  "common": {
+    "back": "Back",
+    "continue": "Continue",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "loading": "Loading...",
+    "error": "Error"
+  },
+  "navbar": {
+    "title": "Navbar",
+    "login": "Login",
+    "dashboard": "Dashboard"
+  },
+  "sidebar": {
+    "brand": "Metrica",
+    "home": "Home",
+    "inbox": "Inbox",
+    "calendar": "Calendar",
+    "search": "Search",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "header": "Dashboard Header",
+    "footer": "Dashboard Footer",
+    "pageTitle": "Dashboard"
+  },
+  "auth": {
+    "login": {
+      "title": "Login / Register",
+      "phone": {
+        "label": "Phone Number",
+        "placeholder": "09123456789",
+        "required": "Phone number is required",
+        "invalid": "Phone number must start with 09 and be 11 digits",
+        "checking": "Checking..."
+      },
+      "verify": {
+        "title": "Verification Code",
+        "code": {
+          "label": "Verification Code",
+          "placeholder": "123456",
+          "required": "Verification code is required",
+          "length": "Verification code must be 6 digits",
+          "numeric": "Verification code must be numeric only",
+          "wrong": "Wrong code"
+        },
+        "resend": "Resend Code",
+        "sending": "Sending...",
+        "sent": "New code sent",
+        "messageRegistered": "If you have the previous code, enter it. If not, click resend.",
+        "messageNew": "Code sent to {phone}.",
+        "success": "Login successful"
+      },
+      "register": {
+        "title": "New Registration",
+        "firstName": {
+          "label": "First Name",
+          "placeholder": "First Name",
+          "required": "First name is required",
+          "minLength": "First name must be at least 2 characters",
+          "persian": "First name must be in Persian"
+        },
+        "lastName": {
+          "label": "Last Name",
+          "placeholder": "Last Name",
+          "required": "Last name is required",
+          "minLength": "Last name must be at least 2 characters",
+          "persian": "Last name must be in Persian"
+        },
+        "submit": "Register",
+        "success": "Registered: {firstName} {lastName}"
+      }
+    }
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "counter": {
+    "title": "Counter"
+  },
+  "pages": {
+    "calendar": "Calendar",
+    "inbox": "Inbox",
+    "search": "Search",
+    "settings": "Settings"
   }
 }

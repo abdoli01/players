@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useTranslations } from 'next-intl';
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -15,14 +16,15 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const phoneSchema = z.object({
-    phone: z
-        .string()
-        .min(1, "شماره موبایل الزامی است")
-        .regex(/^09\d{9}$/, "شماره موبایل باید با 09 شروع شود و 11 رقم باشد"),
-});
+const createPhoneSchema = (messages: { required: string; invalid: string }) =>
+    z.object({
+        phone: z
+            .string()
+            .min(1, messages.required)
+            .regex(/^09\d{9}$/, messages.invalid),
+    });
 
-type PhoneFormValues = z.infer<typeof phoneSchema>;
+type PhoneFormValues = z.infer<ReturnType<typeof createPhoneSchema>>;
 
 interface PhoneStepProps {
     phone: string;
@@ -37,7 +39,17 @@ export default function PhoneStep({
     setStep,
     setIsRegistered,
 }: PhoneStepProps) {
+    const t = useTranslations();
     const [loading, setLoading] = useState<boolean>(false);
+
+    const phoneSchema = useMemo(
+        () =>
+            createPhoneSchema({
+                required: t('auth.login.phone.required'),
+                invalid: t('auth.login.phone.invalid'),
+            }),
+        [t]
+    );
 
     const form = useForm<PhoneFormValues>({
         resolver: zodResolver(phoneSchema),
@@ -49,7 +61,7 @@ export default function PhoneStep({
     const mockCheckUser = async (phoneNumber: string): Promise<boolean> => {
         return new Promise((resolve) => {
             setTimeout(() => {
-                resolve(phoneNumber === "09120000000"); // شماره تست ثبت شده
+                resolve(phoneNumber === "09120000000");
             }, 700);
         });
     };
@@ -66,7 +78,7 @@ export default function PhoneStep({
 
     return (
         <div className="space-y-4">
-            <h1 className="text-xl font-bold text-center">ورود / ثبت ‌نام</h1>
+            <h1 className="text-xl font-bold text-center">{t('auth.login.title')}</h1>
 
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -75,10 +87,10 @@ export default function PhoneStep({
                         name="phone"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>شماره موبایل</FormLabel>
+                                <FormLabel>{t('auth.login.phone.label')}</FormLabel>
                                 <FormControl>
                                     <Input
-                                        placeholder="09123456789"
+                                        placeholder={t('auth.login.phone.placeholder')}
                                         className="text-center"
                                         {...field}
                                     />
@@ -89,7 +101,7 @@ export default function PhoneStep({
                     />
 
                     <Button type="submit" disabled={loading} className="w-full">
-                        {loading ? "در حال بررسی..." : "ادامه"}
+                        {loading ? t('auth.login.phone.checking') : t('common.continue')}
                     </Button>
                 </form>
             </Form>

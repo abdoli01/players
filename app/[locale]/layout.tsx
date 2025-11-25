@@ -1,5 +1,9 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { notFound } from 'next/navigation';
+import { ReduxProvider } from "@/store/providers";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { vazir } from "../fonts";
+import "../globals.css";
 
 export function generateStaticParams() {
     return [{ locale: 'fa' }, { locale: 'en' }];
@@ -23,10 +27,19 @@ export default async function LocaleLayout({
 
     return (
         <html lang={locale} dir={locale === "fa" ? "rtl" : "ltr"}>
-        <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-            {children}
-        </NextIntlClientProvider>
+        <body className={`${vazir.variable} antialiased`}>
+        <ReduxProvider>
+            <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+            >
+                <NextIntlClientProvider locale={locale} messages={messages}>
+                    {children}
+                </NextIntlClientProvider>
+            </ThemeProvider>
+        </ReduxProvider>
         </body>
         </html>
     );
