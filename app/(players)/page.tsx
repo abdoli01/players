@@ -1,6 +1,7 @@
-import { Button } from "@/components/ui/button"
 import Counter from "@/components/Counter";
+import { useTranslations } from 'next-intl';
 export default function Home() {
+    const t = useTranslations('HomePage');
   return (
      <>
          <div className={'font-bold text-amber-700'}>
@@ -8,7 +9,9 @@ export default function Home() {
          </div>
          <div className={'font-bold text-xl'}>Home</div>
          <Counter/>
-         {/*<Button>Click me</Button>*/}
+         <h1>{t('title')}</h1>
+
+
      </>
   );
 }

@@ -2,7 +2,7 @@
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils" // فرض بر اینه که cn رو دارید
-
+import { useLocale } from 'next-intl';
 
 import {
     Sidebar,
@@ -47,10 +47,11 @@ const items = [
 
 export function AppSidebar() {
     const pathname = usePathname()
+    const locale = useLocale();
 
     return (
-        <Sidebar side='right'>
-            <SidebarContent>
+        <Sidebar side={`${(locale && locale === 'fa') ? 'right' : (locale && locale === 'en') ? 'left' : 'right'}`}>
+        <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel>Metrica</SidebarGroupLabel>
                     <SidebarGroupContent>
