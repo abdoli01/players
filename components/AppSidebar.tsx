@@ -3,7 +3,7 @@ import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils" // فرض بر اینه که cn رو دارید
 import { useLocale } from 'next-intl';
-
+import { useTranslations } from 'next-intl';
 import {
     Sidebar,
     SidebarContent,
@@ -19,27 +19,27 @@ import Link from "next/link";
 // Menu items.
 const items = [
     {
-        title: "خانه",
+        title: "home",
         url: "/",
         icon: Home,
     },
     {
-        title: "نامه ها",
+        title: "inbox",
         url: "/inbox",
         icon: Inbox,
     },
     {
-        title: "تقویم",
+        title: "calendar",
         url: "/calendar",
         icon: Calendar,
     },
     {
-        title: "جست و جو",
+        title: "search",
         url: "/search",
         icon: Search,
     },
     {
-        title: "تنظیمات",
+        title: "settings",
         url: "/settings",
         icon: Settings,
     },
@@ -48,7 +48,7 @@ const items = [
 export function AppSidebar() {
     const pathname = usePathname()
     const locale = useLocale();
-
+    const t = useTranslations('SideBar');
     return (
         <Sidebar side={`${(locale && locale === 'fa') ? 'right' : (locale && locale === 'en') ? 'left' : 'right'}`}>
         <SidebarContent>
@@ -70,7 +70,7 @@ export function AppSidebar() {
                                                 )}
                                             >
                                                 <item.icon />
-                                                <span>{item.title}</span>
+                                                <span>{t(`${item.title}`)}</span>
                                             </Link>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>

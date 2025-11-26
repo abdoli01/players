@@ -1,0 +1,9 @@
+{
+  "SideBar": {
+    "home": "home",
+    "inbox": "inbox",
+    "calendar": "calendar",
+    "search": "search",
+    "settings": "settings"
+  }
+}
