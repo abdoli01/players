@@ -17,11 +17,8 @@ export default async  function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang={'rtl'} dir={'fa'} suppressHydrationWarning>
-      <body
-          dir={'rtl'}
-          className={`${vazir.variable} antialiased`}
-      >
+    <html suppressHydrationWarning>
+      <body className={`${vazir.variable} antialiased`}>
       <ReduxProvider>
           <ThemeProvider
               attribute="class"
@@ -29,7 +26,7 @@ export default async  function RootLayout({
               enableSystem
               disableTransitionOnChange
           >
-          {children}
+                  {children}
           </ThemeProvider>
       </ReduxProvider>
       </body>

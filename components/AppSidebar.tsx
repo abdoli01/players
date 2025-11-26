@@ -48,6 +48,7 @@ const items = [
 export function AppSidebar() {
     const pathname = usePathname()
     const locale = useLocale();
+    console.log('locale', locale);
 
     return (
         <Sidebar side={`${(locale && locale === 'fa') ? 'right' : (locale && locale === 'en') ? 'left' : 'right'}`}>
