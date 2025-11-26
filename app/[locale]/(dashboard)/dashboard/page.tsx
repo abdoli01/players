@@ -7,7 +7,7 @@ const Page = () => {
             <div>
                 Dashboard
             </div>
-            <Link href="/">برگشت</Link>
+            <Link href="/public">برگشت</Link>
         </>
     );
 };

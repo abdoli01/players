@@ -4,9 +4,7 @@ import { vazir } from "./fonts";
 import { ReduxProvider } from "@/store/providers";
 import { ThemeProvider } from "@/components/ThemeProvider"
 import React from "react";
-import { NextIntlClientProvider } from 'next-intl';
-import requestConfig from '@/src/i18n/request';
-import { cookies } from 'next/headers';
+
 
 export const metadata: Metadata = {
   title: "Metrica",
@@ -18,16 +16,12 @@ export default async  function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-    const store =await cookies();
-    const locale = store.get('locale')?.value || 'en';
-    const { messages } = await requestConfig({ requestLocale: Promise.resolve(locale) });
   return (
-    <html lang={locale} dir={locale === 'fa' ? 'rtl' : 'ltr'} suppressHydrationWarning>
+    <html lang={'rtl'} dir={'fa'} suppressHydrationWarning>
       <body
-          dir={locale === 'fa' ? 'rtl' : 'ltr'}
+          dir={'rtl'}
           className={`${vazir.variable} antialiased`}
       >
-      <NextIntlClientProvider locale={locale} messages={messages}>
       <ReduxProvider>
           <ThemeProvider
               attribute="class"
@@ -38,7 +32,6 @@ export default async  function RootLayout({
           {children}
           </ThemeProvider>
       </ReduxProvider>
-      </NextIntlClientProvider>
       </body>
     </html>
   );

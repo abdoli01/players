@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import {ModeToggle} from  './Theme'
-import LocaleSwitcher from '@/components/LocaleSwitcher';
+
 
 const Navbar = ({children} : {children:React.ReactElement}) => {
     return (
@@ -11,7 +11,6 @@ const Navbar = ({children} : {children:React.ReactElement}) => {
             <Link href="/login">ورود</Link>
             <Link href="/dashboard">داشبورد</Link>
             <ModeToggle/>
-            <LocaleSwitcher />
         </div>
     );
 };
