@@ -46,7 +46,12 @@ const items = [
 ]
 
 export function AppSidebar() {
-    const pathname = usePathname()
+    let pathname = usePathname()
+    console.log('pathname',pathname)
+    if(pathname.includes('en')) {
+        pathname = pathname.replace("/en", "") || '/'
+    }
+    console.log('pathname2',pathname)
     const locale = useLocale();
     console.log('locale', locale);
 
