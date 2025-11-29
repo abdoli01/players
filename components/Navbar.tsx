@@ -3,6 +3,7 @@ import Link from "next/link";
 import {ModeToggle} from  './Theme'
 import LocaleSwitcher from '@/components/LocaleSwitcher';
 import {getTranslations} from 'next-intl/server';
+import UserProfile from '@/components/UserProfile';
 
 export default async function Navbar ({children} : {children:React.ReactElement}) {
     const t = await  getTranslations ('Navbar');
@@ -15,6 +16,7 @@ export default async function Navbar ({children} : {children:React.ReactElement}
             <Link href="/profile">{t('profile')}</Link>
             <ModeToggle/>
             <LocaleSwitcher />
+            <UserProfile/>
         </div>
     );
 }

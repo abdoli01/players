@@ -13,6 +13,11 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useAppDispatch } from '@/store/hooks'
+import { setUser } from '@/store/slices/userSlice'
+import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
+
 
 const registerSchema = z.object({
     firstName: z
@@ -34,6 +39,8 @@ interface RegisterStepProps {
 }
 
 export default function RegisterStep({ phone }: RegisterStepProps) {
+    const dispatch = useAppDispatch()
+    const router = useRouter()
     const form = useForm<RegisterFormValues>({
         resolver: zodResolver(registerSchema),
         defaultValues: {
@@ -43,10 +50,12 @@ export default function RegisterStep({ phone }: RegisterStepProps) {
     });
 
     const onSubmit = async (values: RegisterFormValues) => {
+        console.log('values',values);
         // در اینجا می‌توانید API call برای ثبت نام انجام دهید
-        alert(`ثبت نام شد: ${values.firstName} ${values.lastName}`);
-        console.log("Phone:", phone);
-        console.log("User Data:", values);
+
+        dispatch(setUser({ firstName: values.firstName, lastName: values.lastName }))
+        toast.success(`ثبت نام شد: ${values.firstName} ${values.lastName}`)
+        router.push('/')
     };
 
     return (

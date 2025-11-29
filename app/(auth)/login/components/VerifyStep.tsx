@@ -14,7 +14,8 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
+import { useAppDispatch } from '@/store/hooks'
+import { setPhone } from '@/store/slices/userSlice'
 const verifySchema = z.object({
     token: z
         .string()
@@ -42,7 +43,7 @@ export default function VerifyStep({
 }: VerifyStepProps) {
     const [loading, setLoading] = useState<boolean>(false);
     const [sent, setSent] = useState<boolean>(!isRegistered);
-
+    const dispatch = useAppDispatch()
     const form = useForm<VerifyFormValues>({
         resolver: zodResolver(verifySchema),
         defaultValues: {
@@ -72,6 +73,7 @@ export default function VerifyStep({
 
         if (isRegistered) {
             alert("ورود موفقیت‌آمیز");
+            dispatch(setPhone(phone))
         } else {
             setStep("register");
         }
