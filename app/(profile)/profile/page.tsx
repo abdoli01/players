@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import type { RootState, AppDispatch } from '@/store'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { updateProfile, setPhone } from '@/store/slices/userSlice'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -38,12 +37,12 @@ type ProfileForm = z.infer<typeof profileSchema>
 type PhoneForm = z.infer<typeof phoneSchema>
 
 export default function ProfilePage() {
-    const dispatch = useDispatch<AppDispatch>()
-    const user = useSelector((s: RootState) => s.user)
+    const dispatch = useAppDispatch()
+    const user = useAppSelector(state => state.user)
 
     const profileForm = useForm<ProfileForm>({
         resolver: zodResolver(profileSchema),
-        defaultValues: { firstName: user.firstName, lastName: user.lastName, password: user.password },
+        defaultValues: { firstName: user.firstName, lastName: user.lastName, password: '' },
     })
 
     const phoneForm = useForm<PhoneForm>({
@@ -222,7 +221,10 @@ export default function ProfilePage() {
                                         <Button
                                             type="button"
                                             variant="ghost"
-                                            onClick={() => { setPhoneStage('enter'); phoneForm.reset({ oldPhone: user.phone, newPhone: '', oldCode: '', newCode: '' }) }}
+                                            onClick={() => {
+                                                setPhoneStage('enter')
+                                                phoneForm.reset({ oldPhone: user.phone, newPhone: '', oldCode: '', newCode: '' })
+                                            }}
                                         >
                                             انصراف
                                         </Button>
