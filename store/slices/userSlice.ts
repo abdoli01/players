@@ -5,7 +5,8 @@ export type UserState = {
     id?: string
     firstName: string
     lastName: string
-    phone: string
+    phone: string,
+    password: string,
 }
 
 
@@ -13,7 +14,8 @@ const initialState: UserState = {
     id: 'me',
     firstName: 'حسین',
     lastName: 'نجفی',
-    phone: '09123456789'
+    phone: '09123456789',
+    password: '123456',
 }
 
 
