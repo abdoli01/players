@@ -12,6 +12,7 @@ export default async function Navbar ({children} : {children:React.ReactElement}
             <span>{t('navbar')}</span>
             <Link href="/login">{t('login')}</Link>
             <Link href="/dashboard">{t('dashboard')}</Link>
+            <Link href="/profile">{t('profile')}</Link>
             <ModeToggle/>
             <LocaleSwitcher />
         </div>

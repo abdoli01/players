@@ -2,6 +2,7 @@
   "Navbar": {
     "navbar": "navbar",
     "login": "login",
-    "dashboard": "dashboard"
+    "dashboard": "dashboard",
+    "profile": "profile"
   }
 }

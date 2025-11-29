@@ -2,6 +2,7 @@
   "Navbar": {
     "navbar": "نوبار",
     "login": "ورود",
-    "dashboard": "داشبورد"
+    "dashboard": "داشبورد",
+    "profile": "پروفایل"
   }
 }
