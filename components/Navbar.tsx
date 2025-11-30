@@ -15,7 +15,7 @@ export default function Navbar() {
     const isActive = (url: string) => pathname.startsWith(url);
 
     return (
-        <div className="w-full px-6 py-2 flex items-end justify-between bg-black text-white border-b-2 border-[#2c2c2c]">
+        <div className="w-full py-2 flex items-end justify-between bg-black text-white border-b-2 border-[#2c2c2c]">
             {/* LEFT: Player Info */}
             <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gray-400" />
