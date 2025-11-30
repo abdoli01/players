@@ -1,5 +1,5 @@
 'use client'
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import { Calendar, Home, Inbox, Search, Settings,Scissors } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils" // فرض بر اینه که cn رو دارید
 import { useLocale } from 'next-intl';
@@ -25,25 +25,25 @@ const items = [
         icon: Home,
     },
     {
-        title: "inbox",
-        url: "/inbox",
-        icon: Inbox,
+        title: "studio",
+        url: "/studio",
+        icon: Scissors,
     },
-    {
-        title: "calendar",
-        url: "/calendar",
-        icon: Calendar,
-    },
-    {
-        title: "search",
-        url: "/search",
-        icon: Search,
-    },
-    {
-        title: "settings",
-        url: "/settings",
-        icon: Settings,
-    },
+    // {
+    //     title: "calendar",
+    //     url: "/calendar",
+    //     icon: Calendar,
+    // },
+    // {
+    //     title: "search",
+    //     url: "/search",
+    //     icon: Search,
+    // },
+    // {
+    //     title: "settings",
+    //     url: "/settings",
+    //     icon: Settings,
+    // },
 ]
 
 export function AppSidebar() {
@@ -54,11 +54,23 @@ export function AppSidebar() {
         <Sidebar side={`${(locale && locale === 'fa') ? 'right' : (locale && locale === 'en') ? 'left' : 'right'}`}>
         <SidebarContent>
                 <SidebarGroup className='p-0'>
-                    <SidebarGroupLabel>
-                        <Image src="/images/logo-new.png" alt="logo"  width={47} height={56}/>
-                    </SidebarGroupLabel>
+                    {/*<SidebarGroupLabel>*/}
+                    {/*    <Image src="/images/logo-new.png" alt="logo"  width={47} height={56}/>*/}
+                    {/*</SidebarGroupLabel>*/}
                     <SidebarGroupContent>
                         <SidebarMenu>
+                            <SidebarMenuItem >
+                                <SidebarMenuButton asChild className="rounded-[0px]">
+                                    <Link
+                                        href='/'
+                                        className={cn(
+                                            "flex flex-col items-center justify-center gap-2 px-3 py-2 transition-colors h-[65px]",
+                                        )}
+                                    >
+                                        <Image src="/images/logo-new.png" alt="logo"  width={47} height={56}/>
+                                    </Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
                             {items.map((item) => {
                                 const isActive = pathname === item.url
 

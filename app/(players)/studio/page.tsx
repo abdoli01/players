@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Inbox = () => {
+const Page = () => {
     return (
         <div>
-            Inbox
+            studio
         </div>
     );
 };
 
-export default Inbox;
+export default Page;
