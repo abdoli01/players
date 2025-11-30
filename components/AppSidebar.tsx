@@ -15,6 +15,7 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link";
+import Image from "next/image";
 
 // Menu items.
 const items = [
@@ -52,8 +53,10 @@ export function AppSidebar() {
     return (
         <Sidebar side={`${(locale && locale === 'fa') ? 'right' : (locale && locale === 'en') ? 'left' : 'right'}`}>
         <SidebarContent>
-                <SidebarGroup>
-                    <SidebarGroupLabel>Metrica</SidebarGroupLabel>
+                <SidebarGroup className='p-0'>
+                    <SidebarGroupLabel>
+                        <Image src="/images/logo-new.png" alt="logo"  width={47} height={56}/>
+                    </SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {items.map((item) => {
@@ -61,15 +64,15 @@ export function AppSidebar() {
 
                                 return (
                                     <SidebarMenuItem key={item.title}>
-                                        <SidebarMenuButton asChild>
+                                        <SidebarMenuButton asChild className="rounded-[0px]">
                                             <Link
                                                 href={item.url}
                                                 className={cn(
-                                                    "flex items-center gap-2 px-3 py-2 rounded transition-colors",
+                                                    "flex flex-col items-center justify-center gap-2 px-3 py-2 transition-colors h-[65px]",
                                                     isActive ? "bg-gray-700 text-white" : "text-gray-700 hover:bg-gray-200"
                                                 )}
                                             >
-                                                <item.icon />
+                                                <item.icon className="w-4 h-4" />
                                                 <span>{t(`${item.title}`)}</span>
                                             </Link>
                                         </SidebarMenuButton>

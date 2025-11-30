@@ -9,7 +9,14 @@ export default function PlayersLayout({
     children: React.ReactNode;
 }) {
     return (
-        <SidebarProvider>
+        <SidebarProvider
+            style={
+                {
+                    "--sidebar-width": "75px",
+                    "--sidebar-width-mobile": "20rem",
+                } as React.CSSProperties
+            }
+        >
             <AppSidebar />
             <main className={'px-4 w-full'}>
                 <Navbar>
