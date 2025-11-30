@@ -13,7 +13,6 @@ export default function PlayersLayout({
             style={
                 {
                     "--sidebar-width": "75px",
-                    "--sidebar-width-mobile": "20rem",
                 } as React.CSSProperties
             }
         >
