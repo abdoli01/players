@@ -35,12 +35,19 @@ export default function Navbar({children}: { children: ReactNode }) {
                        "flex flex-col items-center justify-center gap-2 px-3 py-2 transition-colors h-[65px]",
                    )}
                >
-                   <Image src="/images/logo-new.png" alt="logo"  width={47} height={56} className='block md:hidden'/>
+                   <div className="relative w-6 h-8 md:w-12 md:h-14 block md:hidden">
+                       <Image
+                           src="/images/logo-new.png"
+                           alt="logo"
+                           fill
+                           className="object-contain"
+                       />
+                   </div>
                </Link>
            </div>
 
             {/* RIGHT: Tabs */}
-            <div className="flex items-center text-sm font-medium">
+            <div className="flex items-center justify-center text-sm font-medium">
                 {tabs.map(({ title, url }) => (
                     <Link href={url} key={title} className="relative cursor-pointer">
             <span
