@@ -23,7 +23,9 @@ export default function Navbar({children}: { children: ReactNode }) {
            <div className="flex items-center justify-between">
                <span className="block sm:hidden">{children}</span>
                <div className="flex items-center gap-3">
-                   <div className="w-10 h-10 rounded-full bg-gray-400" />
+                   <div className="w-10 h-10 rounded-full">
+                       <Image src="/images/" alt="logo"  width={47} height={56} className='block sm:hidden'/>
+                   </div>
                    <div className="flex flex-col leading-tight">
                        <span className="font-semibold text-lg">Serdar Durson</span>
                        <span className="text-sm text-gray-400">Persepolis | #09 | 29yo</span>
