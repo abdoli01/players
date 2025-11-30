@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Calendar = () => {
+const Page = () => {
     return (
         <div>
-            Calendar
+            reports
         </div>
     );
 };
 
-export default Calendar;
+export default Page;

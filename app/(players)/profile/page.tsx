@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Settings = () => {
+const Page = () => {
     return (
         <div>
-            Settings
+            profile
         </div>
     );
 };
 
-export default Settings;
+export default Page;
