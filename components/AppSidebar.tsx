@@ -1,5 +1,5 @@
 'use client'
-import { Calendar, Home, Inbox, Search, Settings,Scissors } from "lucide-react"
+import { Home,Scissors } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils" // فرض بر اینه که cn رو دارید
 import { useLocale } from 'next-intl';
@@ -9,7 +9,6 @@ import {
     SidebarContent,
     SidebarGroup,
     SidebarGroupContent,
-    SidebarGroupLabel,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
@@ -54,9 +53,6 @@ export function AppSidebar() {
         <Sidebar side={`${(locale && locale === 'fa') ? 'right' : (locale && locale === 'en') ? 'left' : 'right'}`}>
         <SidebarContent>
                 <SidebarGroup className='p-0'>
-                    {/*<SidebarGroupLabel>*/}
-                    {/*    <Image src="/images/logo-new.png" alt="logo"  width={47} height={56}/>*/}
-                    {/*</SidebarGroupLabel>*/}
                     <SidebarGroupContent>
                         <SidebarMenu>
                             <SidebarMenuItem >
