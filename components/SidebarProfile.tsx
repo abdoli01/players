@@ -5,21 +5,24 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { User } from "lucide-react"
+import {cn} from "@/lib/utils";
 
 export function SidebarProfile() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <button
-                    className={`
-            w-full flex flex-col items-center justify-center gap-1 py-4 
-            hover:bg-gray-200 transition-colors
-            data-[state=open]:bg-gray-300
-          `}
+                    className={cn(
+                        "flex flex-col items-center justify-center gap-2 px-3 py-2 transition-colors h-[65px] w-full cursor-pointer border-0 border-none",
+                        "text-gray-700 hover:bg-gray-700 hover:text-white",
+                        "data-[state=open]:bg-gray-700 text-white",
+                        "outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+                    )}
                 >
-                    <User className="w-5 h-5" />
+                    <User className="w-4 h-4" />
                     <span className="text-xs">پروفایل</span>
                 </button>
+
             </DropdownMenuTrigger>
 
             <DropdownMenuContent
