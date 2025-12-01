@@ -54,15 +54,15 @@ export default function Navbar({children}: { children: ReactNode }) {
                 className={
 
                 `${    isActive(url)
-                    ? "text-orange-400"
-                    : "text-gray-300 hover:text-orange-400 transition"} px-8`
+                    ? "text-app-orange"
+                    : "text-gray-300 hover:text-app-orange transition"} px-8`
                 }
             >
               {title}
             </span>
 
                         {isActive(url) && (
-                            <div className="absolute left-0 -bottom-2.5 w-full h-[2px] bg-orange-400 rounded-full" />
+                            <div className="absolute left-0 -bottom-2.5 w-full h-[2px] bg-app-orange rounded-full" />
                         )}
                     </Link>
                 ))}
