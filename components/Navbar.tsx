@@ -18,7 +18,7 @@ export default function Navbar({children}: { children: ReactNode }) {
     const isActive = (url: string) => pathname.startsWith(url);
 
     return (
-        <div className="w-full py-2 md:flex items-end justify-between bg-black text-white border-b-2 border-[#2c2c2c]">
+        <div className="w-full py-2 md:flex items-end justify-between text-white border-b-2 border-[#2c2c2c]">
             {/* LEFT: Player Info */}
            <div className="flex items-center justify-between">
                <span className="block md:hidden">{children}</span>
@@ -55,7 +55,7 @@ export default function Navbar({children}: { children: ReactNode }) {
 
                 `${    isActive(url)
                     ? "text-orange-400"
-                    : "text-gray-300 hover:text-white transition"} px-8`
+                    : "text-gray-300 hover:text-orange-400 transition"} px-8`
                 }
             >
               {title}
