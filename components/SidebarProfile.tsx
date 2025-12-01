@@ -24,7 +24,7 @@ export function SidebarProfile() {
                     )}
                 >
                     <User className="w-4 h-4" />
-                    <span className="text-xs">پروفایل</span>
+                    <span className="text-xs">profile</span>
                 </button>
 
             </DropdownMenuTrigger>
