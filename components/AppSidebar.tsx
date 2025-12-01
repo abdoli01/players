@@ -93,7 +93,7 @@ export function AppSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
-            <SidebarFooter>
+            <SidebarFooter className='p-0'>
                 <SidebarProfile/>
             </SidebarFooter>
         </Sidebar>
