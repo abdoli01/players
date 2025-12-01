@@ -6,10 +6,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { User } from "lucide-react"
 import {cn} from "@/lib/utils";
+import LocaleSwitcher from '@/components/LocaleSwitcher';
+import {ModeToggle} from  '@/components/Theme'
+import { Label } from "@/components/ui/label"
+import Link from "next/link";
 
 export function SidebarProfile() {
     return (
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
                 <button
                     className={cn(
@@ -28,16 +32,18 @@ export function SidebarProfile() {
             <DropdownMenuContent
                 side="right"
                 align="start"
-                className="w-40 mb-16"
+                className="w-auto mb-16"
             >
-                <DropdownMenuItem onClick={() => console.log("پروفایل")}>
-                    مشاهده پروفایل
+                <DropdownMenuItem>
+                    <Label>Language</Label>
+                    <LocaleSwitcher/>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => console.log("تنظیمات")}>
-                    تنظیمات
+                <DropdownMenuItem>
+                    <Label>Theme</Label>
+                    <ModeToggle/>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => console.log("خروج")}>
-                    خروج
+                <DropdownMenuItem>
+                    <Link href="/profileee">Settings</Link>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
