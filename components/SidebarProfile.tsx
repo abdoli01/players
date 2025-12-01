@@ -13,9 +13,9 @@ export function SidebarProfile() {
             <DropdownMenuTrigger asChild>
                 <button
                     className={cn(
-                        "flex flex-col items-center justify-center gap-2 px-3 py-2 transition-colors h-[65px] w-full cursor-pointer border-0 border-none",
-                        "text-gray-700 hover:bg-gray-700 hover:text-white",
-                        "data-[state=open]:bg-gray-700 text-white",
+                        "flex flex-col items-center justify-center gap-2 px-3 py-2 h-[65px] w-full cursor-pointer border-0 border-none text-gray-700 ",
+                        "hover:bg-gray-700 hover:text-white",
+                        "data-[state=open]:bg-gray-700 data-[state=open]:text-white",
                         "outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
                     )}
                 >
