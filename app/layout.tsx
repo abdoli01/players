@@ -20,9 +20,11 @@ export default async  function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
     const store =await cookies();
     const locale = store.get('locale')?.value || 'en';
     const { messages } = await requestConfig({ requestLocale: Promise.resolve(locale) });
+
   return (
     <html lang={locale} dir={locale === 'fa' ? 'rtl' : 'ltr'} suppressHydrationWarning>
       <body
@@ -35,8 +37,8 @@ export default async  function RootLayout({
           <ToastContainer position="top-right" rtl={locale === 'fa'} />
           <ThemeProvider
               attribute="class"
-              defaultTheme="system"
-              enableSystem
+              defaultTheme="dark"
+              enableSystem={false}
               disableTransitionOnChange
           >
           {children}
