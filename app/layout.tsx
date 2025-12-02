@@ -26,6 +26,7 @@ export default async  function RootLayout({
   return (
     <html lang={locale} dir={locale === 'fa' ? 'rtl' : 'ltr'} suppressHydrationWarning>
       <body
+          suppressHydrationWarning
           dir={locale === 'fa' ? 'rtl' : 'ltr'}
           className={`${vazir.variable} antialiased`}
       >
