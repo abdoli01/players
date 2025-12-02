@@ -28,18 +28,21 @@ export function SidebarProfile() {
                 </button>
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent
-                side="right"
-                align="start"
-                className="w-auto mb-16"
-            >
-                <DropdownMenuItem className="flex items-center gap-2">
+            <DropdownMenuContent side="right" align="start" className="w-auto mb-16">
+
+                <DropdownMenuItem
+                    className="flex items-center gap-2"
+                    onSelect={(e) => e.preventDefault()}
+                >
                     <Globe className="w-4 h-4 text-gray-500" />
                     <Label>Language</Label>
                     <LocaleSwitcher />
                 </DropdownMenuItem>
 
-                <DropdownMenuItem className="flex items-center gap-2">
+                <DropdownMenuItem
+                    className="flex items-center gap-2"
+                    onSelect={(e) => e.preventDefault()}
+                >
                     <Palette className="w-4 h-4 text-gray-500" />
                     <Label>Theme</Label>
                     <ModeToggle />
@@ -49,7 +52,9 @@ export function SidebarProfile() {
                     <Settings className="w-4 h-4 text-gray-500" />
                     <Link href="/profileee">Settings</Link>
                 </DropdownMenuItem>
+
             </DropdownMenuContent>
+
         </DropdownMenu>
     );
 }
