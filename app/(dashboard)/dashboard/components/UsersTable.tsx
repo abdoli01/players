@@ -113,7 +113,7 @@ export const columns: ColumnDef<UserType>[] = [
                                 />
 
                                 <DialogFooter className="mt-4">
-                                    <DialogClose className="px-4 py-2 bg-gray-200 rounded">
+                                    <DialogClose className="px-4 py-2 bg-gray-200 dark:bg-muted rounded">
                                         انصراف
                                     </DialogClose>
                                     <Button>ذخیره</Button>
@@ -136,7 +136,7 @@ export const columns: ColumnDef<UserType>[] = [
                                 <input className="border p-2 rounded w-full" placeholder="نام بازیکن" />
 
                                 <DialogFooter className="mt-4">
-                                    <DialogClose className="px-4 py-2 bg-gray-200 rounded">
+                                    <DialogClose className="px-4 py-2 bg-gray-200 dark:bg-muted rounded">
                                         انصراف
                                     </DialogClose>
                                     <Button>ثبت</Button>
