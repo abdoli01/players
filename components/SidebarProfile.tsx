@@ -4,7 +4,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User, Globe, Palette, Settings } from "lucide-react";
+import { User, Globe, Palette, Settings,LayoutDashboard } from "lucide-react";
 import { cn } from "@/lib/utils";
 import LocaleSwitcher from '@/components/LocaleSwitcher';
 import { ModeToggle } from '@/components/Theme';
@@ -51,6 +51,11 @@ export function SidebarProfile() {
                 <DropdownMenuItem className="flex items-center gap-2">
                     <Settings className="w-4 h-4 text-gray-500" />
                     <Link href="/profileee">Settings</Link>
+                </DropdownMenuItem>
+
+                <DropdownMenuItem className="flex items-center gap-2">
+                    <LayoutDashboard className="w-4 h-4 text-gray-500" />
+                    <Link href="/dashboard">Dashboard</Link>
                 </DropdownMenuItem>
 
             </DropdownMenuContent>

@@ -70,7 +70,9 @@ export function AppSidebar() {
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
                             {items.map((item) => {
-                                const isActive = pathname === item.url
+                                const isActive = item.title === "home"
+                                    ? ["/", "/videos", "/profile" , "/reports"].includes(pathname)
+                                    : pathname === item.url
 
                                 return (
                                     <SidebarMenuItem key={item.title}>
