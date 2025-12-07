@@ -4,7 +4,11 @@ import { DashboardSidebar } from "@/app/(dashboard)/dashboard/components/Dashboa
 
 const LayoutDashboard = ({children}:{children:React.ReactNode}) => {
     return (
-        <SidebarProvider>
+        <SidebarProvider  style={
+            {
+                "--sidebar-width": "75px",
+            } as React.CSSProperties
+        }>
             <DashboardSidebar />
             <main className={'px-4 w-full'}>
                     <SidebarTrigger className='md:hidden' />
