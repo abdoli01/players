@@ -38,7 +38,7 @@ export function DashboardSidebar() {
                             <SidebarMenuItem >
                                 <SidebarMenuButton asChild className="rounded-[0px]">
                                     <Link
-                                        href='/public'
+                                        href='/'
                                         className={cn(
                                             "flex flex-col items-center justify-center gap-2 px-3 py-2 transition-colors h-[65px]",
                                         )}
