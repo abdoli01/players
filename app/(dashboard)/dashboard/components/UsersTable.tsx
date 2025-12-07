@@ -117,7 +117,7 @@ export function UsersTable() {
     })
 
     return (
-        <div className="w-full mt-2">
+        <div className="w-full">
             <div className="overflow-hidden rounded-md border">
                 <Table>
                     <TableHeader>

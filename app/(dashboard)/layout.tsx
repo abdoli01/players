@@ -10,7 +10,7 @@ const LayoutDashboard = ({children}:{children:React.ReactNode}) => {
             } as React.CSSProperties
         }>
             <DashboardSidebar />
-            <main className={'px-4 w-full'}>
+            <main className={'p-4 w-full'}>
                     <SidebarTrigger className='md:hidden' />
                 {children}
             </main>
