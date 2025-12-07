@@ -2,6 +2,16 @@
 
 import * as React from "react"
 import {
+    Dialog,
+    DialogTrigger,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+    DialogFooter,
+    DialogClose
+} from "@/components/ui/dialog"
+import {
     ColumnDef,
     ColumnFiltersState,
     flexRender,
@@ -82,8 +92,57 @@ export const columns: ColumnDef<UserType>[] = [
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>عملیات</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => console.log("change password", user.id)}>تغییر رمز عبور</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => console.log("assign player", user.id)}>انتصاب بازیکن</DropdownMenuItem>
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                    تغییر رمز عبور
+                                </DropdownMenuItem>
+                            </DialogTrigger>
+
+                            <DialogContent className="max-w-sm">
+                                <DialogHeader>
+                                    <DialogTitle>تغییر رمز عبور</DialogTitle>
+                                    <DialogDescription>
+                                        یک رمز جدید وارد کنید
+                                    </DialogDescription>
+                                </DialogHeader>
+
+                                <input
+                                    className="border p-2 rounded w-full"
+                                    placeholder="رمز جدید"
+                                />
+
+                                <DialogFooter className="mt-4">
+                                    <DialogClose className="px-4 py-2 bg-gray-200 rounded">
+                                        انصراف
+                                    </DialogClose>
+                                    <Button>ذخیره</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>انتصاب بازیکن</DropdownMenuItem>
+                            </DialogTrigger>
+
+                            <DialogContent className="max-w-sm">
+                                <DialogHeader>
+                                    <DialogTitle>انتصاب بازیکن</DialogTitle>
+                                    <DialogDescription>
+                                        بازیکن مورد نظر را انتخاب کنید
+                                    </DialogDescription>
+                                </DialogHeader>
+
+                                <input className="border p-2 rounded w-full" placeholder="نام بازیکن" />
+
+                                <DialogFooter className="mt-4">
+                                    <DialogClose className="px-4 py-2 bg-gray-200 rounded">
+                                        انصراف
+                                    </DialogClose>
+                                    <Button>ثبت</Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => navigator.clipboard.writeText(String(user.id))}>کپی کردن ID کاربر</DropdownMenuItem>
                     </DropdownMenuContent>
