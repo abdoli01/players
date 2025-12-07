@@ -1,15 +1,8 @@
-import React from 'react';
-import Link from "next/link";
+import { redirect } from "next/navigation";
+
 
 const Page = () => {
-    return (
-        <>
-            <div>
-                Dashboard
-            </div>
-            <Link href="/">برگشت</Link>
-        </>
-    );
+    redirect("/dashboard/users");
 };
 
 export default Page;

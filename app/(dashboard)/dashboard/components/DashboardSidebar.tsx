@@ -1,0 +1,76 @@
+'use client'
+import { User } from "lucide-react"
+import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
+import { useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+} from "@/components/ui/sidebar"
+import Link from "next/link";
+import Image from "next/image";
+
+// Menu items.
+const items = [
+    {
+        title: "user-management",
+        url: "/dashboard/users",
+        icon: User,
+    },
+]
+
+export function DashboardSidebar() {
+    const pathname = usePathname()
+    const locale = useLocale();
+    const t = useTranslations('SideBar');
+    return (
+        <Sidebar side={`${(locale && locale === 'fa') ? 'right' : (locale && locale === 'en') ? 'left' : 'right'}`}>
+            <SidebarContent>
+                <SidebarGroup className='p-0'>
+                    <SidebarGroupContent>
+                        <SidebarMenu>
+                            <SidebarMenuItem >
+                                <SidebarMenuButton asChild className="rounded-[0px]">
+                                    <Link
+                                        href='/public'
+                                        className={cn(
+                                            "flex flex-col items-center justify-center gap-2 px-3 py-2 transition-colors h-[65px]",
+                                        )}
+                                    >
+                                        <Image src="/images/logo-new.png" alt="logo"  width={47} height={56}/>
+                                    </Link>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            {items.map((item) => {
+                                const isActive = pathname === item.url
+
+                                return (
+                                    <SidebarMenuItem key={item.title}>
+                                        <SidebarMenuButton asChild className="rounded-[0px]">
+                                            <Link
+                                                href={item.url}
+                                                className={cn(
+                                                    "flex flex-col items-center justify-center gap-2 px-3 py-2 transition-colors h-[65px]",
+                                                    isActive ? "bg-gray-700 text-white" : "text-gray-700 hover:bg-gray-200"
+                                                )}
+                                            >
+                                                <item.icon className="w-4 h-4" />
+                                                <span>{t(`${item.title}`)}</span>
+                                            </Link>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                )
+                            })}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+            </SidebarContent>
+        </Sidebar>
+    )
+}
