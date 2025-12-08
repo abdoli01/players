@@ -11,6 +11,7 @@ const config: Config = {
         extend: {
             fontFamily: {
                 vazir: ["var(--font-vazir)"],
+                inter: ["var(--font-inter)"],
             },
         },
     },

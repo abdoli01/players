@@ -1,5 +1,6 @@
 // app/fonts.ts
 import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 
 export const vazir = localFont({
     src: [
@@ -7,4 +8,9 @@ export const vazir = localFont({
         { path: "../public/fonts/vazir/Vazir.woff", weight: "400" },
     ],
     variable: "--font-vazir",
+});
+
+export const inter = Inter({
+    variable: '--font-inter',
+    weight: ['400'],
 });

@@ -132,6 +132,14 @@
   }
 }
 body {
-    font-family: var(--font-vazir), sans-serif !important;
+    /*font-family: var(--font-vazir), sans-serif !important;*/
     /*direction: ltr;*/
 }
+html {
+    font-family: var(--font-inter);
+}
+
+html[lang="fa"] {
+    font-family: var(--font-vazir);
+}
+
