@@ -4,8 +4,8 @@ import { Inter } from "next/font/google";
 
 export const vazir = localFont({
     src: [
-        { path: "../public/fonts/vazir/Vazir.woff2", weight: "400" },
-        { path: "../public/fonts/vazir/Vazir.woff", weight: "400" },
+        { path: "../public/fonts/vazir/Vazir-Regular-FD.woff2", weight: "400" },
+        { path: "../public/fonts/vazir/Vazir-Regular-FD.woff", weight: "400" },
     ],
     variable: "--font-vazir",
 });
