@@ -136,7 +136,7 @@ body {
     /*direction: ltr;*/
 }
 html {
-    font-family: var(--font-inter);
+    font-family: sans-serif;
 }
 
 html[lang="fa"] {
