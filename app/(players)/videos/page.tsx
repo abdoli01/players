@@ -5,7 +5,7 @@ import videos from "@/data/videos.json";
 
 const Page = () => {
     return (
-        <div className="p-4">
+        <div className="py-4">
             <div className="grid grid-cols-12 gap-4">
 
                 {/* ستون سمت چپ: VideoCard ها */}
