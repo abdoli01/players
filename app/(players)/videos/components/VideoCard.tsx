@@ -1,6 +1,7 @@
 'use client'
+
 import { Button } from "@/components/ui/button";
-import { Video, Minus } from "lucide-react";
+import { Video, Minus, SquareCheck } from "lucide-react";
 
 interface VideoCardProps {
     checked?: boolean;
@@ -12,48 +13,55 @@ interface VideoCardProps {
 }
 
 export function VideoCard({
-                              checked = true,
+                              checked = false,
                               onCheck = () => {},
                               title = "OPEN PLAY ATTACK",
                               code = "5-PRS-EST",
                               onPlay = () => {},
                               onRemove = () => {}
                           }: VideoCardProps) {
-
     return (
-        <div className="flex items-center gap-16 bg-[#1a1a1a] border border-neutral-700 px-4 py-2 rounded-md shadow w-fit">
+        <div className="flex items-center justify-between bg-[#1a1a1a] border border-neutral-700 px-4 py-2 rounded-md shadow w-full max-w-md">
 
+            {/* Title */}
             <div className="flex flex-col">
                 <span className="text-white font-semibold text-sm">{title}</span>
                 <span className="text-white/50 text-xs">{code}</span>
             </div>
-            <div className='flex items-center justify-center'>
-                {/* Remove Button */}
+
+            <div className="flex items-center justify-between">
+                {/* مشابه برای Remove */}
                 <Button
                     variant="ghost"
                     size="icon"
                     onClick={onRemove}
-                    className="text-white/70 hover:text-red-400 hover:bg-transparent"
+                    className="hover:bg-transparent transition-transform duration-200 hover:scale-110"
                 >
-                    <Minus size={18} />
+                    <Minus size={20} className="text-white fill-white" />
                 </Button>
-                {/* Play Button */}
+
+                {/* مشابه برای Play */}
                 <Button
                     variant="ghost"
                     size="icon"
                     onClick={onPlay}
-                    className="text-white/80 hover:text-white hover:bg-transparent"
+                    className="hover:bg-transparent transition-transform duration-200 hover:scale-110"
                 >
-                    <Video size={18} />
+                    <Video size={20} className="text-white fill-white" />
                 </Button>
-                {/* Normal HTML Checkbox */}
-                <input
-                    type="checkbox"
-                    checked={checked}
-                    onChange={onCheck}
-                    className="w-4 h-4 cursor-pointer accent-white"
-                />
+                {/* Check Icon (acts as toggle) */}
+                <button
+                    onClick={onCheck}
+                    className="transition-transform duration-200 hover:scale-110"
+                >
+                    <SquareCheck
+                        size={20}
+                        className={`text-white ${checked ? "stroke-green-500" : ""}`}
+                    />
+                </button>
+
             </div>
+
         </div>
     );
 }
