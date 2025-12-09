@@ -13,8 +13,8 @@ const Page = () => {
                     {videos.map((video, index) => (
                         <VideoCard
                             key={video.id || index}       // حتماً یک key داشته باش
-                            title={video.title}           // عنوان از JSON
-                            code={video.player}           // بازیکن یا کد از JSON
+                            title={video.event_type}           // عنوان از JSON
+                            code={video.minute + "-" + video.teams}           // بازیکن یا کد از JSON
                             onCheck={() => console.log("کلیک شد:", video.id)}
                         />
                     ))}
