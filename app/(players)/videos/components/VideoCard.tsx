@@ -21,7 +21,7 @@ export function VideoCard({
                               onRemove = () => {}
                           }: VideoCardProps) {
     return (
-        <div className="flex items-center justify-between bg-[#1a1a1a] border border-neutral-700 px-4 py-2 rounded-md shadow w-full max-w-md">
+        <div className="flex items-center justify-between bg-[#1a1a1a] border border-neutral-700 px-4 py-2 rounded-md shadow w-full max-w-md mb-2">
 
             {/* Title */}
             <div className="flex flex-col">
@@ -29,38 +29,43 @@ export function VideoCard({
                 <span className="text-white/50 text-xs">{code}</span>
             </div>
 
-            <div className="flex items-center justify-between">
-                {/* مشابه برای Remove */}
+            <div className="flex items-center justify-center">
+                {/* Remove */}
                 <Button
                     variant="ghost"
                     size="icon"
                     onClick={onRemove}
-                    className="hover:bg-transparent transition-transform duration-200 hover:scale-110"
+                    className="w-8 h-8 hover:bg-transparent transition-transform duration-200 hover:scale-110"
                 >
                     <Minus size={20} className="text-white fill-white" />
                 </Button>
 
-                {/* مشابه برای Play */}
+                {/* Play */}
                 <Button
                     variant="ghost"
                     size="icon"
                     onClick={onPlay}
-                    className="hover:bg-transparent transition-transform duration-200 hover:scale-110"
+                    className="w-8 h-8 hover:bg-transparent transition-transform duration-200 hover:scale-110"
                 >
                     <Video size={20} className="text-white fill-white" />
                 </Button>
-                {/* Check Icon (acts as toggle) */}
-                <button
+
+                {/* Check */}
+                <Button
+                    variant="ghost"
+                    size="icon"
                     onClick={onCheck}
-                    className="transition-transform duration-200 hover:scale-110"
+                    className={`w-8 h-8 flex items-center justify-center hover:bg-transparent transition-transform duration-200 hover:scale-110
+                    ${checked ? "border-2 border-green-500 rounded-full" : ""}`}
                 >
                     <SquareCheck
                         size={20}
                         className={`text-white ${checked ? "stroke-green-500" : ""}`}
                     />
-                </button>
+                </Button>
 
             </div>
+
 
         </div>
     );
