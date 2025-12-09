@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
 
 interface VideoPlayerProps {
@@ -9,33 +9,32 @@ interface VideoPlayerProps {
 }
 
 const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end }) => {
-    const playerRef = useRef<ReactPlayer>(null);
+    const playerRef = useRef<HTMLVideoElement>(null);
     const [playing, setPlaying] = useState(true);
 
-    // وقتی ویدیو آماده شد، به start برو
-    const handleReady = () => {
+    useEffect(() => {
         if (playerRef.current) {
-            playerRef.current.seekTo(start, 'seconds');
+            playerRef.current.currentTime = start;
+            playerRef.current.play();
         }
-    };
+    }, [url, start]);
 
-    // کنترل توقف در زمان end
-    const handleProgress = (state: { playedSeconds: number }) => {
-        if (state.playedSeconds >= end) {
+    const handleTimeUpdate = () => {
+        if (playerRef.current && playerRef.current.currentTime >= end) {
             setPlaying(false);
+            playerRef.current.pause();
         }
     };
 
     return (
-        <ReactPlayer
+        <video
             ref={playerRef}
             src={url}
-            playing={playing}
             controls
+            autoPlay={playing}
+            onTimeUpdate={handleTimeUpdate}
             width="100%"
             height="480px"
-            onReady={handleReady}
-            onProgress={handleProgress}
         />
     );
 };
