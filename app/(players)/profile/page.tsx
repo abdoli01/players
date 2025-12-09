@@ -1,9 +1,11 @@
-import React from 'react';
+"use client"
+import React from 'react'
+import ReactPlayer from 'react-player'
 
 const Page = () => {
     return (
         <div>
-            profile
+            <ReactPlayer src='https://www.youtube.com/watch?v=LXb3EKWsInQ' />
         </div>
     );
 };

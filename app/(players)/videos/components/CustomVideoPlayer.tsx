@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import ReactPlayer from 'react-player';
 
 interface VideoPlayerProps {
@@ -29,7 +29,7 @@ const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end }) => {
     return (
         <ReactPlayer
             ref={playerRef}
-            url={url}
+            src={url}
             playing={playing}
             controls
             width="100%"
