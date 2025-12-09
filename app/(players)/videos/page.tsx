@@ -9,7 +9,7 @@ const Page = () => {
             <div className="grid grid-cols-12 gap-4">
 
                 {/* ستون سمت چپ: VideoCard ها */}
-                <div className="col-span-4 flex flex-col gap-2">
+                <div className="col-span-3 flex flex-col gap-2">
                     {videos.map((video, index) => (
                         <VideoCard
                             key={video.id || index}       // حتماً یک key داشته باش
@@ -21,7 +21,7 @@ const Page = () => {
                 </div>
 
                 {/* ستون سمت راست: VideoPlayer ها */}
-                <div className="col-span-8 grid grid-cols-2 gap-4">
+                <div className="col-span-9 grid grid-cols-2 gap-4">
                     hiiiiiiii
                 </div>
 
