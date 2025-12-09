@@ -21,7 +21,7 @@ export function VideoCard({
                               onRemove = () => {}
                           }: VideoCardProps) {
     return (
-        <div className="flex items-center justify-between bg-[#1a1a1a] border border-neutral-700 px-4 py-2 rounded-md shadow w-full max-w-md mb-2">
+        <div className="flex items-center justify-between bg-[#1a1a1a] border border-neutral-700 px-4 py-2 rounded-md shadow w-full max-w-md">
 
             {/* Title */}
             <div className="flex flex-col">
