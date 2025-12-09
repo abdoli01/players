@@ -1,9 +1,14 @@
 import React from 'react';
+import {VideoCard} from "@/app/(players)/videos/components/VideoCard";
 
 const Page = () => {
     return (
         <div>
             videos
+            <VideoCard/>
+            <VideoCard/>
+            <VideoCard/>
+            <VideoCard/>
         </div>
     );
 };
