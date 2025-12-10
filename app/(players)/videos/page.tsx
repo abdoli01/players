@@ -3,17 +3,25 @@ import React, { useState } from 'react';
 import { VideoCard } from "@/app/(players)/videos/components/VideoCard";
 import CustomVideoPlayer from "@/app/(players)/videos/components/CustomVideoPlayer";
 import videos from "@/data/videos.json";
+import {Monitor} from "lucide-react";
+
 
 const Page = () => {
     const [index, setIndex] = useState(-1);
     const [forcePlay, setForcePlay] = useState(0);
+    const [monitorActive, setMonitorActive] = useState(false);
 
     const currentVideo = videos[index];
+    console.log('currentVideo', currentVideo);
 
     const goNext = () => {
         if (index < videos.length - 1) {
             setIndex(index + 1);
         }
+    };
+    const handleMonitorClick = () => {
+        setMonitorActive(prev => !prev); // هر بار کلیک، فعال/غیرفعال میشه
+        setForcePlay(prev => prev + 1); // ریست و پخش مجدد ویدیو
     };
 
     return (
@@ -37,13 +45,28 @@ const Page = () => {
                 {/* پلیر */}
                 <div className="col-span-9">
                     {currentVideo ? (
-                        <CustomVideoPlayer
-                            key={forcePlay}
-                            url={currentVideo.technical.url}
-                            start={parseFloat(currentVideo.technical.time_start)}
-                            end={parseFloat(currentVideo.technical.time_end)}
-                            onNext={goNext}
-                        />
+                        <>
+                            <div className='flex items-center justify-around gap-8 mb-1'>
+                                <div className='text-sm'>{currentVideo.title}</div>
+                                <div>
+                                    <button
+                                        onClick={handleMonitorClick}
+                                        className={`p-1 rounded-md transition
+                                        ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
+                                           `}
+                                    >
+                                        <Monitor size={20} color="white" />
+                                    </button>
+                                </div>
+                            </div>
+                            <CustomVideoPlayer
+                                key={forcePlay} // forcePlay ریست و پخش مجدد ویدیو رو تضمین می‌کنه
+                                url={monitorActive ? currentVideo.broadcast.url : currentVideo.technical.url}
+                                start={monitorActive ? parseFloat(currentVideo.broadcast.time_start) : parseFloat(currentVideo.technical.time_start)}
+                                end={monitorActive ? parseFloat(currentVideo.broadcast.time_end) : parseFloat(currentVideo.technical.time_end)}
+                                onNext={goNext}
+                            />
+                        </>
                     ) : (
                         <div className="text-white text-center">ویدیویی انتخاب نشده است</div>
                     )}
