@@ -65,6 +65,10 @@ const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext
                 ref={playerRef}
                 src={url}
                 onTimeUpdate={handleTimeUpdate}
+                onEnded={() => {
+                    setShowControls(true);
+                    setSegmentFinished(true);
+                }}
                 className="w-full h-[480px]"
                 controls
             />
