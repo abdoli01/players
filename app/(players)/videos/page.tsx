@@ -25,7 +25,7 @@ const Page = () => {
     };
     const handlePlayVideo = (i: number) => {
         setIndex(i);
-        setMonitorActive(false); // ← وقتی روی Play کلیک شد، مانیتور خاموش می‌شه
+        // setMonitorActive(false); // ← وقتی روی Play کلیک شد، مانیتور خاموش می‌شه
         setForcePlay(prev => prev + 1); // ← ریست و پخش دوباره
     };
 
