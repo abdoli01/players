@@ -6,6 +6,7 @@ import videos from "@/data/videos.json";
 
 const Page = () => {
     const [index, setIndex] = useState(-1);
+    const [forcePlay, setForcePlay] = useState(0);
 
     const currentVideo = videos[index];
 
@@ -26,7 +27,9 @@ const Page = () => {
                             key={i}
                             title={video.event_type}
                             code={video.minute + "-" + video.teams}
-                            onPlay={() => setIndex(i)}
+                            onPlay={() => {
+                                setIndex(i)
+                                setForcePlay(prev => prev + 1)                            }}
                         />
                     ))}
                 </div>
@@ -35,6 +38,7 @@ const Page = () => {
                 <div className="col-span-9">
                     {currentVideo ? (
                         <CustomVideoPlayer
+                            key={forcePlay}
                             url={currentVideo.technical.url}
                             start={parseFloat(currentVideo.technical.time_start)}
                             end={parseFloat(currentVideo.technical.time_end)}
