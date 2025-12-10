@@ -49,7 +49,7 @@ const Page = () => {
                 <div className="col-span-9">
                     {currentVideo ? (
                         <>
-                            <div className='flex items-center justify-around gap-8'>
+                            <div className='flex items-center justify-around gap-8 mb-1'>
                                 <div className='text-sm'>{currentVideo.title}</div>
                                 <div>
                                     <button
