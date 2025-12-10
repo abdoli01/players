@@ -11,14 +11,17 @@ interface VideoPlayerProps {
 
 const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext }) => {
     const playerRef = useRef<HTMLVideoElement>(null);
+
     const [showControls, setShowControls] = useState(false);
     const [segmentFinished, setSegmentFinished] = useState(false);
-    // جلوگیری از نمایش دوباره کنترل‌ها بعد از "ادامه پخش"
+    const [forcePaused, setForcePaused] = useState(false); // ← کلید اصلی حل مشکل
 
     useEffect(() => {
         if (playerRef.current) {
             setShowControls(false);
             setSegmentFinished(false);
+            setForcePaused(false);
+
             playerRef.current.currentTime = start;
             playerRef.current.play();
         }
@@ -27,31 +30,40 @@ const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext
     const handleTimeUpdate = () => {
         if (!playerRef.current) return;
 
-        // اگر این قسمت تمام شده بود و ما پلی ادامه زدیم → دیگه کنترل‌ها نمایش نده
-        if (segmentFinished) return;
+        const current = playerRef.current.currentTime;
 
-        if (playerRef.current.currentTime >= end) {
+        // اگر segment تمام شد (طبیعی یا با seek)
+        if (current >= end && !segmentFinished) {
             playerRef.current.pause();
             setShowControls(true);
-            setSegmentFinished(true); // این جلوگیری می‌کند از تکرار pause و نمایش Overlay
+            setSegmentFinished(true);
+            setForcePaused(true);   // ← از ادامه پخش جلوگیری کن
+            return;
+        }
+
+        // اگر باید پاز بماند (تا زمان کلیک کاربر)
+        if (forcePaused) {
+            playerRef.current.pause();
         }
     };
 
     const handleRepeat = () => {
-        if (playerRef.current) {
-            setSegmentFinished(false);
-            playerRef.current.currentTime = start;
-            playerRef.current.play();
-            setShowControls(false);
-        }
+        if (!playerRef.current) return;
+
+        setSegmentFinished(false);
+        setForcePaused(false);
+        setShowControls(false);
+
+        playerRef.current.currentTime = start;
+        playerRef.current.play();
     };
 
     const handlePlayContinue = () => {
-        if (playerRef.current) {
-            playerRef.current.play();
-            // ❗ مهم: دیگه اجازه نده Overlay دوباره ظاهر بشه
-            setShowControls(false);
-        }
+        if (!playerRef.current) return;
+
+        setForcePaused(false);     // ← اجازه پخش بده
+        setShowControls(false);    // ← Overlay مخفی شود
+        playerRef.current.play();  // ← ادامه پخش طبیعی
     };
 
     const handleNext = () => {
@@ -60,7 +72,6 @@ const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext
 
     return (
         <div className="relative w-full">
-
             <video
                 ref={playerRef}
                 src={url}
@@ -68,6 +79,7 @@ const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext
                 onEnded={() => {
                     setShowControls(true);
                     setSegmentFinished(true);
+                    setForcePaused(true);
                 }}
                 className="w-full h-[480px]"
                 controls
