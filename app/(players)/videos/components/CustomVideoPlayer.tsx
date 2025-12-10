@@ -7,9 +7,10 @@ interface VideoPlayerProps {
     start: number;
     end: number;
     onNext?: () => void;
+    resetTrigger?: number; // ← اضافه کن
 }
 
-const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext }) => {
+const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext, resetTrigger }) => {
     const playerRef = useRef<HTMLVideoElement>(null);
 
     const [showControls, setShowControls] = useState(false);
@@ -17,15 +18,23 @@ const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext
     const [forcePaused, setForcePaused] = useState(false); // ← کلید اصلی حل مشکل
 
     useEffect(() => {
-        if (playerRef.current) {
-            setShowControls(false);
-            setSegmentFinished(false);
-            setForcePaused(false);
+        if (!playerRef.current) return;
 
-            playerRef.current.currentTime = start;
-            playerRef.current.play();
-        }
-    }, [url, start]);
+        setShowControls(false);
+        setSegmentFinished(false);
+        setForcePaused(false);
+
+        playerRef.current.currentTime = start;
+        playerRef.current.play().catch(() => {}); // ← catch کردن ارور AbortError
+    }, [url, start, resetTrigger]); // ← resetTrigger اضافه شد
+
+    useEffect(() => {
+        const video = playerRef.current;
+        return () => {
+            video?.pause(); // ← هنگام unmount از play جلوگیری می‌کنه
+        };
+    }, []);
+
 
     const handleTimeUpdate = () => {
         if (!playerRef.current) return;
