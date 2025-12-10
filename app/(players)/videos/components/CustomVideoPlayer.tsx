@@ -1,19 +1,21 @@
 'use client';
 import React, { useRef, useEffect, useState } from 'react';
-import ReactPlayer from 'react-player';
+import { RotateCcw, Play, SkipForward } from "lucide-react";
 
 interface VideoPlayerProps {
     url: string;
-    start: number; // ثانیه شروع
-    end: number;   // ثانیه پایان
+    start: number;
+    end: number;
+    onNext?: () => void;
 }
 
-const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end }) => {
+const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext }) => {
     const playerRef = useRef<HTMLVideoElement>(null);
-    const [playing, setPlaying] = useState(true);
+    const [showControls, setShowControls] = useState(false);
 
     useEffect(() => {
         if (playerRef.current) {
+            setShowControls(false);
             playerRef.current.currentTime = start;
             playerRef.current.play();
         }
@@ -21,21 +23,73 @@ const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end }) => {
 
     const handleTimeUpdate = () => {
         if (playerRef.current && playerRef.current.currentTime >= end) {
-            setPlaying(false);
             playerRef.current.pause();
+            setShowControls(true);
         }
     };
 
+    const handleRepeat = () => {
+        if (playerRef.current) {
+            playerRef.current.currentTime = start;
+            playerRef.current.play();
+            setShowControls(false);
+        }
+    };
+
+    const handlePlayContinue = () => {
+        if (playerRef.current) {
+            playerRef.current.play();
+            setShowControls(false);
+        }
+    };
+
+    const handleNext = () => {
+        if (onNext) onNext();
+    };
+
     return (
-        <video
-            ref={playerRef}
-            src={url}
-            controls
-            autoPlay={playing}
-            onTimeUpdate={handleTimeUpdate}
-            width="100%"
-            height="480px"
-        />
+        <div className="relative w-full">
+
+            {/* VIDEO */}
+            <video
+                ref={playerRef}
+                src={url}
+                onTimeUpdate={handleTimeUpdate}
+                className="w-full h-[480px]"
+                controls
+            />
+
+            {/* OVERLAY BUTTONS */}
+            {showControls && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm space-x-6">
+
+                    {/* تکرار */}
+                    <button
+                        onClick={handleRepeat}
+                        className="p-4 border-2 border-green-500 rounded-xl hover:bg-green-500/30 transition"
+                    >
+                        <RotateCcw size={40} color="white" />
+                    </button>
+
+                    {/* پلی ادامه */}
+                    <button
+                        onClick={handlePlayContinue}
+                        className="p-4 border-2 border-green-500 rounded-xl hover:bg-green-500/30 transition"
+                    >
+                        <Play size={40} color="white" />
+                    </button>
+
+                    {/* ویدیو بعدی */}
+                    <button
+                        onClick={handleNext}
+                        className="p-4 border-2 border-green-500 rounded-xl hover:bg-green-500/30 transition"
+                    >
+                        <SkipForward size={40} color="white" />
+                    </button>
+
+                </div>
+            )}
+        </div>
     );
 };
 
