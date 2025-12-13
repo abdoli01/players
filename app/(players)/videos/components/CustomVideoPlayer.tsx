@@ -90,7 +90,7 @@ const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext
                     setSegmentFinished(true);
                     setForcePaused(true);
                 }}
-                className="w-full h-[480px]"
+                className="w-full"
                 controls
             />
 
