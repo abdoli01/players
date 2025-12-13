@@ -6,7 +6,8 @@ import { ReduxProvider } from "@/store/providers";
 import { ThemeProvider } from "@/components/ThemeProvider"
 import React from "react";
 import { NextIntlClientProvider } from 'next-intl';
-import requestConfig from '@/src/i18n/request';
+// import requestConfig from '@/src/i18n/request';
+import { getMessages } from 'next-intl/server';
 import { cookies } from 'next/headers';
 import { ToastContainer } from 'react-toastify'
 
@@ -23,8 +24,8 @@ export default async  function RootLayout({
 
     const store =await cookies();
     const locale = store.get('locale')?.value || 'en';
-    const { messages } = await requestConfig({ requestLocale: Promise.resolve(locale) });
-
+    // const { messages } = await requestConfig({ requestLocale: Promise.resolve(locale) });
+    const messages = await getMessages();
   return (
     <html lang={locale} dir={locale === 'fa' ? 'rtl' : 'ltr'} suppressHydrationWarning  className={locale === "fa" ? vazir.variable : ""}>
       <body
