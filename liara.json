@@ -1,8 +1,7 @@
 {
   "app": "metrica-development-frontend-app",
-  "port": 3000,
-  "build": {
-    "location": "iran"
-  },
-  "disks": []
+  "platform": "next",
+  "next": {
+    "mirror": false
+  }
 }
