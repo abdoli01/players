@@ -34,7 +34,7 @@ const Page = () => {
             <div className="grid grid-cols-12 gap-4">
 
                 {/* لیست ویدیوها */}
-                <div className="col-span-3 flex flex-col gap-2">
+                <div className="col-span-3 flex flex-col gap-2 h-[400px] overflow-y-scroll">
                     {videos.map((video, i) => (
                         <VideoCard
                             key={i}
