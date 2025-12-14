@@ -4,7 +4,7 @@ import { VideoCard } from "@/app/(players)/videos/components/VideoCard";
 import CustomVideoPlayer from "@/app/(players)/videos/components/CustomVideoPlayer";
 import videos from "@/data/videos.json";
 import {Button} from "@/components/ui/button";
-import { Monitor,List, Grid,ArrowUp,ArrowDown,SquarePen } from 'lucide-react';
+import { Monitor,List, Grid,ArrowUp,ArrowDown,SquarePen,FileArchive,Download,Square } from 'lucide-react';
 
 
 const Page = () => {
@@ -45,7 +45,7 @@ const Page = () => {
             {/*items*/}
             <div className="flex items-center mb-4 gap-2">
                 <Button onClick={toggleList} className="flex items-center gap-2">
-                    {showFirstList ? <List size={20} /> : <Grid size={20} />}
+                    {showFirstList ? <List size={16} /> : <Grid size={16} />}
                 </Button>
                 <div className="flex flex-wrap gap-2">
                     {currentItems.map((item, index) => (
@@ -63,15 +63,43 @@ const Page = () => {
             </div>
             <div className="grid grid-cols-12 gap-4">
                 {/* لیست ویدیوها */}
-                <div className="col-span-12 lg:col-span-4 flex flex-col gap-2 h-[400px] overflow-y-scroll order-2 lg:order-1">
-                    {videos.map((video, i) => (
-                        <VideoCard
-                            key={i}
-                            title={video.event_type}
-                            code={video.minute + "-" + video.teams}
-                            onPlay={() => handlePlayVideo(i)} // ← استفاده از تابع آماده
-                        />
-                    ))}
+                <div className="col-span-12 lg:col-span-4 flex flex-col gap-2 h-[400px] order-2 lg:order-1">
+                    <div className="flex items-center gap-1 justify-end">
+                        <button
+                            onClick={handleMonitorClick}
+                            className={`p-1 rounded-md transition
+                                          ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
+                                               `}
+                        >
+                            <FileArchive size={16} color="white" />
+                        </button>
+                        <button
+                            onClick={handleMonitorClick}
+                            className={`p-1 rounded-md transition
+                                          ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
+                                               `}
+                        >
+                            <Download size={16} color="white" />
+                        </button>
+                        <button
+                            onClick={handleMonitorClick}
+                            className={`p-1 rounded-md transition
+                                          ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
+                                               `}
+                        >
+                            <Square size={16} color="white" />
+                        </button>
+                    </div>
+                    <div className='overflow-y-scroll'>
+                        {videos.map((video, i) => (
+                            <VideoCard
+                                key={i}
+                                title={video.event_type}
+                                code={video.minute + "-" + video.teams}
+                                onPlay={() => handlePlayVideo(i)} // ← استفاده از تابع آماده
+                            />
+                        ))}
+                    </div>
                 </div>
 
                 {/* پلیر */}
@@ -87,7 +115,7 @@ const Page = () => {
                                           ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
                                                `}
                                     >
-                                        <Monitor size={20} color="white" />
+                                        <Monitor size={16} color="white" />
                                     </button>) : (<div className='flex items-center gap-1'>
                                         <button
                                             onClick={handleMonitorClick}
@@ -95,7 +123,7 @@ const Page = () => {
                                           ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
                                                `}
                                         >
-                                            <SquarePen size={20} color="white" />
+                                            <SquarePen size={16} color="white" />
                                         </button>
                                         <button
                                             onClick={handleMonitorClick}
@@ -103,7 +131,7 @@ const Page = () => {
                                           ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
                                                `}
                                         >
-                                            <ArrowDown size={20} color="white" />
+                                            <ArrowDown size={16} color="white" />
                                         </button>
                                         <button
                                             onClick={handleMonitorClick}
@@ -111,7 +139,7 @@ const Page = () => {
                                           ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
                                                `}
                                         >
-                                            <ArrowUp size={20} color="white" />
+                                            <ArrowUp size={16} color="white" />
                                         </button>
                                     </div>)}
                                 </div>
