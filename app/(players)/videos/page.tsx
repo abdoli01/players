@@ -63,8 +63,8 @@ const Page = () => {
             </div>
             <div className="grid grid-cols-12 gap-4">
                 {/* لیست ویدیوها */}
-                <div className="col-span-12 lg:col-span-4 flex flex-col gap-2 h-[400px] order-2 lg:order-1">
-                    <div className="flex items-center gap-1 justify-end">
+                <div className="col-span-12 lg:col-span-4 flex flex-col h-[400px] order-2 lg:order-1">
+                    <div className="flex items-center gap-1 justify-end mb-1">
                         <button
                             onClick={handleMonitorClick}
                             className={`p-1 rounded-md transition
