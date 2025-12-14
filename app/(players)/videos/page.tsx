@@ -3,9 +3,8 @@ import React, { useState } from 'react';
 import { VideoCard } from "@/app/(players)/videos/components/VideoCard";
 import CustomVideoPlayer from "@/app/(players)/videos/components/CustomVideoPlayer";
 import videos from "@/data/videos.json";
-import {Monitor} from "lucide-react";
 import {Button} from "@/components/ui/button";
-import { List, Grid } from 'lucide-react';
+import { Monitor,List, Grid,ArrowUp,ArrowDown,SquarePen } from 'lucide-react';
 
 
 const Page = () => {
@@ -89,14 +88,14 @@ const Page = () => {
                                                `}
                                     >
                                         <Monitor size={20} color="white" />
-                                    </button>) : (<div className='flex items-center'>
+                                    </button>) : (<div className='flex items-center gap-1'>
                                         <button
                                             onClick={handleMonitorClick}
                                             className={`p-1 rounded-md transition
                                           ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
                                                `}
                                         >
-                                            <Monitor size={20} color="white" />
+                                            <SquarePen size={20} color="white" />
                                         </button>
                                         <button
                                             onClick={handleMonitorClick}
@@ -104,7 +103,7 @@ const Page = () => {
                                           ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
                                                `}
                                         >
-                                            <Monitor size={20} color="white" />
+                                            <ArrowDown size={20} color="white" />
                                         </button>
                                         <button
                                             onClick={handleMonitorClick}
@@ -112,7 +111,7 @@ const Page = () => {
                                           ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
                                                `}
                                         >
-                                            <Monitor size={20} color="white" />
+                                            <ArrowUp size={20} color="white" />
                                         </button>
                                     </div>)}
                                 </div>
