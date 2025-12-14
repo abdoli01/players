@@ -66,25 +66,22 @@ const Page = () => {
                 <div className="col-span-12 lg:col-span-4 flex flex-col h-[400px] order-2 lg:order-1">
                     <div className="flex items-center gap-1 justify-end mb-1">
                         <button
-                            onClick={handleMonitorClick}
                             className={`p-1 rounded-md transition
-                                          ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
+                                          ${monitorActive ? 'border-2 border-app-orange' : ''}
                                                `}
                         >
                             <FileArchive size={16} color="white" />
                         </button>
                         <button
-                            onClick={handleMonitorClick}
                             className={`p-1 rounded-md transition
-                                          ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
+                                          ${monitorActive ? 'border-2 border-app-orange' : ''}
                                                `}
                         >
                             <Download size={16} color="white" />
                         </button>
                         <button
-                            onClick={handleMonitorClick}
                             className={`p-1 rounded-md transition
-                                          ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
+                                          ${monitorActive ? 'border-2 border-app-orange' : ''}
                                                `}
                         >
                             <Square size={16} color="white" />
@@ -111,33 +108,24 @@ const Page = () => {
                                 <div>
                                     {showFirstList ? (   <button
                                         onClick={handleMonitorClick}
-                                        className={`p-1 rounded-md transition
-                                          ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
+                                        className={`p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange
+                                          ${monitorActive ? 'bg-app-orange' : ''}
                                                `}
                                     >
                                         <Monitor size={16} color="white" />
                                     </button>) : (<div className='flex items-center gap-1'>
                                         <button
-                                            onClick={handleMonitorClick}
-                                            className={`p-1 rounded-md transition
-                                          ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
-                                               `}
+                                            className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange"
                                         >
                                             <SquarePen size={16} color="white" />
                                         </button>
                                         <button
-                                            onClick={handleMonitorClick}
-                                            className={`p-1 rounded-md transition
-                                          ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
-                                               `}
+                                            className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange"
                                         >
                                             <ArrowDown size={16} color="white" />
                                         </button>
                                         <button
-                                            onClick={handleMonitorClick}
-                                            className={`p-1 rounded-md transition
-                                          ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
-                                               `}
+                                            className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange"
                                         >
                                             <ArrowUp size={16} color="white" />
                                         </button>
