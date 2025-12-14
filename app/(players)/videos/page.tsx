@@ -34,7 +34,7 @@ const Page = () => {
             <div className="grid grid-cols-12 gap-4">
 
                 {/* لیست ویدیوها */}
-                <div className="col-span-12 lg:col-span-4 flex flex-col gap-2 h-[400px] overflow-y-scroll">
+                <div className="col-span-12 lg:col-span-4 flex flex-col gap-2 h-[400px] overflow-y-scroll order-2 lg:order-1">
                     {videos.map((video, i) => (
                         <VideoCard
                             key={i}
@@ -46,7 +46,7 @@ const Page = () => {
                 </div>
 
                 {/* پلیر */}
-                <div className="col-span-12 lg:col-span-8">
+                <div className="col-span-12 lg:col-span-8 order-1 lg:order-2">
                     {currentVideo ? (
                         <>
                             <div className='flex items-center justify-between gap-8 mb-1'>
