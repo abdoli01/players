@@ -20,7 +20,6 @@ const Page = () => {
     const items2=['RGRGRG','PASSIHHTHTHTHHTNG','HTH','RHRHRTH','HRHRHRHRHRTHTR','HT']
 
     const currentVideo = videos[index];
-    console.log('currentVideo', currentVideo);
 
     const goNext = () => {
         if (index < videos.length - 1) {
@@ -83,14 +82,39 @@ const Page = () => {
                             <div className='flex items-center justify-between gap-8 mb-1'>
                                 <div className='text-sm'>{currentVideo.title}</div>
                                 <div>
-                                    <button
+                                    {showFirstList ? (   <button
                                         onClick={handleMonitorClick}
                                         className={`p-1 rounded-md transition
                                           ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
                                                `}
                                     >
                                         <Monitor size={20} color="white" />
-                                    </button>
+                                    </button>) : (<div className='flex items-center'>
+                                        <button
+                                            onClick={handleMonitorClick}
+                                            className={`p-1 rounded-md transition
+                                          ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
+                                               `}
+                                        >
+                                            <Monitor size={20} color="white" />
+                                        </button>
+                                        <button
+                                            onClick={handleMonitorClick}
+                                            className={`p-1 rounded-md transition
+                                          ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
+                                               `}
+                                        >
+                                            <Monitor size={20} color="white" />
+                                        </button>
+                                        <button
+                                            onClick={handleMonitorClick}
+                                            className={`p-1 rounded-md transition
+                                          ${monitorActive ? 'border-2 border-green-500 bg-green-500/30' : ''}
+                                               `}
+                                        >
+                                            <Monitor size={20} color="white" />
+                                        </button>
+                                    </div>)}
                                 </div>
                             </div>
                             <CustomVideoPlayer
