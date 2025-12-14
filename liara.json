@@ -1,0 +1,7 @@
+{
+  "app": "metrica-development-frontend-app",
+  "platform": "next",
+  "next": {
+    "mirror": false
+  }
+}
