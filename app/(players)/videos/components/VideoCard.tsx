@@ -25,8 +25,8 @@ export function VideoCard({
 
             {/* Title */}
             <div className="flex flex-col">
-                <span className="text-white font-semibold text-sm">{title}</span>
-                <span className="text-white/50 text-xs">{code}</span>
+                <span className="text-foreground font-semibold text-sm">{title}</span>
+                <span className="text-foreground/50 text-xs">{code}</span>
             </div>
 
             <div className="flex items-center justify-center">
@@ -37,7 +37,7 @@ export function VideoCard({
                     onClick={onRemove}
                     className="w-8 h-8 hover:bg-transparent transition-transform duration-200 hover:scale-110"
                 >
-                    <Minus size={20} className="text-white fill-white" />
+                    <Minus size={20} className="text-foreground fill-white" />
                 </Button>
 
                 {/* Play */}
@@ -47,7 +47,7 @@ export function VideoCard({
                     onClick={onPlay}
                     className="w-8 h-8 hover:bg-transparent transition-transform duration-200 hover:scale-110"
                 >
-                    <Video size={20} className="text-white fill-white" />
+                    <Video size={20} className="text-foreground fill-white" />
                 </Button>
 
                 {/* Check */}
@@ -60,7 +60,7 @@ export function VideoCard({
                 >
                     <SquareCheck
                         size={20}
-                        className={`text-white ${checked ? "stroke-green-500" : ""}`}
+                        className={`text-foreground ${checked ? "stroke-green-500" : ""}`}
                     />
                 </Button>
 
