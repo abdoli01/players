@@ -44,7 +44,7 @@ const Page = () => {
         <div className="py-4">
             {/*items*/}
             <div className="flex items-center mb-4 gap-2">
-                <Button onClick={toggleList} className="flex items-center gap-2">
+                <Button onClick={toggleList} className="flex items-center gap-2 p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange">
                     {showFirstList ? <List size={16} /> : <Grid size={16} />}
                 </Button>
                 <div className="flex flex-wrap gap-2">
