@@ -50,6 +50,7 @@ const Page = () => {
                 <div className="flex flex-wrap gap-2">
                     {currentItems.map((item, index) => (
                         <Button
+                            className="cursor-pointer"
                             variant={selectedIndex === index ? 'default' : 'outline'}
                             key={index}
                             onClick={() => setSelectedIndex(index)}
