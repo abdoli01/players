@@ -10,3 +10,10 @@ export const vazir = localFont({
     variable: "--font-vazir",
 });
 
+export const ubunto = localFont({
+    src: [
+        { path: "../public/fonts/ubunto/Ubuntu-R.ttf", weight: "400" }
+    ],
+    variable: "--font-ubunto",
+});
+
