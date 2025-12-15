@@ -2,6 +2,7 @@
   "app": "metrica-development-frontend-app",
   "platform": "next",
   "next": {
+    "modifyConfig": false,
     "mirror": false
   }
 }
