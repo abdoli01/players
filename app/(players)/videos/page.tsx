@@ -25,6 +25,9 @@ const Page = () => {
             setIndex(index + 1);
         }
     };
+    const goPrevious = () => {
+        if (index > 0) setIndex(index - 1);
+    }
     const handleMonitorClick = () => {
         setMonitorActive(prev => !prev); // هر بار کلیک، فعال/غیرفعال میشه
         setForcePlay(prev => prev + 1); // ← ریست و پخش دوباره
@@ -139,6 +142,7 @@ const Page = () => {
                                 end={monitorActive ? parseFloat(currentVideo.broadcast.time_end) : parseFloat(currentVideo.technical.time_end)}
                                 resetTrigger={forcePlay} // ← اضافه شد
                                 onNext={goNext}
+                                onPrev={goPrevious}
                             />
                         </>
                     ) : (

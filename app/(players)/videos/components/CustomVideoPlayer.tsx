@@ -1,16 +1,17 @@
 'use client';
 import React, { useRef, useEffect, useState } from 'react';
-import { RotateCcw, Play, SkipForward } from "lucide-react";
+import { RotateCcw, Play, SkipForward, SkipBack } from "lucide-react";
 
 interface VideoPlayerProps {
     url: string;
     start: number;
     end: number;
     onNext?: () => void;
+    onPrev?: () => void;
     resetTrigger?: number; // ← اضافه کن
 }
 
-const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext, resetTrigger }) => {
+const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext, resetTrigger, onPrev }) => {
     const playerRef = useRef<HTMLVideoElement>(null);
 
     const [showControls, setShowControls] = useState(false);
@@ -78,6 +79,10 @@ const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext
     const handleNext = () => {
         if (onNext) onNext();
     };
+    const handlePrev = () => {
+        if (onPrev) onPrev(); // ← استفاده از prop جدید onPrev
+    };
+
 
     return (
         <div className="relative w-full">
@@ -96,6 +101,13 @@ const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext
 
             {showControls && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm space-x-6">
+
+                    <button
+                        onClick={handlePrev}
+                        className="p-4 border-2 border-app-orange rounded-xl hover:bg-app-orange transition cursor-pointer"
+                    >
+                        <SkipBack size={40} color="white" />
+                    </button>
 
                     <button
                         onClick={handleRepeat}
