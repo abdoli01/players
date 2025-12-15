@@ -12,7 +12,9 @@ export const vazir = localFont({
 
 export const ubunto = localFont({
     src: [
-        { path: "../public/fonts/ubunto/Ubuntu-R.ttf", weight: "400" }
+        // { path: "../public/fonts/ubunto/Ubuntu-R.ttf", weight: "400" },
+        { path: "../public/fonts/ubunto/Ubuntu-Regular.ttf", weight: "400" }
+
     ],
     variable: "--font-ubunto",
 });

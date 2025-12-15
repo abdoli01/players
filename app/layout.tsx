@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import 'react-toastify/dist/ReactToastify.css'
-import { vazir } from "./fonts";
+import { vazir,ubunto } from "./fonts";
 import { ReduxProvider } from "@/store/providers";
 import { ThemeProvider } from "@/components/ThemeProvider"
 import React from "react";
@@ -24,11 +24,11 @@ export default async  function RootLayout({
     const messages = await getMessages();
 
   return (
-    <html lang={locale} dir={locale === 'fa' ? 'rtl' : 'ltr'} suppressHydrationWarning  className={locale === "fa" ? vazir.variable : ""}>
+    <html lang={locale} dir={locale === 'fa' ? 'rtl' : 'ltr'} suppressHydrationWarning  className={locale === "fa" ? vazir.variable : ubunto.variable}>
       <body
           suppressHydrationWarning
           dir={locale === 'fa' ? 'rtl' : 'ltr'}
-          className={`${locale === "fa" ? vazir.variable : ""} antialiased`}
+          className={`${locale === "fa" ? vazir.variable : ubunto.variable} antialiased`}
       >
       <NextIntlClientProvider locale={locale} messages={messages}>
       <ReduxProvider>

@@ -135,12 +135,12 @@ body {
     /*font-family: var(--font-vazir), sans-serif !important;*/
     /*direction: ltr;*/
 }
-/*html {*/
-/*    font-family:var(--font-ubunto);*/
-/*}*/
 html {
-    font-family:sans-serif;
+    font-family:var(--font-ubunto);
 }
+/*html {*/
+/*    font-family:sans-serif;*/
+/*}*/
 
 html[lang="fa"] {
     font-family: var(--font-vazir);
