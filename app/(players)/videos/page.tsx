@@ -48,7 +48,7 @@ const Page = () => {
             {/*items*/}
             <div className="flex items-center mb-4 gap-2">
                 <Button onClick={toggleList} className="bg-background flex items-center gap-2 p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer">
-                    {showFirstList ? <List color="white" size={16} /> : <Grid color="white" size={16} />}
+                    {showFirstList ? <List className="text-foreground" size={16} /> : <Grid className="text-foreground" size={16} />}
                 </Button>
                 <div className="flex flex-wrap gap-2">
                     {currentItems.map((item, index) => (
@@ -70,17 +70,17 @@ const Page = () => {
                         <button
                             className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer"
                         >
-                            <FileArchive size={16} color="white" />
+                            <FileArchive size={16} className="text-foreground" />
                         </button>
                         <button
                             className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer"
                         >
-                            <Download size={16} color="white" />
+                            <Download size={16} className="text-foreground" />
                         </button>
                         <button
                             className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer"
                         >
-                            <Square size={16} color="white" />
+                            <Square size={16} className="text-foreground" />
                         </button>
                     </div>
                     <div className='overflow-y-scroll'>
@@ -108,22 +108,22 @@ const Page = () => {
                                           ${monitorActive ? 'bg-app-orange' : ''}
                                                `}
                                     >
-                                        <Monitor size={16} color="white" />
+                                        <Monitor size={16} className="text-foreground" />
                                     </button>) : (<div className='flex items-center gap-1'>
                                         <button
                                             className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer"
                                         >
-                                            <SquarePen size={16} color="white" />
+                                            <SquarePen size={16} className="text-foreground" />
                                         </button>
                                         <button
                                             className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer"
                                         >
-                                            <ArrowDown size={16} color="white" />
+                                            <ArrowDown size={16} className="text-foreground" />
                                         </button>
                                         <button
                                             className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer"
                                         >
-                                            <ArrowUp size={16} color="white" />
+                                            <ArrowUp size={16} className="text-foreground" />
                                         </button>
                                         <button
                                             onClick={handleMonitorClick}
@@ -131,7 +131,7 @@ const Page = () => {
                                           ${monitorActive ? 'bg-app-orange' : ''}
                                                `}
                                         >
-                                            <Monitor size={16} color="white" />
+                                            <Monitor size={16} className="text-foreground" />
                                         </button>
                                     </div>)}
                                 </div>
