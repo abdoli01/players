@@ -100,7 +100,7 @@ const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext
             />
 
             {showControls && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm space-x-6">
+                <div dir='ltr' className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm space-x-6">
 
                     <button
                         onClick={handlePrev}
