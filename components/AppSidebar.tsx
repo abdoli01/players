@@ -56,7 +56,7 @@ export function AppSidebar() {
         <SidebarContent>
                 <SidebarGroup className='p-0'>
                     <SidebarGroupContent>
-                        <SidebarMenu>
+                        <SidebarMenu className='gap-0'>
                             <SidebarMenuItem >
                                 <SidebarMenuButton asChild className="rounded-[0px]">
                                     <Link
@@ -72,25 +72,24 @@ export function AppSidebar() {
                             {items.map((item) => {
                                 const isActive = item.title === "home"
                                     ? ["/", "/videos", "/profile" , "/reports"].includes(pathname)
-                                    : pathname === item.url
+                                    : pathname === item.url;
 
                                 return (
                                     <SidebarMenuItem key={item.title}>
-                                        <SidebarMenuButton asChild className="rounded-[0px]">
-                                            <Link
-                                                href={item.url}
-                                                className={cn(
-                                                    "flex flex-col items-center justify-center gap-2 px-3 py-2 transition-colors h-[65px]",
-                                                    isActive ? "bg-gray-700 text-white" : "text-gray-700 hover:bg-gray-200"
-                                                )}
-                                            >
-                                                <item.icon className="w-4 h-4" />
-                                                <span>{t(`${item.title}`)}</span>
-                                            </Link>
-                                        </SidebarMenuButton>
+                                        <Link
+                                            href={item.url}
+                                            className={cn(
+                                                "flex flex-col items-center justify-center gap-2 px-3 py-2 transition-colors h-[65px] text-foreground rounded-[0px]",
+                                                isActive ? "bg-app-orange" : "hover:bg-app-orange"
+                                            )}
+                                        >
+                                            <item.icon className="w-4 h-4" />
+                                            <span>{t(`${item.title}`)}</span>
+                                        </Link>
                                     </SidebarMenuItem>
-                                )
+                                );
                             })}
+
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
