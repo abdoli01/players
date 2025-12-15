@@ -1,4 +1,3 @@
-// src/i18n/request.ts
 import { getRequestConfig } from 'next-intl/server';
 import { cookies } from 'next/headers';
 
@@ -8,6 +7,6 @@ export default getRequestConfig(async () => {
 
     return {
         locale,
-        messages: (await import(`../../messages/${locale}`)).default
+        messages: (await import(`../messages/${locale}`)).default
     };
 });
