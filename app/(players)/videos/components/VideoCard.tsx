@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Video, Minus, SquareCheck } from "lucide-react";
 
 interface VideoCardProps {
-    checked?: boolean;
-    onCheck?: () => void;
+    checked?: boolean; // ✅ اضافه شد
+    onCheck?: () => void; // ✅ اضافه شد
     title?: string;
     code?: string;
     onPlay?: () => void;
@@ -35,7 +35,7 @@ export function VideoCard({
                     variant="ghost"
                     size="icon"
                     onClick={onRemove}
-                    className="w-8 h-8 hover:bg-transparent transition-transform duration-200 hover:scale-110"
+                    className="w-8 h-8 hover:bg-app-orange transition-transform duration-200 hover:scale-110 cursor-pointer"
                 >
                     <Minus size={20} className="text-foreground fill-white" />
                 </Button>
@@ -45,7 +45,7 @@ export function VideoCard({
                     variant="ghost"
                     size="icon"
                     onClick={onPlay}
-                    className="w-8 h-8 hover:bg-transparent transition-transform duration-200 hover:scale-110"
+                    className="w-8 h-8 hover:bg-app-orange transition-transform duration-200 hover:scale-110 cursor-pointer"
                 >
                     <Video size={20} className="text-foreground fill-white" />
                 </Button>
@@ -54,15 +54,16 @@ export function VideoCard({
                 <Button
                     variant="ghost"
                     size="icon"
-                    onClick={onCheck}
-                    className={`w-8 h-8 flex items-center justify-center hover:bg-transparent transition-transform duration-200 hover:scale-110
-                    ${checked ? "border-2 border-green-500 rounded-full" : ""}`}
+                    onClick={onCheck} // ✅ استفاده از prop
+                    className={`w-8 h-8 flex items-center justify-center hover:bg-app-orange transition-transform duration-200 hover:scale-110 cursor-pointer
+                    ${checked ? "border-2 border-app-orange rounded-full" : ""}`} // ✅ تغییر استایل بر اساس checked
                 >
                     <SquareCheck
                         size={20}
-                        className={`text-foreground ${checked ? "stroke-green-500" : ""}`}
+                        className={`text-foreground ${checked ? "stroke-app-orange" : ""}`} // ✅ تغییر رنگ آیکون
                     />
                 </Button>
+
 
             </div>
 

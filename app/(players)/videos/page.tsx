@@ -15,6 +15,9 @@ const Page = () => {
     const [showFirstList, setShowFirstList] = useState(true);
     const [selectedIndex, setSelectedIndex] = useState(-1); // ذخیره آیتم انتخاب شده
 
+    const [selectedVideos, setSelectedVideos] = useState<number[]>([]);
+
+
     const items1=['ATTACKING','PASSING','DULES','DEFENSIVE','ALL','ACTIONS']
     const items2=['RGRGRG','PASSIHHTHTHTHHTNG','HTH','RHRHRTH','HRHRHRHRHRTHTR','HT']
 
@@ -42,6 +45,23 @@ const Page = () => {
         setSelectedIndex(-1); // هر بار لیست عوض شد انتخاب پاک شود
     };
     const currentItems = showFirstList ? items1 : items2;
+
+    const toggleVideoSelection = (i: number) => {
+        setSelectedVideos(prev =>
+            prev.includes(i)
+                ? prev.filter(idx => idx !== i)
+                : [...prev, i]
+        );
+    };
+    const toggleSelectAll = () => {
+        if (selectedVideos.length === videos.length) {
+            setSelectedVideos([]); // همه انتخاب بودند → خالی کن
+        } else {
+            setSelectedVideos(videos.map((_, i) => i)); // همه انتخاب بشن
+        }
+    };
+
+
 
     return (
         <div className="py-4">
@@ -78,10 +98,13 @@ const Page = () => {
                             <Download size={16} className="text-foreground" />
                         </button>
                         <button
-                            className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer"
+                            className={`p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer
+                            ${selectedVideos.length === videos.length ? 'bg-app-orange' : ''}`}
+                            onClick={toggleSelectAll}
                         >
                             <Square size={16} className="text-foreground" />
                         </button>
+
                     </div>
                     <div className='overflow-y-scroll'>
                         {videos.map((video, i) => (
@@ -90,6 +113,8 @@ const Page = () => {
                                 title={video.event_type}
                                 code={video.minute + "-" + video.teams}
                                 onPlay={() => handlePlayVideo(i)} // ← استفاده از تابع آماده
+                                checked={selectedVideos.includes(i)} // وضعیت انتخاب کارت
+                                onCheck={() => toggleVideoSelection(i)} // toggle انتخاب کارت
                             />
                         ))}
                     </div>
