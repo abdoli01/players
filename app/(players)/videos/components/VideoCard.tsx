@@ -54,7 +54,7 @@ export function VideoCard({
                 <Button
                     variant="ghost"
                     size="icon"
-                    onClick={onCheck} // ✅ استفاده از prop
+                    onClick={onCheck} // ✅ استفاده ازز prop
                     className={`w-8 h-8 flex items-center justify-center hover:bg-app-orange transition-transform duration-200 hover:scale-110 cursor-pointer
                     ${checked ? "border-2 border-app-orange rounded-full" : ""}`} // ✅ تغییر استایل بر اساس checked
                 >
