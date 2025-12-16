@@ -42,7 +42,7 @@ export default function LoginStep({ userMeta, setStep }: { userMeta: any; setSte
                 )} />
                 <Button className="w-full">ورود</Button>
                 <Button type="button" variant="link" onClick={() => setStep("verify")}>
-                    رمز عبور را فراموش کرده‌ام
+                    رمز عبور خود را فراموش کرده‌ام
                 </Button>
             </form>
         </Form>
