@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Video, Minus, SquareCheck } from "lucide-react";
 
 interface VideoCardProps {
-    checked?: boolean; // ✅ اضافcه شد
+    checked?: boolean; // ✅ اضافceه شد
     onCheck?: () => void; // ✅ اضافه شد
     title?: string;
     code?: string;
