@@ -1,98 +1,56 @@
 "use client";
 
-import { useState } from "react";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from "@/components/ui/form";
+import { Step } from "../types";
 
-const phoneSchema = z.object({
-    phone: z
-        .string()
-        .min(1, "شماره موبایل الزامی است")
-        .regex(/^09\d{9}$/, "شماره موبایل باید با 09 شروع شود و 11 رقم باشد"),
+
+const schema = z.object({
+    phone: z.string().regex(/^09\d{9}$/, "شماره موبایل معتبر نیست"),
 });
 
-type PhoneFormValues = z.infer<typeof phoneSchema>;
 
-interface PhoneStepProps {
-    phone: string;
-    setPhone: (value: string) => void;
-    setStep: (value: "phone" | "verify" | "register") => void;
-    setIsRegistered: (value: boolean) => void;
-}
+type FormValues = z.infer<typeof schema>;
 
-export default function PhoneStep({
-    phone,
-    setPhone,
-    setStep,
-    setIsRegistered,
-}: PhoneStepProps) {
-    const [loading, setLoading] = useState<boolean>(false);
 
-    const form = useForm<PhoneFormValues>({
-        resolver: zodResolver(phoneSchema),
-        defaultValues: {
-            phone: phone || "",
-        },
+export default function PhoneStep({ setPhone, setUserMeta, setStep }: { setPhone: any; setUserMeta: any; setStep: (s: Step) => void }) {
+    const form = useForm<FormValues>({
+        resolver: zodResolver(schema),
+        defaultValues: { phone: "" },
     });
 
-    const mockCheckUser = async (phoneNumber: string): Promise<boolean> => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(phoneNumber === "09120000000"); // شماره تست ثبت شده
-            }, 700);
-        });
+
+    const checkUser = async (phone: string) => {
+        if (phone === "09120000000") return { exists: true, hasPlayerAssignment: false };
+        return { exists: false, hasPlayerAssignment: false };
     };
 
-    const onSubmit = async (values: PhoneFormValues) => {
-        setLoading(true);
-        const exists = await mockCheckUser(values.phone);
-        setLoading(false);
 
-        setPhone(values.phone);
-        setIsRegistered(exists);
-        setStep("verify");
+    const onSubmit = async ({ phone }: FormValues) => {
+        const res = await checkUser(phone);
+        setPhone(phone);
+        setUserMeta(res);
+        setStep(res.exists ? "login" : "verify");
     };
+
 
     return (
-        <div className="space-y-4">
-            <h1 className="text-xl font-bold text-center">ورود / ثبت ‌نام</h1>
-
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                    <FormField
-                        control={form.control}
-                        name="phone"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>شماره موبایل</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        placeholder="09123456789"
-                                        className="text-center"
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <Button type="submit" disabled={loading} className="w-full">
-                        {loading ? "در حال بررسی..." : "ادامه"}
-                    </Button>
-                </form>
-            </Form>
-        </div>
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField name="phone" control={form.control} render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>شماره موبایل</FormLabel>
+                        <FormControl><Input {...field} className="text-center" /></FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )} />
+                <Button className="w-full">ادامه</Button>
+            </form>
+        </Form>
     );
 }

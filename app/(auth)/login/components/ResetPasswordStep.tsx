@@ -11,8 +11,6 @@ import { Step } from "../types";
 
 
 const schema = z.object({
-    firstName: z.string().min(2).regex(/^[\u0600-\u06FF\s]+$/, "فارسی"),
-    lastName: z.string().min(2).regex(/^[\u0600-\u06FF\s]+$/, "فارسی"),
     password: z.string().min(6),
     confirmPassword: z.string(),
 }).refine(d => d.password === d.confirmPassword, { path: ["confirmPassword"], message: "عدم تطابق" });
@@ -21,32 +19,26 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 
-export default function RegisterStep({ phone, setStep }: { phone: string; setStep: (s: Step) => void }) {
+export default function ResetPasswordStep({ userMeta, setStep }: { userMeta: any; setStep: (s: Step) => void }) {
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
-        defaultValues: { firstName: "", lastName: "", password: "", confirmPassword: "" },
+        defaultValues: { password: "", confirmPassword: "" },
     });
 
 
-    const onSubmit = () => setStep("assign-player");
+    const onSubmit = () => setStep(userMeta.hasPlayerAssignment ? "assign-player" : "assign-player");
 
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField name="firstName" control={form.control} render={({ field }) => (
-                    <FormItem><FormLabel>نام</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                )} />
-                <FormField name="lastName" control={form.control} render={({ field }) => (
-                    <FormItem><FormLabel>نام خانوادگی</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                )} />
                 <FormField name="password" control={form.control} render={({ field }) => (
-                    <FormItem><FormLabel>رمز عبور</FormLabel><FormControl><Input type="password" {...field} /></FormControl><FormMessage /></FormItem>
+                    <FormItem><FormLabel>رمز جدید</FormLabel><FormControl><Input type="password" {...field} /></FormControl><FormMessage /></FormItem>
                 )} />
                 <FormField name="confirmPassword" control={form.control} render={({ field }) => (
                     <FormItem><FormLabel>تکرار رمز</FormLabel><FormControl><Input type="password" {...field} /></FormControl><FormMessage /></FormItem>
                 )} />
-                <Button className="w-full">ثبت نام</Button>
+                <Button className="w-full">ذخیره</Button>
             </form>
         </Form>
     );
