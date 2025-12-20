@@ -29,7 +29,7 @@ export default function LoginPage() {
 
 
                 {step === "login" && userMeta && (
-                    <LoginStep userMeta={userMeta} setStep={setStep} />
+                    <LoginStep userMeta={userMeta} setStep={setStep} phone={phone} />
                 )}
 
 
