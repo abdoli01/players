@@ -38,7 +38,14 @@ export default function LoginStep({ userMeta, setStep, phone }: LoginStepProps) 
         setError(null);
         setLoading(true);
         try {
-            await authService.login({ username: phone, password: data.password });
+            const response = await authService.login({ username: phone, password: data.password });
+
+            // ذخیره توکن
+            localStorage.setItem('access_token', response.access_token);
+
+            // اگر Redux دارید می‌توانید user info را هم ذخیره کنید
+            // dispatch(setUser(response.user));
+
             setStep(userMeta.hasPlayerAssignment ? "assign-player" : "assign-player");
         } catch (err: any) {
             if (err?.status === 401) setError("شماره همراه یا رمز عبور اشتباه است");
@@ -47,6 +54,7 @@ export default function LoginStep({ userMeta, setStep, phone }: LoginStepProps) 
             setLoading(false);
         }
     };
+
 
     return (
         <Form {...form}>
