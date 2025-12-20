@@ -1,41 +1,45 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-
-export type UserState = {
-    id?: string
-    firstName: string
-    lastName: string
-    phone: string,
-    password: string,
+export interface User {
+    id: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    accountType: string;
+    status: string;
 }
 
+interface UserState {
+    user: User | null;
+    isAuthenticated: boolean;
+    loading: boolean;
+}
 
 const initialState: UserState = {
-    id: 'me',
-    firstName: 'حسین',
-    lastName: 'نجفی',
-    phone: '09123456789',
-    password: '123456',
-}
-
+    user: null,
+    isAuthenticated: false,
+    loading: true, // مهم برای refresh
+};
 
 const userSlice = createSlice({
-    name: 'user',
+    name: "user",
     initialState,
     reducers: {
-        setUser(state, action: PayloadAction<Partial<UserState>>) {
-            return { ...state, ...action.payload }
+        setUser(state, action: PayloadAction<User>) {
+            state.user = action.payload;
+            state.isAuthenticated = true;
+            state.loading = false;
         },
-        updateProfile(state, action: PayloadAction<Partial<UserState>>) {
-            if (action.payload.firstName !== undefined) state.firstName = action.payload.firstName
-            if (action.payload.lastName !== undefined) state.lastName = action.payload.lastName
+        clearUser(state) {
+            state.user = null;
+            state.isAuthenticated = false;
+            state.loading = false;
         },
-        setPhone(state, action: PayloadAction<string>) {
-            state.phone = action.payload
-        }
-    }
-})
+        setLoading(state, action: PayloadAction<boolean>) {
+            state.loading = action.payload;
+        },
+    },
+});
 
-
-export const { setUser, updateProfile, setPhone } = userSlice.actions
-export default userSlice.reducer
+export const { setUser, clearUser, setLoading } = userSlice.actions;
+export default userSlice.reducer;

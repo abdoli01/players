@@ -10,6 +10,9 @@ import { Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from "
 import { Step } from "../types";
 import { smsService } from "@/services/auth";
 import { authService } from "@/services/auth";
+import { useAppDispatch } from "@/store/hooks";
+import { setUser } from "@/store/slices/userSlice";
+
 
 const schema = z
     .object({
@@ -45,6 +48,7 @@ export default function RegisterStep({
     const [loadingSms, setLoadingSms] = useState(false);
     const [smsSent, setSmsSent] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const dispatch = useAppDispatch();
 
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
@@ -60,7 +64,8 @@ export default function RegisterStep({
         setLoadingSms(true);
         setError(null);
         try {
-            await smsService.sendRegister(phone);
+            const res = await smsService.sendRegister(phone);
+            dispatch(setUser(res.user));
             setSmsSent(true);
         } catch (err: any) {
             console.error("خطا در ارسال اس‌ام‌اس:", err);

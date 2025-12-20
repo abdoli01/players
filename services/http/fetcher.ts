@@ -4,9 +4,12 @@ export async function fetcher<T>(
     endpoint: string,
     options?: RequestInit
 ): Promise<T> {
+    const token = localStorage.getItem("access_token"); // اضافه شد
+
     const res = await fetch(`${BASE_URL}${endpoint}`, {
         headers: {
             "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
         credentials: "include",
         ...options,

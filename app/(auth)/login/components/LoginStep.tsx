@@ -9,6 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from "@/components/ui/form";
 import { Step } from "../types";
 import { authService } from "@/services/auth";
+import { useAppDispatch } from "@/store/hooks";
+import { setUser } from "@/store/slices/userSlice";
+
 
 const schema = z.object({
     password: z
@@ -28,6 +31,7 @@ interface LoginStepProps {
 export default function LoginStep({ userMeta, setStep, phone }: LoginStepProps) {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const dispatch = useAppDispatch();
 
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
@@ -45,6 +49,8 @@ export default function LoginStep({ userMeta, setStep, phone }: LoginStepProps) 
 
             // اگر Redux دارید می‌توانید user info را هم ذخیره کنید
             // dispatch(setUser(response.user));
+
+            dispatch(setUser(response.user));
 
             setStep(userMeta.hasPlayerAssignment ? "assign-player" : "assign-player");
         } catch (err: any) {
