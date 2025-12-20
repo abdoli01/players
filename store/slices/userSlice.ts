@@ -1,45 +1,37 @@
+// store/slices/userSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface User {
-    id: string;
-    username: string;
-    firstName: string;
-    lastName: string;
-    accountType: string;
-    status: string;
-}
-
 interface UserState {
-    user: User | null;
-    isAuthenticated: boolean;
-    loading: boolean;
+    user: any | null;
+    loading: boolean;      // برای loader هنگام fetch پروفایل
+    hydrated: boolean;     // مشخص می‌کند اطلاعات کاربر hydrate شده یا نه
 }
 
 const initialState: UserState = {
     user: null,
-    isAuthenticated: false,
-    loading: true, // مهم برای refresh
+    loading: true,
+    hydrated: false,
 };
 
 const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        setUser(state, action: PayloadAction<User>) {
+        startLoading: (state) => {
+            state.loading = true;
+        },
+        setUser: (state, action: PayloadAction<any>) => {
             state.user = action.payload;
-            state.isAuthenticated = true;
             state.loading = false;
+            state.hydrated = true;
         },
-        clearUser(state) {
+        clearUser: (state) => {
             state.user = null;
-            state.isAuthenticated = false;
             state.loading = false;
-        },
-        setLoading(state, action: PayloadAction<boolean>) {
-            state.loading = action.payload;
+            state.hydrated = true;
         },
     },
 });
 
-export const { setUser, clearUser, setLoading } = userSlice.actions;
+export const { setUser, clearUser, startLoading } = userSlice.actions;
 export default userSlice.reducer;
