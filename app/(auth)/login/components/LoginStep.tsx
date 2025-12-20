@@ -71,7 +71,7 @@ export default function LoginStep({ userMeta, setStep, phone }: LoginStepProps) 
                     {loading ? "در حال ورود..." : "ورود"}
                 </Button>
 
-                <Button type="button" variant="link" onClick={() => setStep("verify")} disabled={loading}>
+                <Button type="button" variant="link" onClick={() => setStep("reset-password")} disabled={loading}>
                     رمز عبور خود را فراموش کرده‌ام
                 </Button>
             </form>

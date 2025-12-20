@@ -44,7 +44,7 @@ export default function LoginPage() {
 
 
                 {step === "reset-password" && userMeta && (
-                    <ResetPasswordStep userMeta={userMeta} setStep={setStep} />
+                    <ResetPasswordStep userMeta={userMeta} setStep={setStep} phone={phone} />
                 )}
 
 
