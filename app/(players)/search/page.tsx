@@ -1,5 +1,5 @@
 "use client";
-import { useGetPostsQuery } from "@/services/postsApi";
+import { useGetPostsQuery } from "@/services/api/postsApi";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
 export default function Posts() {
