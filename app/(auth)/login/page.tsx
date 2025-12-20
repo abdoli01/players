@@ -15,8 +15,8 @@ export default function LoginPage() {
     const [step, setStep] = useState<Step>("phone");
     const [phone, setPhone] = useState("");
     const [userMeta, setUserMeta] = useState<{
-        exists: boolean;
-        hasPlayerAssignment: boolean;
+        exists?: boolean;
+        hasPlayerAssignment?: boolean;
     } | null>(null);
 
 
