@@ -55,7 +55,7 @@ export default function PhoneStep({
             if (res.exists) {
                 setStep("login");
             } else {
-                setStep("verify");
+                setStep("register");
             }
         } catch (error: any) {
             form.setError("phone", {
