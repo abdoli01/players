@@ -23,7 +23,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 interface LoginStepProps {
-    userMeta: { phone: string; hasPlayerAssignment?: boolean };
+    userMeta: { phone?: string; hasPlayerAssignment?: boolean };
     setStep: (s: Step) => void;
     phone: string;
 }
@@ -42,7 +42,7 @@ export default function LoginStep({ userMeta, setStep, phone }: LoginStepProps) 
         setError(null);
         setLoading(true);
         try {
-            const response = await authService.login({ username: phone, password: data.password });
+            const response : any = await authService.login({ username: phone, password: data.password });
 
             // ذخیره توکن
             localStorage.setItem('access_token', response.access_token);
