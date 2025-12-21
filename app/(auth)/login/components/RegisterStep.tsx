@@ -1,19 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+    Form,
+    FormField,
+    FormItem,
+    FormControl,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 import { Step } from "../types";
-import { smsService } from "@/services/auth";
-import { authService } from "@/services/auth";
+import { smsService, authService } from "@/services/auth";
 import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
-import { toast } from 'react-toastify';
-
+import { toast } from "react-toastify";
 
 const schema = z
     .object({
@@ -32,7 +37,7 @@ const schema = z
         confirmPassword: z.string(),
         code: z.string().min(4, "کد اس‌ام‌اس باید حداقل ۴ رقم باشد"),
     })
-    .refine(d => d.password === d.confirmPassword, {
+    .refine((d) => d.password === d.confirmPassword, {
         path: ["confirmPassword"],
         message: "عدم تطابق رمز عبور",
     });
@@ -49,26 +54,48 @@ export default function RegisterStep({
     const [loadingSms, setLoadingSms] = useState(false);
     const [smsSent, setSmsSent] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [timer, setTimer] = useState(60); // تایمر بر حسب ثانیه
+    const intervalRef = useRef<number | null>(null);
+
     const dispatch = useAppDispatch();
 
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
-        defaultValues: { firstName: "", lastName: "", password: "", confirmPassword: "", code: "" },
+        defaultValues: {
+            firstName: "",
+            lastName: "",
+            password: "",
+            confirmPassword: "",
+            code: "",
+        },
     });
 
-    // ارسال خودکار اس‌ام‌اس وقتی صفحه باز میشه
-    useEffect(() => {
-        sendSms();
-    }, []);
+    // تابع شروع تایمر
+    const startTimer = () => {
+        setTimer(60); // ریست تایمر
+        if (intervalRef.current) window.clearInterval(intervalRef.current); // interval قبلی پاک شود
 
+        intervalRef.current = window.setInterval(() => {
+            setTimer((prev) => {
+                if (prev <= 1) {
+                    if (intervalRef.current) window.clearInterval(intervalRef.current);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+    };
+
+    // ارسال اس‌ام‌اس
     const sendSms = async () => {
         setLoadingSms(true);
         setError(null);
         try {
-            const res:any = await smsService.sendRegister(phone);
+            const res: any = await smsService.sendRegister(phone);
             dispatch(setUser(res.user));
             setSmsSent(true);
             toast.success("اس‌ام‌اس با موفقیت ارسال شد!");
+            startTimer(); // شروع تایمر بعد از ارسال موفق
         } catch (err: any) {
             console.error("خطا در ارسال اس‌ام‌اس:", err);
             setError("ارسال اس‌ام‌اس موفق نبود. دوباره تلاش کنید.");
@@ -79,6 +106,21 @@ export default function RegisterStep({
         }
     };
 
+    // ارسال خودکار اس‌ام‌اس هنگام mount
+    useEffect(() => {
+        sendSms();
+        return () => {
+            if (intervalRef.current) window.clearInterval(intervalRef.current);
+        };
+    }, []);
+
+    const formatTime = (seconds: number) => {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return `${m}:${s.toString().padStart(2, "0")}`;
+    };
+
+    // ثبت نام
     const onSubmit = async (data: FormValues) => {
         setError(null);
         try {
@@ -98,7 +140,7 @@ export default function RegisterStep({
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                {/*{error && <p className="text-red-600">{error}</p>}*/}
+                {error && <p className="text-red-600">{error}</p>}
 
                 <FormField
                     name="firstName"
@@ -170,13 +212,25 @@ export default function RegisterStep({
                     )}
                 />
 
-                <Button type="button" onClick={sendSms} disabled={loadingSms} className="w-full">
-                    {loadingSms ? "در حال ارسال..." : "ارسال دوباره اس‌ام‌اس"}
-                </Button>
-
                 <Button type="submit" className="w-full">
                     ثبت نام
                 </Button>
+
+                {/* تایمر یا دکمه ارسال دوباره */}
+                <div className="mt-2">
+                    {timer > 0 ? (
+                        <p className="text-gray-500">ارسال دوبارهٔ کد تأیید تا {formatTime(timer)}</p>
+                    ) : (
+                        <button
+                            type="button"
+                            onClick={sendSms}
+                            className="text-blue-600 underline"
+                            disabled={loadingSms}
+                        >
+                            ارسال دوباره کد با پیامک
+                        </button>
+                    )}
+                </div>
             </form>
         </Form>
     );
