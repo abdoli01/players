@@ -17,15 +17,28 @@ export default function AuthInitializer() {
             return;
         }
 
+        let cancelled = false; // ✅ اضافه شد
+
         profileService
             .getProfile()
             .then((user) => {
+                if (cancelled) return; // ✅ جلوگیری از race
                 dispatch(setUser(user));
             })
-            .catch(() => {
-                localStorage.removeItem("access_token");
-                dispatch(clearUser());
+            .catch((err: any) => {
+                if (cancelled) return; // ✅
+
+                // ✅ فقط خطای auth باعث logout شود
+                if (err?.status === 401 || err?.status === 403) {
+                    localStorage.removeItem("access_token");
+                    dispatch(clearUser());
+                }
+                // ❌ بقیه خطاها ignore می‌شوند
             });
+
+        return () => {
+            cancelled = true; // ✅ cleanup
+        };
     }, [dispatch]);
 
     return null;
