@@ -1,3 +1,15 @@
+import React from 'react';
+
+const Page = () => {
+    return (
+        <div>
+            profilee
+        </div>
+    );
+};
+
+export default Page;
+
 // 'use client';
 // import React, { useState } from 'react'
 // import { useAppDispatch, useAppSelector } from '@/store/hooks'
