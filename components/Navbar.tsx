@@ -17,10 +17,10 @@ export default function Navbar({children}: { children: ReactNode }) {
 
     const isActive = (url: string) => pathname.startsWith(url);
 
-    const { user, isAuthenticated, loading } = useAppSelector(
+    const { user } = useAppSelector(
         (state) => state.user
     );
-    console.log('3333',user, isAuthenticated, loading)
+    console.log('3333',user)
 
     return (
         <div className="w-full py-2 md:flex items-end justify-between text-white border-b-2 border-[#2c2c2c]">
