@@ -64,7 +64,7 @@ export default function RegisterStep({
         setLoadingSms(true);
         setError(null);
         try {
-            const res = await smsService.sendRegister(phone);
+            const res:any = await smsService.sendRegister(phone);
             dispatch(setUser(res.user));
             setSmsSent(true);
         } catch (err: any) {

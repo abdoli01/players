@@ -65,6 +65,8 @@ export default function PhoneStep({
     };
 
     return (
+    <>
+        <div className="text-xl mb-3">خوش آمدید!</div>
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField
@@ -90,5 +92,6 @@ export default function PhoneStep({
                 </Button>
             </form>
         </Form>
+    </>
     );
 }
