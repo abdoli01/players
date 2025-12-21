@@ -2,10 +2,10 @@
 "use client";
 
 import { useEffect } from "react";
-import { useAppDispatch } from "./hooks";
-import { setUser, clearUser, startLoading } from "./slices/userSlice";
-import { profileService } from "@/services/auth";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "./hooks";
+import { setUser, clearUser } from "./slices/userSlice";
+import { profileService } from "@/services/auth";
 
 export default function AuthInitializer() {
     const dispatch = useAppDispatch();
@@ -16,24 +16,19 @@ export default function AuthInitializer() {
 
         if (!token) {
             dispatch(clearUser());
-            router.push("/login");
+            router.replace("/login"); // ✅ مهم
             return;
         }
-
-        dispatch(startLoading());
 
         profileService
             .getProfile()
             .then((user) => {
                 dispatch(setUser(user));
             })
-            .catch((err: any) => {
-                // فقط در صورت خطای 401 یا 404 پاک شود
-                if (err?.status === 401 || err?.status === 404) {
-                    localStorage.removeItem("access_token");
-                    dispatch(clearUser());
-                    router.push("/login");
-                }
+            .catch(() => {
+                localStorage.removeItem("access_token");
+                dispatch(clearUser());
+                router.replace("/login");
             });
     }, [dispatch, router]);
 

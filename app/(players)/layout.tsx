@@ -2,6 +2,7 @@ import React from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import Navbar from "@/components/Navbar";
+import AuthGate from "@/components/AuthGate";
 
 export default function PlayersLayout({
     children,
@@ -9,21 +10,23 @@ export default function PlayersLayout({
     children: React.ReactNode;
 }) {
     return (
-        <SidebarProvider
-            style={
-                {
-                    "--sidebar-width": "75px",
-                } as React.CSSProperties
-            }
-        >
-            <AppSidebar />
-            <main className={'px-4 w-full'}>
-                <Navbar>
-                    <SidebarTrigger />
-                </Navbar>
-                {children}
-            </main>
-        </SidebarProvider>
+        <AuthGate>
+            <SidebarProvider
+                style={
+                    {
+                        "--sidebar-width": "75px",
+                    } as React.CSSProperties
+                }
+            >
+                <AppSidebar />
+                <main className={'px-4 w-full'}>
+                    <Navbar>
+                        <SidebarTrigger />
+                    </Navbar>
+                    {children}
+                </main>
+            </SidebarProvider>
+        </AuthGate>
     );
 }
 

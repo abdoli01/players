@@ -3,35 +3,28 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
     user: any | null;
-    loading: boolean;      // برای loader هنگام fetch پروفایل
-    hydrated: boolean;     // مشخص می‌کند اطلاعات کاربر hydrate شده یا نه
+    hydrated: boolean; // ✅ فقط همین مهمه
 }
 
 const initialState: UserState = {
     user: null,
-    loading: true,
-    hydrated: false,
+    hydrated: false, // ⬅️ اول false
 };
 
 const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        startLoading: (state) => {
-            state.loading = true;
-        },
         setUser: (state, action: PayloadAction<any>) => {
             state.user = action.payload;
-            state.loading = false;
-            state.hydrated = true;
+            state.hydrated = true; // ✅ auth check done
         },
         clearUser: (state) => {
             state.user = null;
-            state.loading = false;
-            state.hydrated = true;
+            state.hydrated = true; // ✅ حتی وقتی لاگین نیست
         },
     },
 });
 
-export const { setUser, clearUser, startLoading } = userSlice.actions;
+export const { setUser, clearUser } = userSlice.actions;
 export default userSlice.reducer;
