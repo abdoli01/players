@@ -88,7 +88,8 @@ export default function ResetPasswordStep({ userMeta, setStep, phone }: { userMe
                 code: data.code,
                 newPassword: data.newPassword,
             });
-            setStep(userMeta.hasPlayerAssignment ? "assign-player" : "assign-player");
+            // setStep(userMeta.hasPlayerAssignment ? "assign-player" : "assign-player");
+            setStep(userMeta.hasPlayerAssignment ? "login" : "login");
         } catch (err: any) {
             if (err?.status === 400) setError("کد اشتباه است یا منقضی شده");
             else if (err?.status === 404) setError("کاربری با این شماره یافت نشد");
