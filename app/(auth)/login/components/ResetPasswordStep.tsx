@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -8,8 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from "@/components/ui/form";
 import { Step } from "../types";
-import { smsService } from "@/services/auth";
-import { passwordService } from "@/services/auth";
+import { smsService, passwordService } from "@/services/auth";
 
 const schema = z.object({
     code: z.string().min(4, "کد اس‌ام‌اس را وارد کنید"),
@@ -21,31 +20,43 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export default function ResetPasswordStep({userMeta, setStep, phone}: {
-    userMeta: any;
-    setStep: (s: Step) => void;
-    phone: string;
-}) {
+export default function ResetPasswordStep({ userMeta, setStep, phone }: { userMeta: any; setStep: (s: Step) => void; phone: string; }) {
     const [loadingSms, setLoadingSms] = useState(false);
     const [loadingSubmit, setLoadingSubmit] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [smsSent, setSmsSent] = useState(false);
+    const [timer, setTimer] = useState(60);
+    const intervalRef = useRef<number | null>(null);
 
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
         defaultValues: { code: "", newPassword: "" },
     });
 
-    useEffect(() => {
-        sendSms();
-    }, []);
+    // شروع تایمر
+    const startTimer = () => {
+        setTimer(60);
+        if (intervalRef.current) window.clearInterval(intervalRef.current);
 
+        intervalRef.current = window.setInterval(() => {
+            setTimer(prev => {
+                if (prev <= 1) {
+                    if (intervalRef.current) window.clearInterval(intervalRef.current);
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+    };
+
+    // ارسال اس‌ام‌اس
     const sendSms = async () => {
         setLoadingSms(true);
         setError(null);
         try {
             await smsService.sendReset(phone);
             setSmsSent(true);
+            startTimer();
         } catch (err: any) {
             console.error(err);
             setError("ارسال اس‌ام‌اس موفق نبود. دوباره تلاش کنید.");
@@ -53,6 +64,19 @@ export default function ResetPasswordStep({userMeta, setStep, phone}: {
         } finally {
             setLoadingSms(false);
         }
+    };
+
+    useEffect(() => {
+        sendSms(); // ارسال خودکار هنگام mount
+        return () => {
+            if (intervalRef.current) window.clearInterval(intervalRef.current);
+        };
+    }, []);
+
+    const formatTime = (seconds: number) => {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return `${m}:${s.toString().padStart(2, "0")}`;
     };
 
     const onSubmit = async (data: FormValues) => {
@@ -84,7 +108,7 @@ export default function ResetPasswordStep({userMeta, setStep, phone}: {
                     control={form.control}
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>کد اس‌ام‌اس</FormLabel>
+                            <FormLabel>کد پیامک</FormLabel>
                             <FormControl>
                                 <Input {...field} disabled={loadingSubmit} />
                             </FormControl>
@@ -107,14 +131,24 @@ export default function ResetPasswordStep({userMeta, setStep, phone}: {
                     )}
                 />
 
-                {/* ردیف دکمه‌ها */}
-                <div className="flex gap-2">
-                    <Button type="button" onClick={sendSms} disabled={loadingSms || loadingSubmit} className="flex-1">
-                        {loadingSms ? "در حال ارسال اس‌ام‌اس..." : smsSent ? "ارسال دوباره اس‌ام‌اس" : "ارسال اس‌ام‌اس"}
-                    </Button>
-                    <Button type="submit" className="flex-1" disabled={loadingSubmit}>
-                        {loadingSubmit ? "در حال ذخیره..." : "ذخیره"}
-                    </Button>
+                <Button type="submit" className="w-full" disabled={loadingSubmit}>
+                    {loadingSubmit ? "در حال ذخیره..." : "ذخیره"}
+                </Button>
+
+                {/* نمایش تایمر یا دکمه ارسال دوباره */}
+                <div className="mt-2 text-center">
+                    {timer > 0 ? (
+                        <p className="text-gray-500">ارسال دوبارهٔ کد تأیید تا {formatTime(timer)}</p>
+                    ) : (
+                        <button
+                            type="button"
+                            onClick={sendSms}
+                            className="text-blue-600 underline"
+                            disabled={loadingSms}
+                        >
+                            ارسال دوباره کد با پیامک
+                        </button>
+                    )}
                 </div>
             </form>
         </Form>
