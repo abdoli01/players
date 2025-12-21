@@ -32,7 +32,7 @@ export default async  function RootLayout({
       >
       <NextIntlClientProvider locale={locale} messages={messages}>
       <ReduxProvider>
-          <ToastContainer position="top-right" rtl={locale === 'fa'} />
+          <ToastContainer position="top-right" autoClose={5000} pauseOnHover  hideProgressBar={false} rtl={locale === 'fa'} />
           <ThemeProvider
               attribute="class"
               defaultTheme="dark"

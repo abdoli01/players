@@ -12,6 +12,7 @@ import { smsService } from "@/services/auth";
 import { authService } from "@/services/auth";
 import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
+import { toast } from 'react-toastify';
 
 
 const schema = z
@@ -67,10 +68,12 @@ export default function RegisterStep({
             const res:any = await smsService.sendRegister(phone);
             dispatch(setUser(res.user));
             setSmsSent(true);
+            toast.success("اس‌ام‌اس با موفقیت ارسال شد!");
         } catch (err: any) {
             console.error("خطا در ارسال اس‌ام‌اس:", err);
             setError("ارسال اس‌ام‌اس موفق نبود. دوباره تلاش کنید.");
             setSmsSent(false);
+            toast.error("ارسال اس‌ام‌اس موفق نبود!");
         } finally {
             setLoadingSms(false);
         }
@@ -95,7 +98,7 @@ export default function RegisterStep({
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                {error && <p className="text-red-600">{error}</p>}
+                {/*{error && <p className="text-red-600">{error}</p>}*/}
 
                 <FormField
                     name="firstName"
