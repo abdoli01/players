@@ -1,9 +1,11 @@
 import React from "react";
+import GuestGate from "@/components/GuestGate";
+
 
 export default function AuthLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    return <>{children}</>;
+    return <GuestGate>{children}</GuestGate>;
 }
