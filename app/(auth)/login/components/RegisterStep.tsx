@@ -206,7 +206,7 @@ export default function RegisterStep({
                     control={form.control}
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>کد اس‌ام‌اس</FormLabel>
+                            <FormLabel>کد پیامک</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
