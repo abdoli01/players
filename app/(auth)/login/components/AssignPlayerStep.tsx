@@ -23,7 +23,9 @@ export default function AssignPlayerStep() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(() => router.push("/"))} className="space-y-4">
+            <form onSubmit={form.handleSubmit(() => {
+                sessionStorage.removeItem("auth_wizard_state"),router.push("/")
+            })} className="space-y-4">
                 <FormField name="player" control={form.control} render={({ field }) => (
                     <FormItem>
                         <FormLabel>نقش بازیکن</FormLabel>
