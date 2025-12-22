@@ -47,9 +47,11 @@ type FormValues = z.infer<typeof schema>;
 export default function RegisterStep({
                                          phone,
                                          setStep,
+                                         onEditPhone
                                      }: {
     phone: string;
     setStep: (s: Step) => void;
+    onEditPhone: () => void;
 }) {
     const [loadingSms, setLoadingSms] = useState(false);
     const [smsSent, setSmsSent] = useState(false);
@@ -138,7 +140,8 @@ export default function RegisterStep({
     };
 
     return (
-        <Form {...form}>
+        <>
+            <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 {error && <p className="text-red-600">{error}</p>}
 
@@ -215,7 +218,12 @@ export default function RegisterStep({
                 <Button type="submit" className="w-full">
                     ثبت نام
                 </Button>
+                <div className="mt-2">کد پیامک را به شماره <span className="font-bold"> {phone} </span> فرستادیم.</div>
+                <div className="mt-2">شماره موبایل اشتباه است؟ <span className="font-bold text-app-orange cursor-pointer" onClick={() => {
+                    form.reset();
+                    onEditPhone();
 
+                }}> ویرایش </span></div>
                 {/* تایمر یا دکمه ارسال دوباره */}
                 <div className="mt-2">
                     {timer > 0 ? (
@@ -224,7 +232,7 @@ export default function RegisterStep({
                         <button
                             type="button"
                             onClick={sendSms}
-                            className="text-blue-600 underline"
+                            className="text-app-orange cursor-pointer"
                             disabled={loadingSms}
                         >
                             ارسال دوباره کد با پیامک
@@ -233,5 +241,6 @@ export default function RegisterStep({
                 </div>
             </form>
         </Form>
+        </>
     );
 }
