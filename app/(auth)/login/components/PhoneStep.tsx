@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -47,17 +46,16 @@ export default function PhoneStep({
     });
 
     // 🔹 Sync مقدار wizard state با input
-    useEffect(() => {
-        form.reset({ phone });
-    }, [phone, form]);
 
-    const onSubmit = async ({ phone }: FormValues) => {
+
+
+    const onSubmit = async (data: FormValues) => {
         try {
             // بررسی اینکه شماره موبایل ثبت شده یا نه
-            const res = await authService.checkUsername({ username: phone });
+            const res = await authService.checkUsername({ username: data.phone });
 
             // بروزرسانی wizard state
-            setPhone(phone);
+            setPhone(data.phone);
             setUserMeta(res);
 
             // تصمیم جریان
@@ -89,6 +87,7 @@ export default function PhoneStep({
                                         {...field}
                                         className="text-center"
                                         placeholder="09123456789"
+                                        autoFocus
                                     />
                                 </FormControl>
                                 <FormMessage />
