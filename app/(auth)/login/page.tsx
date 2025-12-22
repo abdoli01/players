@@ -67,8 +67,8 @@ export default function LoginPage() {
         sessionStorage.setItem(AUTH_WIZARD_KEY, JSON.stringify(state));
     }, [step, phone, userMeta, hydrated]);
 
-    const handleEditPhone = () => {
-        setPhone("");
+    const handleEdit = () => {
+        // setPhone("");
         setUserMeta(null);
         setStep("phone");
     };
@@ -88,6 +88,7 @@ export default function LoginPage() {
 
                 {step === "phone" && (
                     <PhoneStep
+                        phone={phone}
                         setPhone={setPhone}
                         setUserMeta={setUserMeta}
                         setStep={setStep}
@@ -113,7 +114,7 @@ export default function LoginPage() {
                     <RegisterStep
                         phone={phone}
                         setStep={setStep}
-                        onEditPhone={handleEditPhone}
+                        handleEdit={handleEdit}
                     />
                 )}
 

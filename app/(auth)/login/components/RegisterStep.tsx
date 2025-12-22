@@ -47,11 +47,11 @@ type FormValues = z.infer<typeof schema>;
 export default function RegisterStep({
                                          phone,
                                          setStep,
-                                         onEditPhone
+                                         handleEdit
                                      }: {
     phone: string;
     setStep: (s: Step) => void;
-    onEditPhone: () => void;
+    handleEdit: () => void;
 }) {
     const [loadingSms, setLoadingSms] = useState(false);
     const [smsSent, setSmsSent] = useState(false);
@@ -221,7 +221,7 @@ export default function RegisterStep({
                 <div className="mt-2">کد پیامک را به شماره <span className="font-bold"> {phone} </span> فرستادیم.</div>
                 <div className="mt-2">شماره موبایل اشتباه است؟ <span className="font-bold text-app-orange cursor-pointer" onClick={() => {
                     form.reset();
-                    onEditPhone();
+                    handleEdit();
 
                 }}> ویرایش </span></div>
                 {/* تایمر یا دکمه ارسال دوباره */}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -27,27 +28,35 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 interface Props {
+    phone: string; // مقدار شماره موبایل از wizard
     setPhone: (phone: string) => void;
-    setUserMeta: (meta: { exists: boolean }) => void;
+    setUserMeta: (meta: { exists: boolean; hasPlayerAssignment?: boolean }) => void;
     setStep: (step: Step) => void;
 }
 
 export default function PhoneStep({
+                                      phone,
                                       setPhone,
                                       setUserMeta,
                                       setStep,
                                   }: Props) {
+    // 🟢 react-hook-form
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
-        defaultValues: { phone: "" },
+        defaultValues: { phone },
     });
+
+    // 🔹 Sync مقدار wizard state با input
+    useEffect(() => {
+        form.reset({ phone });
+    }, [phone, form]);
 
     const onSubmit = async ({ phone }: FormValues) => {
         try {
-            const res = await authService.checkUsername({
-                username: phone,
-            });
+            // بررسی اینکه شماره موبایل ثبت شده یا نه
+            const res = await authService.checkUsername({ username: phone });
 
+            // بروزرسانی wizard state
             setPhone(phone);
             setUserMeta(res);
 
@@ -65,33 +74,33 @@ export default function PhoneStep({
     };
 
     return (
-    <>
-        <div className="text-xl mb-3">خوش آمدید!</div>
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                    name="phone"
-                    control={form.control}
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>شماره موبایل</FormLabel>
-                            <FormControl>
-                                <Input
-                                    {...field}
-                                    className="text-center"
-                                    placeholder="09123456789"
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+        <>
+            <div className="text-xl mb-3">خوش آمدید!</div>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <FormField
+                        name="phone"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>شماره موبایل</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        className="text-center"
+                                        placeholder="09123456789"
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
 
-                <Button className="w-full" type="submit">
-                    ادامه
-                </Button>
-            </form>
-        </Form>
-    </>
+                    <Button className="w-full" type="submit">
+                        ادامه
+                    </Button>
+                </form>
+            </Form>
+        </>
     );
 }
