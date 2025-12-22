@@ -19,6 +19,7 @@ import { smsService, authService } from "@/services/auth";
 import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
 import { toast } from "react-toastify";
+import { Eye, EyeOff } from "lucide-react";
 
 const schema = z
     .object({
@@ -56,7 +57,7 @@ export default function RegisterStep({
     const [loadingSms, setLoadingSms] = useState(false);
     const [smsSent, setSmsSent] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [timer, setTimer] = useState(60); // تایمر بر حسب ثانیه
+    const [timer, setTimer] = useState(60);
     const intervalRef = useRef<number | null>(null);
 
     const dispatch = useAppDispatch();
@@ -72,10 +73,13 @@ export default function RegisterStep({
         },
     });
 
-    // تابع شروع تایمر
+    // State برای کنترل نمایش رمز
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
+
     const startTimer = () => {
-        setTimer(60); // ریست تایمر
-        if (intervalRef.current) window.clearInterval(intervalRef.current); // interval قبلی پاک شود
+        setTimer(60);
+        if (intervalRef.current) window.clearInterval(intervalRef.current);
 
         intervalRef.current = window.setInterval(() => {
             setTimer((prev) => {
@@ -88,7 +92,6 @@ export default function RegisterStep({
         }, 1000);
     };
 
-    // ارسال اس‌ام‌اس
     const sendSms = async () => {
         setLoadingSms(true);
         setError(null);
@@ -97,7 +100,7 @@ export default function RegisterStep({
             dispatch(setUser(res.user));
             setSmsSent(true);
             toast.success("اس‌ام‌اس با موفقیت ارسال شد!");
-            startTimer(); // شروع تایمر بعد از ارسال موفق
+            startTimer();
         } catch (err: any) {
             console.error("خطا در ارسال اس‌ام‌اس:", err);
             setError("ارسال اس‌ام‌اس موفق نبود. دوباره تلاش کنید.");
@@ -108,7 +111,6 @@ export default function RegisterStep({
         }
     };
 
-    // ارسال خودکار اس‌ام‌اس هنگام mount
     useEffect(() => {
         sendSms();
         return () => {
@@ -122,7 +124,6 @@ export default function RegisterStep({
         return `${m}:${s.toString().padStart(2, "0")}`;
     };
 
-    // ثبت نام
     const onSubmit = async (data: FormValues) => {
         setError(null);
         try {
@@ -140,8 +141,7 @@ export default function RegisterStep({
     };
 
     return (
-        <>
-            <Form {...form}>
+        <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 {error && <p className="text-red-600">{error}</p>}
 
@@ -180,7 +180,20 @@ export default function RegisterStep({
                         <FormItem>
                             <FormLabel>رمز عبور</FormLabel>
                             <FormControl>
-                                <Input type="password" {...field} />
+                                <div className="relative">
+                                    <Input
+                                        {...field}
+                                        type={showPassword ? "text" : "password"}
+                                        className="pr-10"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword((prev) => !prev)}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
+                                    >
+                                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </button>
+                                </div>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -194,7 +207,20 @@ export default function RegisterStep({
                         <FormItem>
                             <FormLabel>تکرار رمز</FormLabel>
                             <FormControl>
-                                <Input type="password" {...field} />
+                                <div className="relative">
+                                    <Input
+                                        {...field}
+                                        type={showConfirm ? "text" : "password"}
+                                        className="pr-10"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowConfirm((prev) => !prev)}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
+                                    >
+                                        {showConfirm ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </button>
+                                </div>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -218,16 +244,29 @@ export default function RegisterStep({
                 <Button type="submit" className="w-full">
                     ثبت نام
                 </Button>
-                <div className="mt-2">کد پیامک را به شماره <span className="font-bold"> {phone} </span> فرستادیم.</div>
-                <div className="mt-2">شماره موبایل اشتباه است؟ <span className="font-bold text-app-orange cursor-pointer" onClick={() => {
-                    form.reset();
-                    handleEdit();
 
-                }}> ویرایش </span></div>
-                {/* تایمر یا دکمه ارسال دوباره */}
+                <div className="mt-2">
+                    کد پیامک را به شماره <span className="font-bold"> {phone} </span> فرستادیم.
+                </div>
+
+                <div className="mt-2">
+                    شماره موبایل اشتباه است؟{" "}
+                    <span
+                        className="font-bold text-app-orange cursor-pointer"
+                        onClick={() => {
+                            form.reset();
+                            handleEdit();
+                        }}
+                    >
+                        ویرایش
+                    </span>
+                </div>
+
                 <div className="mt-2">
                     {timer > 0 ? (
-                        <p className="text-gray-500">ارسال دوبارهٔ کد تأیید تا {formatTime(timer)}</p>
+                        <p className="text-gray-500">
+                            ارسال دوبارهٔ کد تأیید تا {formatTime(timer)}
+                        </p>
                     ) : (
                         <button
                             type="button"
@@ -241,6 +280,5 @@ export default function RegisterStep({
                 </div>
             </form>
         </Form>
-        </>
     );
 }
