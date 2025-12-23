@@ -6,18 +6,28 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+    Form,
+    FormField,
+    FormItem,
+    FormControl,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 import { Step } from "../types";
 import { authService } from "@/services/auth";
 import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
-
+import { ArrowRight } from "lucide-react";
 
 const schema = z.object({
     password: z
         .string()
         .min(8, "رمز عبور باید حداقل ۸ کاراکتر باشد")
-        .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, "رمز عبور باید شامل حداقل یک حرف و یک عدد باشد"),
+        .regex(
+            /^(?=.*[A-Za-z])(?=.*\d).+$/,
+            "رمز عبور باید شامل حداقل یک حرف و یک عدد باشد"
+        ),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -28,7 +38,11 @@ interface LoginStepProps {
     phone: string;
 }
 
-export default function LoginStep({ userMeta, setStep, phone }: LoginStepProps) {
+export default function LoginStep({
+                                      userMeta,
+                                      setStep,
+                                      phone,
+                                  }: LoginStepProps) {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const dispatch = useAppDispatch();
@@ -42,29 +56,38 @@ export default function LoginStep({ userMeta, setStep, phone }: LoginStepProps) 
         setError(null);
         setLoading(true);
         try {
-            const response : any = await authService.login({ username: phone, password: data.password });
+            const response: any = await authService.login({
+                username: phone,
+                password: data.password,
+            });
 
-            // ذخیره توکن
-            localStorage.setItem('access_token', response.access_token);
-
-            // اگر Redux دارید می‌توانید user info را هم ذخیره کنید
-            // dispatch(setUser(response.user));
-
+            localStorage.setItem("access_token", response.access_token);
             dispatch(setUser(response.user));
 
-            setStep(userMeta.hasPlayerAssignment ? "assign-player" : "assign-player");
+            setStep(
+                userMeta.hasPlayerAssignment ? "assign-player" : "assign-player"
+            );
         } catch (err: any) {
-            if (err?.status === 401) setError("شماره همراه یا رمز عبور اشتباه است");
+            if (err?.status === 401)
+                setError("شماره همراه یا رمز عبور اشتباه است");
             else setError("خطای ناشناخته رخ داد");
         } finally {
             setLoading(false);
         }
     };
 
-
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+
+                {/* 🔙 دکمه برگشت */}
+                <div
+                    className="flex items-center gap-2 cursor-pointer"
+                    onClick={() => setStep("phone")}
+                >
+                    <ArrowRight size={20} />
+                </div>
+
                 {error && <p className="text-red-600">{error}</p>}
 
                 <FormField
@@ -74,7 +97,11 @@ export default function LoginStep({ userMeta, setStep, phone }: LoginStepProps) 
                         <FormItem>
                             <FormLabel>رمز عبور</FormLabel>
                             <FormControl>
-                                <Input type="password" {...field} disabled={loading} />
+                                <Input
+                                    type="password"
+                                    {...field}
+                                    disabled={loading}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -85,7 +112,12 @@ export default function LoginStep({ userMeta, setStep, phone }: LoginStepProps) 
                     {loading ? "در حال ورود..." : "ورود"}
                 </Button>
 
-                <Button type="button" variant="link" onClick={() => setStep("reset-password")} disabled={loading}>
+                <Button
+                    type="button"
+                    variant="link"
+                    onClick={() => setStep("reset-password")}
+                    disabled={loading}
+                >
                     رمز عبور خود را فراموش کرده‌ام
                 </Button>
             </form>
