@@ -48,11 +48,9 @@ type FormValues = z.infer<typeof schema>;
 export default function RegisterStep({
                                          phone,
                                          setStep,
-                                         handleEdit
                                      }: {
     phone: string;
     setStep: (s: Step) => void;
-    handleEdit: () => void;
 }) {
     const [loadingSms, setLoadingSms] = useState(false);
     const [smsSent, setSmsSent] = useState(false);
@@ -255,7 +253,7 @@ export default function RegisterStep({
                         className="font-bold text-app-orange cursor-pointer"
                         onClick={() => {
                             form.reset();
-                            handleEdit();
+                            setStep('phone');
                         }}
                     >
                         ویرایش

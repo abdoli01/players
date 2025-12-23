@@ -67,11 +67,11 @@ export default function LoginPage() {
         sessionStorage.setItem(AUTH_WIZARD_KEY, JSON.stringify(state));
     }, [step, phone, userMeta, hydrated]);
 
-    const handleEdit = () => {
-        // setPhone("");
-        setUserMeta(null);
-        setStep("phone");
-    };
+    // const handleEdit = () => {
+    //     // setPhone("");
+    //     setUserMeta(null);
+    //     setStep("phone");
+    // };
 
     // ======================================
     // 3️⃣ Prevent UI flicker before restore
@@ -114,7 +114,6 @@ export default function LoginPage() {
                     <RegisterStep
                         phone={phone}
                         setStep={setStep}
-                        handleEdit={handleEdit}
                     />
                 )}
 
