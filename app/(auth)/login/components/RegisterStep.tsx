@@ -17,7 +17,6 @@ import {
 import { Step } from "../types";
 import { smsService, authService } from "@/services/auth";
 import { useAppDispatch } from "@/store/hooks";
-import { setUser } from "@/store/slices/userSlice";
 import { toast } from "react-toastify";
 import { Eye, EyeOff } from "lucide-react";
 import { useLocale } from 'next-intl';
@@ -104,14 +103,13 @@ export default function RegisterStep({
         setLoadingSms(true);
         try {
             const res: any = await smsService.sendRegister(phone);
-            dispatch(setUser(res.user));
             setSmsSent(true);
-            toast.success("اس‌ام‌اس با موفقیت ارسال شد!");
+            toast.success(res.message);
             startTimer();
         } catch (err: any) {
             console.error("خطا در ارسال اس‌ام‌اس:", err);
             setSmsSent(false);
-            toast.error("ارسال اس‌ام‌اس موفق نبود!");
+            toast.error(err.message);
         } finally {
             setLoadingSms(false);
         }
@@ -134,12 +132,16 @@ export default function RegisterStep({
 
     const onSubmit = async (data: FormValues) => {
         try {
-            await authService.register({ ...data, username: phone });
+            const res: any = await authService.register({ ...data, username: phone });
+            if (res?.id) toast.success('ثبت نام با موفقیت انجام شد');
             setStep("assign-player");
         } catch (err: any) {
             if (err?.status === 400) {
+                toast.error("رمز عبور و کد پیامک نامعتبر است");
             } else if (err?.status === 409) {
+                toast.error("این شماره قبلاً ثبت شده است");
             } else {
+                toast.error("خطای ناشناخته رخ داد");
             }
         }
     };
