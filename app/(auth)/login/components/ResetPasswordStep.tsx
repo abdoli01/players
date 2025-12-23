@@ -19,6 +19,8 @@ import {
 import { Step } from "../types";
 import { smsService, passwordService } from "@/services/auth";
 import { Eye, EyeOff } from "lucide-react";
+import { useLocale } from 'next-intl';
+
 
 const schema = z.object({
     code: z.string().min(4, "کد اس‌ام‌اس را وارد کنید"),
@@ -44,6 +46,9 @@ export default function ResetPasswordStep({
     const [error, setError] = useState<string | null>(null);
     const [timer, setTimer] = useState(60);
     const [showPassword, setShowPassword] = useState(false);
+
+    const locale = useLocale(); // 'fa' | 'en'
+
 
     const intervalRef = useRef<number | null>(null);
 
@@ -146,12 +151,12 @@ export default function ResetPasswordStep({
                                         {...field}
                                         type={showPassword ? "text" : "password"}
                                         disabled={loadingSubmit}
-                                        className="pl-10"
+                                        className={locale === 'fa' ? 'pl-10' : 'pr-10'}
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword((p) => !p)}
-                                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
+                                        className={`absolute top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer ${locale === 'fa' ? 'left-2' : 'right-2'}`}
                                         tabIndex={-1}
                                     >
                                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
