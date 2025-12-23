@@ -110,7 +110,9 @@ export default function RegisterStep({
     };
 
     useEffect(() => {
-        sendSms();
+        // sendSms();
+        setSmsSent(true);
+        startTimer();
         return () => {
             if (intervalRef.current) window.clearInterval(intervalRef.current);
         };

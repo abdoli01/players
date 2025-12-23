@@ -16,7 +16,8 @@ import {
 } from "@/components/ui/form";
 
 import { Step } from "../types";
-import { authService } from "@/services/auth";
+import {authService, smsService} from "@/services/auth";
+import {toast} from "react-toastify";
 
 const schema = z.object({
     phone: z
@@ -62,7 +63,7 @@ export default function PhoneStep({
             if (res.exists) {
                 setStep("login");
             } else {
-                setStep("register");
+                await sendSms(data.phone);
             }
         } catch (error: any) {
             form.setError("phone", {
@@ -70,6 +71,18 @@ export default function PhoneStep({
             });
         }
     };
+    const sendSms = async (phone: string) => {
+        console.log("phone", phone);
+        try {
+            await smsService.sendRegister(phone);
+            toast.success("اس‌ام‌اس با موفقیت ارسال شد!");
+            setStep("register");
+        } catch (err) {
+            console.error("خطا در ارسال اس‌ام‌اس:", err);
+            toast.error("ارسال اس‌ام‌اس موفق نبود!");
+        }
+    };
+
 
     return (
         <>
