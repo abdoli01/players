@@ -18,7 +18,7 @@ import { Step } from "../types";
 import { authService } from "@/services/auth";
 import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
-import { ArrowRight } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 const schema = z.object({
     password: z
@@ -85,7 +85,7 @@ export default function LoginStep({
                     className="flex items-center gap-2 cursor-pointer"
                     onClick={() => setStep("phone")}
                 >
-                    <ArrowRight size={20} />
+                    <ArrowLeft size={20} />
                 </div>
 
                 {error && <p className="text-red-600">{error}</p>}
