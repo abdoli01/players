@@ -146,7 +146,7 @@ export default function ResetPasswordStep({
                 <FormField
                     name="newPassword"
                     control={form.control}
-                    render={({ field }) => (
+                    render={({ field,fieldState }) => (
                         <FormItem>
                             <FormLabel>رمز جدید</FormLabel>
                             <FormControl>
@@ -156,6 +156,7 @@ export default function ResetPasswordStep({
                                         type={showPassword ? "text" : "password"}
                                         disabled={loadingSubmit}
                                         className={locale === 'fa' ? 'pl-10' : 'pr-10'}
+                                        style={fieldState.invalid ? { borderColor: '#ff6467' } : {}}
                                     />
                                     <button
                                         type="button"

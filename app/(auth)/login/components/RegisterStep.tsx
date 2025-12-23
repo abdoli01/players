@@ -42,7 +42,10 @@ const schema = z
             .string()
             .min(8, "رمز عبور باید حداقل 8 کاراکتر باشد")
             .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, "رمز عبور باید شامل حرف و عدد باشد"),
-        confirmPassword: z.string(),
+        confirmPassword: z
+            .string()
+            .min(8, "رمز عبور باید حداقل 8 کاراکتر باشد")
+            .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, "رمز عبور باید شامل حرف و عدد باشد"),
         code: z.string().min(4, "کد اس‌ام‌اس باید حداقل ۴ رقم باشد"),
     })
     .refine((d) => d.password === d.confirmPassword, {
@@ -180,7 +183,7 @@ export default function RegisterStep({
                 <FormField
                     name="password"
                     control={form.control}
-                    render={({ field }) => (
+                    render={({ field,fieldState }) => (
                         <FormItem>
                             <FormLabel>رمز عبور</FormLabel>
                             <FormControl>
@@ -189,6 +192,7 @@ export default function RegisterStep({
                                         {...field}
                                         type={showPassword ? "text" : "password"}
                                         className={locale === 'fa' ? 'pl-10' : 'pr-10'}
+                                        style={fieldState.invalid ? { borderColor: '#ff6467' } : {}}
                                     />
                                     <button
                                         type="button"
@@ -207,7 +211,7 @@ export default function RegisterStep({
                 <FormField
                     name="confirmPassword"
                     control={form.control}
-                    render={({ field }) => (
+                    render={({ field,fieldState }) => (
                         <FormItem>
                             <FormLabel>تکرار رمز</FormLabel>
                             <FormControl>
@@ -216,6 +220,7 @@ export default function RegisterStep({
                                         {...field}
                                         type={showConfirm ? "text" : "password"}
                                         className={locale === 'fa' ? 'pl-10' : 'pr-10'}
+                                        style={fieldState.invalid ? { borderColor: '#ff6467' } : {}}
                                     />
                                     <button
                                         type="button"
