@@ -20,6 +20,9 @@ import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
 import { toast } from "react-toastify";
 import { Eye, EyeOff } from "lucide-react";
+import { useLocale } from 'next-intl';
+
+
 
 const schema = z
     .object({
@@ -57,6 +60,9 @@ export default function RegisterStep({
     const [error, setError] = useState<string | null>(null);
     const [timer, setTimer] = useState(60);
     const intervalRef = useRef<number | null>(null);
+
+    const locale = useLocale(); // 'fa' | 'en'
+
 
     const dispatch = useAppDispatch();
 
@@ -184,12 +190,12 @@ export default function RegisterStep({
                                     <Input
                                         {...field}
                                         type={showPassword ? "text" : "password"}
-                                        className="pr-10"
+                                        className={locale === 'fa' ? 'pl-10' : 'pr-10'}
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword((prev) => !prev)}
-                                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
+                                        className={`absolute top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer ${locale === 'fa' ? 'left-2' : 'right-2'}`}
                                     >
                                         {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                                     </button>
@@ -211,12 +217,12 @@ export default function RegisterStep({
                                     <Input
                                         {...field}
                                         type={showConfirm ? "text" : "password"}
-                                        className="pr-10"
+                                        className={locale === 'fa' ? 'pl-10' : 'pr-10'}
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowConfirm((prev) => !prev)}
-                                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
+                                        className={`absolute top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer ${locale === 'fa' ? 'left-2' : 'right-2'}`}
                                     >
                                         {showConfirm ? <EyeOff size={20} /> : <Eye size={20} />}
                                     </button>
