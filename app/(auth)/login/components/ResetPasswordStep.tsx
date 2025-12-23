@@ -20,6 +20,7 @@ import { Step } from "../types";
 import { smsService, passwordService } from "@/services/auth";
 import { Eye, EyeOff } from "lucide-react";
 import { useLocale } from 'next-intl';
+import {toast} from "react-toastify";
 
 
 const schema = z.object({
@@ -79,16 +80,19 @@ export default function ResetPasswordStep({
         setError(null);
         try {
             await smsService.sendReset(phone);
+            toast.success("اس‌ام‌اس با موفقیت ارسال شد!");
             startTimer();
         } catch {
             setError("ارسال اس‌ام‌اس موفق نبود. دوباره تلاش کنید.");
+            toast.error("ارسال اس‌ام‌اس موفق نبود!");
         } finally {
             setLoadingSms(false);
         }
     };
 
     useEffect(() => {
-        sendSms();
+        // sendSms();
+        startTimer();
         return () => {
             if (intervalRef.current) window.clearInterval(intervalRef.current);
         };

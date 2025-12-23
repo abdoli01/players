@@ -15,10 +15,11 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Step } from "../types";
-import { authService } from "@/services/auth";
+import {authService, smsService} from "@/services/auth";
 import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
 import { ArrowLeft } from "lucide-react";
+import {toast} from "react-toastify";
 
 const schema = z.object({
     password: z
@@ -76,6 +77,17 @@ export default function LoginStep({
         }
     };
 
+    const sendSms = async () => {
+        try {
+            await smsService.sendReset(phone);
+            toast.success("اس‌ام‌اس با موفقیت ارسال شد!");
+            setStep("reset-password")
+        } catch {
+            setError("ارسال اس‌ام‌اس موفق نبود. دوباره تلاش کنید.");
+            toast.error("ارسال اس‌ام‌اس موفق نبود!");
+        }
+    };
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -115,7 +127,7 @@ export default function LoginStep({
                 <Button
                     type="button"
                     variant="link"
-                    onClick={() => setStep("reset-password")}
+                    onClick={() => sendSms()}
                     disabled={loading}
                 >
                     رمز عبور خود را فراموش کرده‌ام
