@@ -28,11 +28,16 @@ const schema = z
     .object({
         firstName: z
             .string()
-            .min(2)
+            .trim()
+            .min(1, "نام الزامی است")
+            .min(2, "نام باید حداقل ۲ حرف باشد")
             .regex(/^[\u0600-\u06FF\s]+$/, "نام باید فارسی باشد"),
+
         lastName: z
             .string()
-            .min(2)
+            .trim()
+            .min(1, "نام خانوادگی الزامی است")
+            .min(2, "نام خانوادگی باید حداقل ۲ حرف باشد")
             .regex(/^[\u0600-\u06FF\s]+$/, "نام خانوادگی باید فارسی باشد"),
         password: z
             .string()
@@ -57,7 +62,6 @@ export default function RegisterStep({
 }) {
     const [loadingSms, setLoadingSms] = useState(false);
     const [smsSent, setSmsSent] = useState(false);
-    const [error, setError] = useState<string | null>(null);
     const [timer, setTimer] = useState(60);
     const intervalRef = useRef<number | null>(null);
 
@@ -98,7 +102,6 @@ export default function RegisterStep({
 
     const sendSms = async () => {
         setLoadingSms(true);
-        setError(null);
         try {
             const res: any = await smsService.sendRegister(phone);
             dispatch(setUser(res.user));
@@ -107,7 +110,6 @@ export default function RegisterStep({
             startTimer();
         } catch (err: any) {
             console.error("خطا در ارسال اس‌ام‌اس:", err);
-            setError("ارسال اس‌ام‌اس موفق نبود. دوباره تلاش کنید.");
             setSmsSent(false);
             toast.error("ارسال اس‌ام‌اس موفق نبود!");
         } finally {
@@ -131,17 +133,13 @@ export default function RegisterStep({
     };
 
     const onSubmit = async (data: FormValues) => {
-        setError(null);
         try {
             await authService.register({ ...data, username: phone });
             setStep("assign-player");
         } catch (err: any) {
             if (err?.status === 400) {
-                setError("رمز عبور و تکرار آن یکسان نیستند یا کد نامعتبر است.");
             } else if (err?.status === 409) {
-                setError("این شماره همراه قبلاً ثبت شده است.");
             } else {
-                setError("خطای ناشناخته رخ داده است.");
             }
         }
     };
@@ -149,8 +147,6 @@ export default function RegisterStep({
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                {error && <p className="text-red-600">{error}</p>}
-
                 <FormField
                     name="firstName"
                     control={form.control}
@@ -247,7 +243,7 @@ export default function RegisterStep({
                     )}
                 />
 
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full cursor-pointer">
                     ثبت نام
                 </Button>
 
