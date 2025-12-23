@@ -4,11 +4,21 @@ import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+    Form,
+    FormField,
+    FormItem,
+    FormControl,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+
 import { Step } from "../types";
 import { smsService, passwordService } from "@/services/auth";
+import { Eye, EyeOff } from "lucide-react";
 
 const schema = z.object({
     code: z.string().min(4, "کد اس‌ام‌اس را وارد کنید"),
@@ -20,12 +30,21 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export default function ResetPasswordStep({ userMeta, setStep, phone }: { userMeta: any; setStep: (s: Step) => void; phone: string; }) {
+export default function ResetPasswordStep({
+                                              userMeta,
+                                              setStep,
+                                              phone,
+                                          }: {
+    userMeta: any;
+    setStep: (s: Step) => void;
+    phone: string;
+}) {
     const [loadingSms, setLoadingSms] = useState(false);
     const [loadingSubmit, setLoadingSubmit] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [smsSent, setSmsSent] = useState(false);
     const [timer, setTimer] = useState(60);
+    const [showPassword, setShowPassword] = useState(false);
+
     const intervalRef = useRef<number | null>(null);
 
     const form = useForm<FormValues>({
@@ -33,13 +52,13 @@ export default function ResetPasswordStep({ userMeta, setStep, phone }: { userMe
         defaultValues: { code: "", newPassword: "" },
     });
 
-    // شروع تایمر
+    // ⏱️ تایمر
     const startTimer = () => {
         setTimer(60);
         if (intervalRef.current) window.clearInterval(intervalRef.current);
 
         intervalRef.current = window.setInterval(() => {
-            setTimer(prev => {
+            setTimer((prev) => {
                 if (prev <= 1) {
                     if (intervalRef.current) window.clearInterval(intervalRef.current);
                     return 0;
@@ -49,25 +68,22 @@ export default function ResetPasswordStep({ userMeta, setStep, phone }: { userMe
         }, 1000);
     };
 
-    // ارسال اس‌ام‌اس
+    // 📩 ارسال SMS
     const sendSms = async () => {
         setLoadingSms(true);
         setError(null);
         try {
             await smsService.sendReset(phone);
-            setSmsSent(true);
             startTimer();
-        } catch (err: any) {
-            console.error(err);
+        } catch {
             setError("ارسال اس‌ام‌اس موفق نبود. دوباره تلاش کنید.");
-            setSmsSent(false);
         } finally {
             setLoadingSms(false);
         }
     };
 
     useEffect(() => {
-        sendSms(); // ارسال خودکار هنگام mount
+        sendSms();
         return () => {
             if (intervalRef.current) window.clearInterval(intervalRef.current);
         };
@@ -88,8 +104,7 @@ export default function ResetPasswordStep({ userMeta, setStep, phone }: { userMe
                 code: data.code,
                 newPassword: data.newPassword,
             });
-            // setStep(userMeta.hasPlayerAssignment ? "assign-player" : "assign-player");
-            setStep(userMeta.hasPlayerAssignment ? "login" : "login");
+            setStep("login");
         } catch (err: any) {
             if (err?.status === 400) setError("کد اشتباه است یا منقضی شده");
             else if (err?.status === 404) setError("کاربری با این شماره یافت نشد");
@@ -118,6 +133,7 @@ export default function ResetPasswordStep({ userMeta, setStep, phone }: { userMe
                     )}
                 />
 
+                {/* 🔐 رمز جدید + آیکن چشم */}
                 <FormField
                     name="newPassword"
                     control={form.control}
@@ -125,7 +141,22 @@ export default function ResetPasswordStep({ userMeta, setStep, phone }: { userMe
                         <FormItem>
                             <FormLabel>رمز جدید</FormLabel>
                             <FormControl>
-                                <Input type="password" {...field} disabled={loadingSubmit} />
+                                <div className="relative">
+                                    <Input
+                                        {...field}
+                                        type={showPassword ? "text" : "password"}
+                                        disabled={loadingSubmit}
+                                        className="pl-10"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword((p) => !p)}
+                                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+                                        tabIndex={-1}
+                                    >
+                                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                    </button>
+                                </div>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -136,10 +167,11 @@ export default function ResetPasswordStep({ userMeta, setStep, phone }: { userMe
                     {loadingSubmit ? "در حال ذخیره..." : "ذخیره"}
                 </Button>
 
-                {/* نمایش تایمر یا دکمه ارسال دوباره */}
                 <div className="mt-2 text-center">
                     {timer > 0 ? (
-                        <p className="text-gray-500">ارسال دوبارهٔ کد تأیید تا {formatTime(timer)}</p>
+                        <p className="text-gray-500">
+                            ارسال دوبارهٔ کد تأیید تا {formatTime(timer)}
+                        </p>
                     ) : (
                         <button
                             type="button"
