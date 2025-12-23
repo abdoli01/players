@@ -72,14 +72,13 @@ export default function PhoneStep({
         }
     };
     const sendSms = async (phone: string) => {
-        console.log("phone", phone);
         try {
-            await smsService.sendRegister(phone);
-            toast.success("اس‌ام‌اس با موفقیت ارسال شد!");
+            const res: any = await smsService.sendRegister(phone);
+            toast.success(res.message);
             setStep("register");
-        } catch (err) {
+        } catch (err:any) {
             console.error("خطا در ارسال اس‌ام‌اس:", err);
-            toast.error("ارسال اس‌ام‌اس موفق نبود!");
+            toast.error(err.message);
         }
     };
 
