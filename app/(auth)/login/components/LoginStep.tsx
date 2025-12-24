@@ -73,8 +73,7 @@ export default function LoginStep({
                 userMeta.hasPlayerAssignment ? "assign-player" : "assign-player"
             );
         } catch (err: any) {
-            if (err?.status === 401){}
-            else{}
+                toast.error(err.message);
         } finally {
             setLoading(false);
         }
