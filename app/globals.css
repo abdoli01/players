@@ -145,4 +145,7 @@ html {
 html[lang="fa"] {
     font-family: var(--font-vazir);
 }
+button{
+    cursor: pointer;
+}
 
