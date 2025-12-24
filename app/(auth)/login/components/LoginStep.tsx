@@ -20,6 +20,9 @@ import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
 import { ArrowLeft } from "lucide-react";
 import {toast} from "react-toastify";
+import { Eye, EyeOff } from "lucide-react";
+import { useLocale } from 'next-intl';
+
 
 const schema = z.object({
     password: z
@@ -44,9 +47,11 @@ export default function LoginStep({
                                       setStep,
                                       phone,
                                   }: LoginStepProps) {
-    const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const dispatch = useAppDispatch();
+    const locale = useLocale(); // 'fa' | 'en'
+
 
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
@@ -54,7 +59,6 @@ export default function LoginStep({
     });
 
     const onSubmit = async (data: FormValues) => {
-        setError(null);
         setLoading(true);
         try {
             const response: any = await authService.login({
@@ -69,9 +73,8 @@ export default function LoginStep({
                 userMeta.hasPlayerAssignment ? "assign-player" : "assign-player"
             );
         } catch (err: any) {
-            if (err?.status === 401)
-                setError("شماره همراه یا رمز عبور اشتباه است");
-            else setError("خطای ناشناخته رخ داد");
+            if (err?.status === 401){}
+            else{}
         } finally {
             setLoading(false);
         }
@@ -83,7 +86,6 @@ export default function LoginStep({
             toast.success("اس‌ام‌اس با موفقیت ارسال شد!");
             setStep("reset-password")
         } catch {
-            setError("ارسال اس‌ام‌اس موفق نبود. دوباره تلاش کنید.");
             toast.error("ارسال اس‌ام‌اس موفق نبود!");
         }
     };
@@ -100,20 +102,30 @@ export default function LoginStep({
                     <ArrowLeft size={20} />
                 </div>
 
-                {error && <p className="text-red-600">{error}</p>}
 
                 <FormField
                     name="password"
                     control={form.control}
-                    render={({ field }) => (
+                    render={({ field,fieldState }) => (
                         <FormItem>
                             <FormLabel>رمز عبور</FormLabel>
                             <FormControl>
-                                <Input
-                                    type="password"
-                                    {...field}
-                                    disabled={loading}
-                                />
+                                <div className="relative">
+                                    <Input
+                                        {...field}
+                                        type={showPassword ? "text" : "password"}
+                                        className={locale === 'fa' ? 'pl-10' : 'pr-10'}
+                                        style={fieldState.invalid ? { borderColor: '#ff6467' } : {}}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPassword((prev) => !prev)}
+                                        className={`absolute top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer ${locale === 'fa' ? 'left-2' : 'right-2'}`}
+                                        disabled={loading}
+                                    >
+                                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </button>
+                                </div>
                             </FormControl>
                             <FormMessage />
                         </FormItem>
