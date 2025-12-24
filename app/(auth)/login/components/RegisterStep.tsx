@@ -46,7 +46,7 @@ const schema = z
             .string()
             .min(8, "تکرار رمز باید حداقل 8 کاراکتر باشد")
             .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, "تکرار رمز باید شامل حرف و عدد باشد"),
-        code: z.string().min(4, "کد اس‌ام‌اس باید حداقل ۴ رقم باشد"),
+        code: z.string().length(5, "کد پیامک باید ۵ رقم باشد")
     })
     .refine((d) => d.password === d.confirmPassword, {
         path: ["confirmPassword"],

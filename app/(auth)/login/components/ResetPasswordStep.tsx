@@ -24,7 +24,7 @@ import {toast} from "react-toastify";
 
 
 const schema = z.object({
-    code: z.string().min(4, "کد اس‌ام‌اس را وارد کنید"),
+    code: z.string().length(5, "کد پیامک باید ۵ رقم باشد"),
     newPassword: z
         .string()
         .min(8, "رمز عبور باید حداقل ۸ کاراکتر باشد")
