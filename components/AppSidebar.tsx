@@ -65,7 +65,7 @@ export function AppSidebar() {
                                             "flex flex-col items-center justify-center gap-2 px-3 py-2 transition-colors h-[65px]",
                                         )}
                                     >
-                                        <Image src="/images/logo-new.png" alt="logo"  width={47} height={56}/>
+                                        <Image src="/images/logo-new.png" alt="logo"  width={47} height={56} loading="eager" priority/>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>

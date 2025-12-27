@@ -14,10 +14,13 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import LocaleSwitcher from "@/components/LocaleSwitcher";
+
 
 import { Step } from "../types";
 import {authService, smsService} from "@/services/auth";
 import {toast} from "react-toastify";
+import Image from "next/image";
 
 const schema = z.object({
     phone: z
@@ -85,7 +88,11 @@ export default function PhoneStep({
 
     return (
         <>
-            <div className="text-xl mb-3">خوش آمدید!</div>
+            <div className="flex items-center justify-between">
+                <Image src="/images/logo-new.png" alt="logo"  width={47} height={56}   loading="eager" priority/>
+                <LocaleSwitcher />
+            </div>
+            <div className="text-xl my-3">خوش آمدید!</div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     <FormField
