@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Step } from "../types";
 import { smsService, passwordService } from "@/services/auth";
-import { Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useLocale, useTranslations } from 'next-intl';
 import { toast } from "react-toastify";
 
@@ -45,7 +45,6 @@ export default function ResetPasswordStep({
 
     const intervalRef = useRef<number | null>(null);
 
-    // ایجاد schema با دسترسی به t
     const schema = z.object({
         code: z.string().length(5, { message: t('resetSmsCodeLength') }),
         newPassword: z
@@ -128,9 +127,26 @@ export default function ResetPasswordStep({
         }
     };
 
+    const handleBack = () => {
+        setStep("login");
+    };
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                {/* دکمه برگشت */}
+                <div
+                    className="flex items-center gap-2 cursor-pointer mb-4"
+                    onClick={handleBack}
+                >
+                    {locale === 'fa' ? (
+                        <ArrowRight size={20} />
+                    ) : (
+                        <ArrowLeft size={20} />
+                    )}
+                    <span>{t('back')}</span>
+                </div>
+
                 {error && (
                     <p className="text-red-600 text-sm text-center">{error}</p>
                 )}
