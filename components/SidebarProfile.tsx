@@ -116,9 +116,9 @@ export function SidebarProfile() {
             {/* Logout Confirmation Modal */}
             <AlertDialog open={open} onOpenChange={setOpen}>
                 <AlertDialogContent
-                    style={{ direction: locale === 'fa' ? 'rtl' : 'ltr' }}
+                    className={locale === 'fa' ? 'rtl' : 'ltr'}
                 >
-                    <AlertDialogHeader>
+                    <AlertDialogHeader className={locale === 'fa' ? '!text-right' : '!text-left'}>
                         <AlertDialogTitle>
                             {t('logoutTitle')}
                         </AlertDialogTitle>
