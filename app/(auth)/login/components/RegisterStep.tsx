@@ -19,30 +19,15 @@ import { smsService, authService } from "@/services/auth";
 import { useAppDispatch } from "@/store/hooks";
 import { toast } from "react-toastify";
 import { Eye, EyeOff } from "lucide-react";
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
-
-
-const schema = z
-    .object({
-        firstName: z.string().optional(),
-        lastName: z.string().optional(),
-        password: z
-            .string()
-            .min(8, "رمز عبور باید حداقل 8 کاراکتر باشد")
-            .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, "رمز عبور باید شامل حرف و عدد باشد"),
-        confirmPassword: z
-            .string()
-            .min(8, "تکرار رمز باید حداقل 8 کاراکتر باشد")
-            .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, "تکرار رمز باید شامل حرف و عدد باشد"),
-        code: z.string().length(5, "کد پیامک باید ۵ رقم باشد")
-    })
-    .refine((d) => d.password === d.confirmPassword, {
-        path: ["confirmPassword"],
-        message: "عدم تطابق رمز عبور",
-    });
-
-type FormValues = z.infer<typeof schema>;
+type FormValues = {
+    firstName?: string;
+    lastName?: string;
+    password: string;
+    confirmPassword: string;
+    code: string;
+};
 
 export default function RegisterStep({
                                          phone,
@@ -56,8 +41,28 @@ export default function RegisterStep({
     const [timer, setTimer] = useState(60);
     const intervalRef = useRef<number | null>(null);
 
-    const locale = useLocale(); // 'fa' | 'en'
+    const locale = useLocale();
+    const t = useTranslations('Auth');
 
+    // ساخت schema با استفاده از t
+    const schema = z
+        .object({
+            firstName: z.string().optional(),
+            lastName: z.string().optional(),
+            password: z
+                .string()
+                .min(8, { message: t('passwordMin') })
+                .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, { message: t('passwordRule') }),
+            confirmPassword: z
+                .string()
+                .min(8, { message: t('confirmPasswordMin') })
+                .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, { message: t('confirmPasswordRule') }),
+            code: z.string().length(5, { message: t('smsCodeLength') })
+        })
+        .refine((d) => d.password === d.confirmPassword, {
+            path: ["confirmPassword"],
+            message: t('passwordMismatch'),
+        });
 
     const dispatch = useAppDispatch();
 
@@ -96,12 +101,16 @@ export default function RegisterStep({
         try {
             const res: any = await smsService.sendRegister(phone);
             setSmsSent(true);
-            toast.success(res.message);
+            // استفاده از پیام ترجمه شده از response یا پیام پیش‌فرض
+            const successMessage = res.message || "SMS sent successfully";
+            toast.success(successMessage);
             startTimer();
         } catch (err: any) {
             console.error("خطا در ارسال اس‌ام‌اس:", err);
             setSmsSent(false);
-            toast.error(err.message);
+            // استفاده از پیام خطا از API یا پیام پیش‌فرض ترجمه شده
+            const errorMessage = err.message || t('unknownError');
+            toast.error(errorMessage);
         } finally {
             setLoadingSms(false);
         }
@@ -125,15 +134,17 @@ export default function RegisterStep({
     const onSubmit = async (data: FormValues) => {
         try {
             const res: any = await authService.register({ ...data, username: phone });
-            if (res?.id) toast.success('ثبت نام با موفقیت انجام شد');
-            setStep("assign-player");
+            if (res?.id) {
+                toast.success(t('successRegister'));
+                setStep("assign-player");
+            }
         } catch (err: any) {
             if (err?.status === 400) {
-                toast.error("رمز عبور و کد پیامک نامعتبر است");
+                toast.error(t('invalidPasswordOrCode'));
             } else if (err?.status === 409) {
-                toast.error("این شماره قبلاً ثبت شده است");
+                toast.error(t('phoneAlreadyExists'));
             } else {
-                toast.error("خطای ناشناخته رخ داد");
+                toast.error(t('unknownError'));
             }
         }
     };
@@ -146,7 +157,7 @@ export default function RegisterStep({
                     control={form.control}
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>نام</FormLabel>
+                            <FormLabel>{t('firstName')}</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
@@ -160,7 +171,7 @@ export default function RegisterStep({
                     control={form.control}
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>نام خانوادگی</FormLabel>
+                            <FormLabel>{t('lastName')}</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
@@ -172,9 +183,9 @@ export default function RegisterStep({
                 <FormField
                     name="password"
                     control={form.control}
-                    render={({ field,fieldState }) => (
+                    render={({ field, fieldState }) => (
                         <FormItem>
-                            <FormLabel>رمز عبور</FormLabel>
+                            <FormLabel>{t('password')}</FormLabel>
                             <FormControl>
                                 <div className="relative">
                                     <Input
@@ -200,9 +211,9 @@ export default function RegisterStep({
                 <FormField
                     name="confirmPassword"
                     control={form.control}
-                    render={({ field,fieldState }) => (
+                    render={({ field, fieldState }) => (
                         <FormItem>
-                            <FormLabel>تکرار رمز</FormLabel>
+                            <FormLabel>{t('confirmPassword')}</FormLabel>
                             <FormControl>
                                 <div className="relative">
                                     <Input
@@ -230,7 +241,7 @@ export default function RegisterStep({
                     control={form.control}
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>کد پیامک</FormLabel>
+                            <FormLabel>{t('smsCode')}</FormLabel>
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
@@ -240,15 +251,15 @@ export default function RegisterStep({
                 />
 
                 <Button type="submit" className="w-full cursor-pointer">
-                    ثبت نام
+                    {t('submit')}
                 </Button>
 
                 <div className="mt-2">
-                    کد پیامک را به شماره <span className="font-bold"> {phone} </span> فرستادیم.
+                    {t('smsSentTo')} <span className="font-bold"> {phone} </span> {t('smsSentSuffix')}
                 </div>
 
                 <div className="mt-2">
-                    شماره موبایل اشتباه است؟{" "}
+                    {t('wrongPhone')}{" "}
                     <span
                         className="font-bold text-app-orange cursor-pointer"
                         onClick={() => {
@@ -256,14 +267,14 @@ export default function RegisterStep({
                             setStep('phone');
                         }}
                     >
-                        ویرایش
+                        {t('edit')}
                     </span>
                 </div>
 
                 <div className="mt-2">
                     {timer > 0 ? (
                         <p className="text-gray-500">
-                            ارسال دوبارهٔ کد تأیید تا {formatTime(timer)}
+                            {t('resendTimer')} {formatTime(timer)}
                         </p>
                     ) : (
                         <button
@@ -272,7 +283,7 @@ export default function RegisterStep({
                             className="text-app-orange cursor-pointer"
                             disabled={loadingSms}
                         >
-                            ارسال دوباره کد با پیامک
+                            {t('resendSms')}
                         </button>
                     )}
                 </div>
