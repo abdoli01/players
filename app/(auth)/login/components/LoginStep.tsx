@@ -18,7 +18,7 @@ import { Step } from "../types";
 import { authService, smsService } from "@/services/auth";
 import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/slices/userSlice";
-import { ArrowLeft, Eye, EyeOff } from "lucide-react";
+import { ArrowLeft, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
 import { useLocale, useTranslations } from 'next-intl';
 
@@ -97,7 +97,13 @@ export default function LoginStep({
                     className="flex items-center gap-2 cursor-pointer"
                     onClick={() => setStep("phone")}
                 >
-                    <ArrowLeft size={20} />
+                    {locale === 'fa' ? (
+                        // فارسی: فلش به راست (←) چون متن RTL است
+                        <ArrowRight size={20} />
+                    ) : (
+                        // انگلیسی: فلش به چپ (→) چون متن LTR است
+                        <ArrowLeft size={20} />
+                    )}
                     <span>{t('back')}</span>
                 </div>
 
