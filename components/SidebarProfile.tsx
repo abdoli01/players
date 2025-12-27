@@ -34,10 +34,14 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useLogout } from "@/hooks/useLogout";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 
 export function SidebarProfile() {
     const logout = useLogout();
     const [open, setOpen] = useState(false);
+    const t = useTranslations('SideBar');
+    const locale = useLocale();
 
     return (
         <>
@@ -52,11 +56,16 @@ export function SidebarProfile() {
                         )}
                     >
                         <User className="w-4 h-4" />
-                        <span className="text-xs">Profile</span>
+                        <span className="text-xs">{t('profile')}</span>
                     </button>
                 </DropdownMenuTrigger>
 
-                <DropdownMenuContent side="right" align="start" className="w-auto mb-16">
+                <DropdownMenuContent
+                    side="right"
+                    align="start"
+                    className="w-auto mb-16"
+                    style={{ direction: locale === 'fa' ? 'rtl' : 'ltr' }}
+                >
 
                     {/* Language */}
                     <DropdownMenuItem
@@ -64,7 +73,7 @@ export function SidebarProfile() {
                         onSelect={(e) => e.preventDefault()}
                     >
                         <Globe className="w-4 h-4 text-gray-500" />
-                        <Label>Language</Label>
+                        <Label>{t('language')}</Label>
                         <LocaleSwitcher />
                     </DropdownMenuItem>
 
@@ -74,57 +83,62 @@ export function SidebarProfile() {
                         onSelect={(e) => e.preventDefault()}
                     >
                         <Palette className="w-4 h-4 text-gray-500" />
-                        <Label>Theme</Label>
+                        <Label>{t('theme')}</Label>
                         <ModeToggle />
                     </DropdownMenuItem>
 
                     {/* Settings */}
                     <DropdownMenuItem className="flex items-center gap-2">
                         <Settings className="w-4 h-4 text-gray-500" />
-                        <Link href="/profileee">Settings</Link>
+                        <Link href="/profileee">{t('settings')}</Link>
                     </DropdownMenuItem>
 
                     {/* Dashboard */}
                     <DropdownMenuItem className="flex items-center gap-2">
                         <LayoutDashboard className="w-4 h-4 text-gray-500" />
-                        <Link href="/dashboard">Dashboard</Link>
+                        <Link href="/dashboard">{t('dashboard')}</Link>
                     </DropdownMenuItem>
 
                     {/* Logout */}
                     <DropdownMenuItem
                         onSelect={(e) => {
                             e.preventDefault();
-                            setOpen(true); // 👈 باز شدن مدال
+                            setOpen(true);
                         }}
                     >
                         <LogOut className="w-4 h-4" />
-                        <span>Logout</span>
+                        <span>{t('logout')}</span>
                     </DropdownMenuItem>
 
                 </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* 🧠 Logout Confirmation Modal */}
+            {/* Logout Confirmation Modal */}
             <AlertDialog open={open} onOpenChange={setOpen}>
-                <AlertDialogContent>
+                <AlertDialogContent
+                    style={{ direction: locale === 'fa' ? 'rtl' : 'ltr' }}
+                >
                     <AlertDialogHeader>
                         <AlertDialogTitle>
-                            خروج از حساب
+                            {t('logoutTitle')}
                         </AlertDialogTitle>
                         <AlertDialogDescription>
-                            آیا مطمئن هستید که می‌خواهید از حساب کاربری خود خارج شوید؟
+                            {t('logoutDescription')}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
 
-                    <AlertDialogFooter>
+                    <AlertDialogFooter
+                        className={locale === 'fa' ? 'flex-row-reverse gap-2' : ''}
+                    >
                         <AlertDialogCancel>
-                            انصراف
+                            {t('logoutCancel')}
                         </AlertDialogCancel>
 
                         <AlertDialogAction
                             onClick={logout}
+                            className="bg-red-600 hover:bg-red-700 text-white"
                         >
-                            خروج
+                            {t('logoutConfirm')}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>

@@ -6,6 +6,16 @@
     "search": "جست و جو",
     "settings": "تنظیمات",
     "studio": "استودیو",
-    "user-management": "کاربران"
+    "user-management": "کاربران",
+
+    "profile": "پروفایل",
+    "language": "زبان",
+    "theme": "تم",
+    "dashboard": "داشبورد",
+    "logout": "خروج",
+    "logoutTitle": "خروج از حساب",
+    "logoutDescription": "آیا مطمئن هستید که می‌خواهید از حساب کاربری خود خارج شوید؟",
+    "logoutCancel": "انصراف",
+    "logoutConfirm": "خروج"
   }
 }

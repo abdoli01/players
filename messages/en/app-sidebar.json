@@ -6,6 +6,16 @@
     "search": "search",
     "settings": "settings",
     "studio": "studio",
-    "user-management": "users"
+    "user-management": "users",
+
+    "profile": "Profile",
+    "language": "Language",
+    "theme": "Theme",
+    "dashboard": "Dashboard",
+    "logout": "Logout",
+    "logoutTitle": "Logout",
+    "logoutDescription": "Are you sure you want to logout from your account?",
+    "logoutCancel": "Cancel",
+    "logoutConfirm": "Logout"
   }
 }
