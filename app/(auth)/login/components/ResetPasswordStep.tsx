@@ -4,7 +4,6 @@ import { useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -15,23 +14,16 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-
 import { Step } from "../types";
 import { smsService, passwordService } from "@/services/auth";
 import { Eye, EyeOff } from "lucide-react";
-import { useLocale } from 'next-intl';
-import {toast} from "react-toastify";
+import { useLocale, useTranslations } from 'next-intl';
+import { toast } from "react-toastify";
 
-
-const schema = z.object({
-    code: z.string().length(5, "کد پیامک باید ۵ رقم باشد"),
-    newPassword: z
-        .string()
-        .min(8, "رمز عبور باید حداقل ۸ کاراکتر باشد")
-        .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, "رمز عبور باید شامل حداقل یک حرف و یک عدد باشد"),
-});
-
-type FormValues = z.infer<typeof schema>;
+type FormValues = {
+    code: string;
+    newPassword: string;
+};
 
 export default function ResetPasswordStep({
                                               userMeta,
@@ -48,17 +40,27 @@ export default function ResetPasswordStep({
     const [timer, setTimer] = useState(60);
     const [showPassword, setShowPassword] = useState(false);
 
-    const locale = useLocale(); // 'fa' | 'en'
-
+    const locale = useLocale();
+    const t = useTranslations('Auth');
 
     const intervalRef = useRef<number | null>(null);
+
+    // ایجاد schema با دسترسی به t
+    const schema = z.object({
+        code: z.string().length(5, { message: t('resetSmsCodeLength') }),
+        newPassword: z
+            .string()
+            .min(8, { message: t('resetPasswordMin') })
+            .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, {
+                message: t('resetPasswordRule')
+            }),
+    });
 
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
         defaultValues: { code: "", newPassword: "" },
     });
 
-    // ⏱️ تایمر
     const startTimer = () => {
         setTimer(60);
         if (intervalRef.current) window.clearInterval(intervalRef.current);
@@ -74,24 +76,22 @@ export default function ResetPasswordStep({
         }, 1000);
     };
 
-    // 📩 ارسال SMS
     const sendSms = async () => {
         setLoadingSms(true);
         setError(null);
         try {
             await smsService.sendReset(phone);
-            toast.success("اس‌ام‌اس با موفقیت ارسال شد!");
+            toast.success(t('resetSmsSuccess'));
             startTimer();
         } catch {
-            setError("ارسال اس‌ام‌اس موفق نبود. دوباره تلاش کنید.");
-            toast.error("ارسال اس‌ام‌اس موفق نبود!");
+            setError(t('resetSendError'));
+            toast.error(t('resetSmsError'));
         } finally {
             setLoadingSms(false);
         }
     };
 
     useEffect(() => {
-        // sendSms();
         startTimer();
         return () => {
             if (intervalRef.current) window.clearInterval(intervalRef.current);
@@ -113,11 +113,16 @@ export default function ResetPasswordStep({
                 code: data.code,
                 newPassword: data.newPassword,
             });
+            toast.success(t('resetSuccess'));
             setStep("login");
         } catch (err: any) {
-            if (err?.status === 400) setError("کد اشتباه است یا منقضی شده");
-            else if (err?.status === 404) setError("کاربری با این شماره یافت نشد");
-            else setError("خطای ناشناخته رخ داد");
+            if (err?.status === 400) {
+                setError(t('resetInvalidCode'));
+            } else if (err?.status === 404) {
+                setError(t('resetUserNotFound'));
+            } else {
+                setError(t('resetUnknownError'));
+            }
         } finally {
             setLoadingSubmit(false);
         }
@@ -126,29 +131,33 @@ export default function ResetPasswordStep({
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                {error && <p className="text-red-600">{error}</p>}
+                {error && (
+                    <p className="text-red-600 text-sm text-center">{error}</p>
+                )}
 
                 <FormField
                     name="code"
                     control={form.control}
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>کد پیامک</FormLabel>
+                            <FormLabel>{t('resetCodeLabel')}</FormLabel>
                             <FormControl>
-                                <Input {...field} disabled={loadingSubmit} />
+                                <Input
+                                    {...field}
+                                    disabled={loadingSubmit}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
 
-                {/* 🔐 رمز جدید + آیکن چشم */}
                 <FormField
                     name="newPassword"
                     control={form.control}
-                    render={({ field,fieldState }) => (
+                    render={({ field, fieldState }) => (
                         <FormItem>
-                            <FormLabel>رمز جدید</FormLabel>
+                            <FormLabel>{t('resetNewPasswordLabel')}</FormLabel>
                             <FormControl>
                                 <div className="relative">
                                     <Input
@@ -163,6 +172,7 @@ export default function ResetPasswordStep({
                                         onClick={() => setShowPassword((p) => !p)}
                                         className={`absolute top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer ${locale === 'fa' ? 'left-2' : 'right-2'}`}
                                         tabIndex={-1}
+                                        disabled={loadingSubmit}
                                     >
                                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                                     </button>
@@ -173,23 +183,27 @@ export default function ResetPasswordStep({
                     )}
                 />
 
-                <Button type="submit" className="w-full" disabled={loadingSubmit}>
-                    {loadingSubmit ? "در حال ذخیره..." : "ذخیره"}
+                <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={loadingSubmit}
+                >
+                    {loadingSubmit ? t('resetSaving') : t('resetSave')}
                 </Button>
 
                 <div className="mt-2 text-center">
                     {timer > 0 ? (
                         <p className="text-gray-500">
-                            ارسال دوبارهٔ کد تأیید تا {formatTime(timer)}
+                            {t('resetResendTimer')} {formatTime(timer)}
                         </p>
                     ) : (
                         <button
                             type="button"
                             onClick={sendSms}
-                            className="text-app-orange cursor-pointer"
+                            className="text-app-orange cursor-pointer text-sm"
                             disabled={loadingSms}
                         >
-                            ارسال دوباره کد با پیامک
+                            {t('resetResendSms')}
                         </button>
                     )}
                 </div>
