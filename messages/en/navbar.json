@@ -3,6 +3,8 @@
     "navbar": "navbar",
     "login": "login",
     "dashboard": "dashboard",
-    "profile": "profile"
+    "profile": "Profile",
+    "videos": "Videos",
+    "reports": "Reports"
   }
 }

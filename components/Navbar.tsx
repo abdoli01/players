@@ -6,13 +6,14 @@ import {ReactNode} from "react";
 import Image from "next/image";
 import {cn} from "@/lib/utils";
 import { useAppSelector } from "@/store/hooks";
+import {useTranslations} from "next-intl";
 export default function Navbar({children}: { children: ReactNode }) {
     const pathname = usePathname();
 
     const tabs = [
-        { title: "Profile", url: "/profile" },
-        { title: "Reports", url: "/reports" },
-        { title: "Videos", url: "/videos" },
+        { title: "profile", url: "/profile" },
+        { title: "reports", url: "/reports" },
+        { title: "videos", url: "/videos" },
     ];
 
     const isActive = (url: string) => pathname.startsWith(url);
@@ -21,6 +22,7 @@ export default function Navbar({children}: { children: ReactNode }) {
         (state) => state.user
     );
     console.log('3333',user)
+    const t = useTranslations('Navbar');
 
     return (
         <div className="w-full py-2 md:flex items-end justify-between text-white border-b-2 border-[#2c2c2c]">
@@ -63,7 +65,7 @@ export default function Navbar({children}: { children: ReactNode }) {
                     : "text-gray-300 hover:text-app-orange transition"} px-8`
                 }
             >
-              {title}
+                {t(title)}
             </span>
 
                         {isActive(url) && (
