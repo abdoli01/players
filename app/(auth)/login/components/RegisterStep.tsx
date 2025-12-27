@@ -25,19 +25,8 @@ import { useLocale } from 'next-intl';
 
 const schema = z
     .object({
-        firstName: z
-            .string()
-            .trim()
-            .min(1, "نام الزامی است")
-            .min(2, "نام باید حداقل ۲ حرف باشد")
-            .regex(/^[\u0600-\u06FF\s]+$/, "نام باید فارسی باشد"),
-
-        lastName: z
-            .string()
-            .trim()
-            .min(1, "نام خانوادگی الزامی است")
-            .min(2, "نام خانوادگی باید حداقل ۲ حرف باشد")
-            .regex(/^[\u0600-\u06FF\s]+$/, "نام خانوادگی باید فارسی باشد"),
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
         password: z
             .string()
             .min(8, "رمز عبور باید حداقل 8 کاراکتر باشد")

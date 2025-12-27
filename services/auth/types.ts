@@ -6,8 +6,8 @@ export interface RegisterDto {
     username: string;
     password: string;
     confirmPassword: string;
-    firstName: string;
-    lastName: string;
+    firstName?: string;
+    lastName?: string;
     code: string;
 }
 
