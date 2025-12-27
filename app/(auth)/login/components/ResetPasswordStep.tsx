@@ -19,6 +19,7 @@ import { smsService, passwordService } from "@/services/auth";
 import { ArrowLeft, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useLocale, useTranslations } from 'next-intl';
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 type FormValues = {
     code: string;
@@ -135,21 +136,32 @@ export default function ResetPasswordStep({
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 {/* دکمه برگشت */}
-                <div
-                    className="flex items-center gap-2 cursor-pointer mb-4"
-                    onClick={handleBack}
-                >
-                    {locale === 'fa' ? (
-                        <ArrowRight size={20} />
-                    ) : (
-                        <ArrowLeft size={20} />
-                    )}
-                    <span>{t('back')}</span>
+                <div className="flex items-center justify-between">
+                    <Image
+                        src="/images/logo-new.png"
+                        alt="logo"
+                        width={47}
+                        height={56}
+                        loading="eager"
+                        priority
+                    />
+                    <div
+                        className="flex items-center gap-2 cursor-pointer mb-4"
+                        onClick={handleBack}
+                    >
+                        {locale === 'fa' ? (
+                            <ArrowRight size={20} />
+                        ) : (
+                            <ArrowLeft size={20} />
+                        )}
+                        <span>{t('back')}</span>
+                    </div>
+
                 </div>
 
-                {error && (
-                    <p className="text-red-600 text-sm text-center">{error}</p>
-                )}
+                {/*{error && (*/}
+                {/*    <p className="text-red-600 text-sm text-center">{error}</p>*/}
+                {/*)}*/}
 
                 <FormField
                     name="code"

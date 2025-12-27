@@ -21,6 +21,7 @@ import { setUser } from "@/store/slices/userSlice";
 import { ArrowLeft, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
 import { useLocale, useTranslations } from 'next-intl';
+import Image from "next/image";
 
 interface LoginStepProps {
     userMeta: { phone?: string; hasPlayerAssignment?: boolean };
@@ -93,20 +94,29 @@ export default function LoginStep({
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 {/* دکمه برگشت */}
-                <div
-                    className="flex items-center gap-2 cursor-pointer"
-                    onClick={() => setStep("phone")}
-                >
-                    {locale === 'fa' ? (
-                        // فارسی: فلش به راست (←) چون متن RTL است
-                        <ArrowRight size={20} />
-                    ) : (
-                        // انگلیسی: فلش به چپ (→) چون متن LTR است
-                        <ArrowLeft size={20} />
-                    )}
-                    <span>{t('back')}</span>
+                <div className="flex items-center justify-between">
+                    <Image
+                        src="/images/logo-new.png"
+                        alt="logo"
+                        width={47}
+                        height={56}
+                        loading="eager"
+                        priority
+                    />
+                    <div
+                        className="flex items-center gap-2 cursor-pointer"
+                        onClick={() => setStep("phone")}
+                    >
+                        {locale === 'fa' ? (
+                            // فارسی: فلش به راست (←) چون متن RTL است
+                            <ArrowRight size={20} />
+                        ) : (
+                            // انگلیسی: فلش به چپ (→) چون متن LTR است
+                            <ArrowLeft size={20} />
+                        )}
+                        <span>{t('back')}</span>
+                    </div>
                 </div>
-
                 <FormField
                     name="password"
                     control={form.control}
