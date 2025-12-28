@@ -5,6 +5,7 @@ import CustomVideoPlayer from "@/app/(players)/videos/components/CustomVideoPlay
 import videos from "@/data/videos.json";
 import {Button} from "@/components/ui/button";
 import { Monitor,List, Grid,ArrowUp,ArrowDown,SquarePen,FileArchive,Download,Square } from 'lucide-react';
+import {useTranslations} from "next-intl";
 
 
 const Page = () => {
@@ -16,6 +17,8 @@ const Page = () => {
     const [selectedIndex, setSelectedIndex] = useState(-1); // ذخیره آیتم انتخاب شده
 
     const [selectedVideos, setSelectedVideos] = useState<number[]>([]);
+
+    const t = useTranslations('Videos')
 
 
     const items1=['ATTACKING','PASSING','DULES','DEFENSIVE','ALL','ACTIONS']
@@ -171,7 +174,7 @@ const Page = () => {
                             />
                         </>
                     ) : (
-                        <div className="text-white text-center">ویدیویی انتخاب نشده است</div>
+                        <div className="text-white text-center">{t('noVideoSelected')}</div>
                     )}
                 </div>
 
