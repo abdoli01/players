@@ -44,6 +44,7 @@ import {
 } from "@/components/ui/table"
 
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import {useTranslations} from "next-intl";
 
 // ----------------------------
 //      TYPE
@@ -68,89 +69,6 @@ const data: UserType[] = [
     { id: 5, firstName: "Karim", lastName: "Bagheri", phone: "09121239876", role: "admin", active: true },
 ]
 
-// ----------------------------
-//      COLUMNS
-// ----------------------------
-export const columns: ColumnDef<UserType>[] = [
-    { accessorKey: "id", header: "شماره کاربر" },
-    { accessorKey: "firstName", header: "نام", cell: ({ row }) => row.original.firstName },
-    { accessorKey: "lastName", header: "نام خانوادگی", cell: ({ row }) => row.original.lastName },
-    { accessorKey: "phone", header: "شماره تلفن", cell: ({ row }) => row.original.phone }, // ستون اضافه شد
-    { accessorKey: "role", header: "نوع کاربر", cell: ({ row }) => row.original.role === "admin" ? "ادمین" : "بازیکن" },
-    { accessorKey: "active", header: "وضعیت", cell: ({ row }) => row.original.active ? "فعال" : "غیرفعال" },
-    {
-        id: "actions",
-        header: "عملیات",
-        cell: ({ row }) => {
-            const user = row.original
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>عملیات</DropdownMenuLabel>
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                                    تغییر رمز عبور
-                                </DropdownMenuItem>
-                            </DialogTrigger>
-
-                            <DialogContent className="max-w-sm">
-                                <DialogHeader>
-                                    <DialogTitle>تغییر رمز عبور</DialogTitle>
-                                    <DialogDescription>
-                                        یک رمز جدید وارد کنید
-                                    </DialogDescription>
-                                </DialogHeader>
-
-                                <input
-                                    className="border p-2 rounded w-full"
-                                    placeholder="رمز جدید"
-                                />
-
-                                <DialogFooter className="mt-4">
-                                    <DialogClose className="px-4 py-2 bg-gray-200 dark:bg-muted rounded">
-                                        انصراف
-                                    </DialogClose>
-                                    <Button>ذخیره</Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>انتصاب بازیکن</DropdownMenuItem>
-                            </DialogTrigger>
-
-                            <DialogContent className="max-w-sm">
-                                <DialogHeader>
-                                    <DialogTitle>انتصاب بازیکن</DialogTitle>
-                                    <DialogDescription>
-                                        بازیکن مورد نظر را انتخاب کنید
-                                    </DialogDescription>
-                                </DialogHeader>
-
-                                <input className="border p-2 rounded w-full" placeholder="نام بازیکن" />
-
-                                <DialogFooter className="mt-4">
-                                    <DialogClose className="px-4 py-2 bg-gray-200 dark:bg-muted rounded">
-                                        انصراف
-                                    </DialogClose>
-                                    <Button>ثبت</Button>
-                                </DialogFooter>
-                            </DialogContent>
-                        </Dialog>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => navigator.clipboard.writeText(String(user.id))}>کپی کردن ID کاربر</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            )
-        }
-    }
-]
 
 // ----------------------------
 //      TABLE WRAPPER
@@ -160,6 +78,92 @@ export function UsersTable() {
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
+
+    const t = useTranslations("Dashboard")
+
+    // ----------------------------
+//      COLUMNS
+// ----------------------------
+     const columns: ColumnDef<UserType>[] = [
+        { accessorKey: "id", header: t("id") },
+        { accessorKey: "firstName", header: t("firstName"), cell: ({ row }) => row.original.firstName },
+        { accessorKey: "lastName", header: t("lastName"), cell: ({ row }) => row.original.lastName },
+        { accessorKey: "phone", header: t("phone"), cell: ({ row }) => row.original.phone }, // ستون اضافه شد
+        { accessorKey: "role", header: t("role"), cell: ({ row }) => row.original.role === "admin" ? "ادمین" : "بازیکن" },
+        { accessorKey: "active", header: t("active"), cell: ({ row }) => row.original.active ? "فعال" : "غیرفعال" },
+        {
+            id: "actions",
+            header: "عملیات",
+            cell: ({ row }) => {
+                const user = row.original
+                return (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>عملیات</DropdownMenuLabel>
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                        تغییر رمز عبور
+                                    </DropdownMenuItem>
+                                </DialogTrigger>
+
+                                <DialogContent className="max-w-sm">
+                                    <DialogHeader>
+                                        <DialogTitle>تغییر رمز عبور</DialogTitle>
+                                        <DialogDescription>
+                                            یک رمز جدید وارد کنید
+                                        </DialogDescription>
+                                    </DialogHeader>
+
+                                    <input
+                                        className="border p-2 rounded w-full"
+                                        placeholder="رمز جدید"
+                                    />
+
+                                    <DialogFooter className="mt-4">
+                                        <DialogClose className="px-4 py-2 bg-gray-200 dark:bg-muted rounded">
+                                            انصراف
+                                        </DialogClose>
+                                        <Button>ذخیره</Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>انتصاب بازیکن</DropdownMenuItem>
+                                </DialogTrigger>
+
+                                <DialogContent className="max-w-sm">
+                                    <DialogHeader>
+                                        <DialogTitle>انتصاب بازیکن</DialogTitle>
+                                        <DialogDescription>
+                                            بازیکن مورد نظر را انتخاب کنید
+                                        </DialogDescription>
+                                    </DialogHeader>
+
+                                    <input className="border p-2 rounded w-full" placeholder="نام بازیکن" />
+
+                                    <DialogFooter className="mt-4">
+                                        <DialogClose className="px-4 py-2 bg-gray-200 dark:bg-muted rounded">
+                                            انصراف
+                                        </DialogClose>
+                                        <Button>ثبت</Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(String(user.id))}>کپی کردن ID کاربر</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                )
+            }
+        }
+    ]
 
     const table = useReactTable({
         data,

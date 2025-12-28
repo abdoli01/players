@@ -1,0 +1,11 @@
+{
+  "Dashboard": {
+    "id": "User ID",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "phone": "Phone",
+    "role": "Role",
+    "active": "Status",
+    "actions": "Actions"
+  }
+}
