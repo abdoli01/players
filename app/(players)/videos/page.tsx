@@ -69,11 +69,10 @@ const Page = () => {
     return (
         <div className="py-4">
             {/*items*/}
-            <div className="flex items-center mb-4 gap-2">
-                <Button onClick={toggleList} className="bg-background flex items-center gap-2 p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer">
-                    {showFirstList ? <List className="text-foreground" size={16} /> : <Grid className="text-foreground" size={16} />}
-                </Button>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mb-4">
+                    <Button onClick={toggleList} className="bg-background flex items-center gap-2 p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer">
+                        {showFirstList ? <List className="text-foreground" size={16} /> : <Grid className="text-foreground" size={16} />}
+                    </Button>
                     {currentItems.map((item, index) => (
                         <Button
                             variant={selectedIndex === index ? 'default' : 'outline'}
@@ -85,7 +84,6 @@ const Page = () => {
                         </Button>
                     ))}
                 </div>
-            </div>
             <div className="grid grid-cols-12 gap-4">
                 {/* لیست ویدیوها */}
                 <div className="col-span-12 lg:col-span-3 flex flex-col h-[400px] order-2 lg:order-1">
