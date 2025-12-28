@@ -85,7 +85,7 @@ const Page = () => {
             </div>
             <div className="grid grid-cols-12 gap-4">
                 {/* لیست ویدیوها */}
-                <div className="col-span-12 lg:col-span-4 flex flex-col h-[400px] order-2 lg:order-1">
+                <div className="col-span-12 lg:col-span-3 flex flex-col h-[400px] order-2 lg:order-1">
                     <div className="flex items-center gap-1 justify-end mb-1">
                         <button
                             className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer"
@@ -121,7 +121,7 @@ const Page = () => {
                 </div>
 
                 {/* پلیر */}
-                <div className="col-span-12 lg:col-span-8 order-1 lg:order-2">
+                <div className="col-span-12 lg:col-span-9 order-1 lg:order-2">
                     {currentVideo ? (
                         <>
                             <div className='flex items-center justify-between gap-8 mb-1'>
