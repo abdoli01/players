@@ -1,9 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL!;
+
 
 export const baseApi = createApi({
     reducerPath: "api", // نام reducer برای RTK Query
     baseQuery: fetchBaseQuery({
-        baseUrl: "https://jsonplaceholder.typicode.com",
+        baseUrl: BASE_URL,
         prepareHeaders: (headers) => {
             if (typeof window !== "undefined") {
                 const token = localStorage.getItem("access_token");
