@@ -4,6 +4,7 @@ import * as React from "react";
 import { useGetUsersQuery, useSearchUsersQuery } from "@/services/api/usersApi";
 import { User, UserSearchParams } from "@/types/user";
 import { useTranslations } from "next-intl";
+import {Spinner} from "@/components/Spinner";
 
 import {
     useReactTable,
@@ -181,7 +182,7 @@ export function UsersTable() {
     // -----------------------
     // Render
     // -----------------------
-    if (isLoading) return <div className="p-4">در حال دریافت کاربران...</div>;
+    if (isLoading) return <Spinner/>;
 
     return (
         <div className="w-full">
