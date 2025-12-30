@@ -46,29 +46,7 @@ import {
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import {useTranslations} from "next-intl";
 import { useGetUsersQuery } from "@/services/api/usersApi";
-
-// ----------------------------
-//      TYPE
-// ----------------------------
-export type UserType = {
-    id: number
-    firstName: string
-    lastName: string
-    role: "player" | "admin"
-    active: boolean
-    phone: string
-}
-
-// ----------------------------
-//      SAMPLE DATA
-// ----------------------------
-const data: UserType[] = [
-    { id: 1, firstName: "Ali", lastName: "Karimi", phone: "09121234567", role: "player", active: true },
-    { id: 2, firstName: "Ali", lastName: "Daei", phone: "09123456789", role: "admin", active: false },
-    { id: 3, firstName: "Mehdi", lastName: "Mahdavikia", phone: "09129876543", role: "admin", active: false },
-    { id: 4, firstName: "Ahmadreza", lastName: "Abedzadeh", phone: "09127654321", role: "admin", active: false },
-    { id: 5, firstName: "Karim", lastName: "Bagheri", phone: "09121239876", role: "admin", active: true },
-]
+import {User} from "@/types/user"
 
 
 // ----------------------------
@@ -82,16 +60,18 @@ export function UsersTable() {
 
     const t = useTranslations("Dashboard")
 
+    const { data: users = [], isLoading, error } = useGetUsersQuery();
+
     // ----------------------------
 //      COLUMNS
 // ----------------------------
-     const columns: ColumnDef<UserType>[] = [
-        { accessorKey: "id", header: t("id") },
+     const columns: ColumnDef<User>[] = [
+        // { accessorKey: "id", header: t("id") },
         { accessorKey: "firstName", header: t("firstName"), cell: ({ row }) => row.original.firstName },
         { accessorKey: "lastName", header: t("lastName"), cell: ({ row }) => row.original.lastName },
-        { accessorKey: "phone", header: t("phone"), cell: ({ row }) => row.original.phone }, // ستون اضافه شد
-        { accessorKey: "role", header: t("role"), cell: ({ row }) => row.original.role === "admin" ? "ادمین" : "بازیکن" },
-        { accessorKey: "active", header: t("active"), cell: ({ row }) => row.original.active ? "فعال" : "غیرفعال" },
+        { accessorKey: "username", header: t("phone"), cell: ({ row }) => row.original.username },
+        { accessorKey: "role", header: t("role"), cell: ({ row }) => t(row.original.accountType) },
+        { accessorKey: "status", header: t("active"), cell: ({ row }) => row.original.status},
         {
             id: "actions",
             header: "عملیات",
@@ -166,8 +146,8 @@ export function UsersTable() {
         }
     ]
 
-    const table = useReactTable({
-        data,
+    const table = useReactTable<User>({
+        data: users,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -179,19 +159,9 @@ export function UsersTable() {
         onRowSelectionChange: setRowSelection,
         state: { sorting, columnFilters, columnVisibility, rowSelection }
     })
-    const { data: users, isLoading, error } = useGetUsersQuery();
-    console.log('users', users);
+
 
     return (
-        <>
-            <div>
-                <h1>لیست کاربران</h1>
-                {users?.map((user) => (
-                    <div key={user.id}>
-                        {user.username} - {user.accountType}
-                    </div>
-                ))}
-            </div>
         <div className="w-full">
             <div className="overflow-hidden rounded-md border">
                 <Table>
@@ -229,6 +199,6 @@ export function UsersTable() {
                 </Table>
             </div>
         </div>
-        </>
+
     )
 }

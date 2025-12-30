@@ -6,6 +6,8 @@
     "phone": "Phone",
     "role": "Role",
     "active": "Status",
-    "actions": "Actions"
+    "actions": "Actions",
+    "ADMIN": "Admin",
+    "PLAYER": "Player"
   }
 }
