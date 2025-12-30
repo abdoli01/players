@@ -274,7 +274,7 @@ export function UsersTable() {
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                                    نتیجه‌ای یافت نشد.
+                                    {t('noResultsFound')}
                                 </TableCell>
                             </TableRow>
                         )}

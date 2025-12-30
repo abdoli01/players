@@ -19,6 +19,7 @@
     "active": "فعال",
     "inactive": "غیرفعال",
     "suspended": "مسدود",
-    "accountType": "نوع حساب"
+    "accountType": "نوع حساب",
+    "noResultsFound": "نتیجه ای یافت نشد"
   }
 }

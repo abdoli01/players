@@ -19,7 +19,9 @@
     "active": "active",
     "inactive": "inactive",
     "suspended": "suspended",
-    "accountType": "Account Type"
+    "accountType": "Account Type",
+    "noResultsFound": "No Results Found"
+
 
 
   }
