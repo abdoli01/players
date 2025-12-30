@@ -166,6 +166,11 @@ export function UsersTable() {
         getPaginationRowModel: getPaginationRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         state: { sorting, columnFilters, columnVisibility, rowSelection },
+        initialState: {
+            pagination: {
+                pageSize: 100,
+            },
+        },
     });
 
     // Reset page when filters change
