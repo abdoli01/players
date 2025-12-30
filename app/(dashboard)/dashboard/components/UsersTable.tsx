@@ -45,6 +45,7 @@ import {
 
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import {useTranslations} from "next-intl";
+import { useGetUsersQuery } from "@/services/api/usersApi";
 
 // ----------------------------
 //      TYPE
@@ -178,8 +179,19 @@ export function UsersTable() {
         onRowSelectionChange: setRowSelection,
         state: { sorting, columnFilters, columnVisibility, rowSelection }
     })
+    const { data: users, isLoading, error } = useGetUsersQuery();
+    console.log('users', users);
 
     return (
+        <>
+            <div>
+                <h1>لیست کاربران</h1>
+                {users?.map((user) => (
+                    <div key={user.id}>
+                        {user.username} - {user.accountType}
+                    </div>
+                ))}
+            </div>
         <div className="w-full">
             <div className="overflow-hidden rounded-md border">
                 <Table>
@@ -217,5 +229,6 @@ export function UsersTable() {
                 </Table>
             </div>
         </div>
+        </>
     )
 }

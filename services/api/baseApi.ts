@@ -6,7 +6,7 @@ export const baseApi = createApi({
         baseUrl: "https://jsonplaceholder.typicode.com",
         prepareHeaders: (headers) => {
             if (typeof window !== "undefined") {
-                const token = localStorage.getItem("token");
+                const token = localStorage.getItem("access_token");
                 if (token) headers.set("Authorization", `Bearer ${token}`);
             }
             return headers;
