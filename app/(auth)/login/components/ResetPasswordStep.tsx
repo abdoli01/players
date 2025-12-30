@@ -20,6 +20,8 @@ import { ArrowLeft, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useLocale, useTranslations } from 'next-intl';
 import { toast } from "react-toastify";
 import Image from "next/image";
+import {setUser} from "@/store/slices/userSlice";
+import {useAppDispatch} from "@/store/hooks";
 
 type FormValues = {
     code: string;
@@ -43,6 +45,8 @@ export default function ResetPasswordStep({
 
     const locale = useLocale();
     const t = useTranslations('Auth');
+
+    const dispatch = useAppDispatch();
 
     const intervalRef = useRef<number | null>(null);
 
@@ -108,21 +112,20 @@ export default function ResetPasswordStep({
         setError(null);
         setLoadingSubmit(true);
         try {
-            await passwordService.verifyReset({
+            const res: any = await passwordService.verifyReset({
                 username: phone,
                 code: data.code,
                 newPassword: data.newPassword,
             });
-            toast.success(t('resetSuccess'));
-            setStep("login");
-        } catch (err: any) {
-            if (err?.status === 400) {
-                setError(t('resetInvalidCode'));
-            } else if (err?.status === 404) {
-                setError(t('resetUserNotFound'));
-            } else {
-                setError(t('resetUnknownError'));
+            if (res?.access_token) {
+                toast.success(res.message);
+                localStorage.setItem("access_token", res.access_token);
+                dispatch(setUser(res.user));
+                setStep("assign-player");
             }
+        } catch (err: any) {
+            console.log(err)
+            toast.error(err.message);
         } finally {
             setLoadingSubmit(false);
         }
