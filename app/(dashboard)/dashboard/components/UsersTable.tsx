@@ -160,8 +160,11 @@ export function UsersTable() {
         state: { sorting, columnFilters, columnVisibility, rowSelection }
     })
 
-
+    if (isLoading) {
+        return <div className="p-4">در حال دریافت کاربران...</div>;
+    }
     return (
+        <>
         <div className="w-full">
             <div className="overflow-hidden rounded-md border">
                 <Table>
@@ -199,6 +202,64 @@ export function UsersTable() {
                 </Table>
             </div>
         </div>
+            <div className="flex items-center justify-between px-2 py-4">
+
+                <div className="text-sm text-muted-foreground">
+                    {t("page")} {table.getState().pagination.pageIndex + 1} {t("of")}{" "}
+                    {table.getPageCount()}
+                </div>
+
+                <div className="flex items-center gap-2">
+                    <select
+                        className="border rounded px-2 py-1 text-sm"
+                        value={table.getState().pagination.pageSize}
+                        onChange={(e) => table.setPageSize(Number(e.target.value))}
+                    >
+                        {[5, 10, 20, 50].map(size => (
+                            <option className="text-foreground bg-background" key={size} value={size}>
+                                {size} {t("row")}
+                            </option>
+                        ))}
+                    </select>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.setPageIndex(0)}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        {t("first")}
+                    </Button>
+
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        {t("previous")}
+                    </Button>
+
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        {t("next")}
+                    </Button>
+
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        {t("last")}
+                    </Button>
+                </div>
+            </div>
+
+        </>
 
     )
 }

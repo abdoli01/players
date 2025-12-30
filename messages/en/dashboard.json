@@ -8,6 +8,14 @@
     "active": "Status",
     "actions": "Actions",
     "ADMIN": "Admin",
-    "PLAYER": "Player"
+    "PLAYER": "Player",
+    "page": "page",
+    "of": "of",
+    "first": "first",
+    "previous": "previous",
+    "next": "next",
+    "last": "last",
+    "row": "row"
+
   }
 }
