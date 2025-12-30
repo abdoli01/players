@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import {ArrowLeft, ArrowRight, Eye, EyeOff} from "lucide-react";
 import { useLocale, useTranslations } from 'next-intl';
 import Image from "next/image";
+import {setUser} from "@/store/slices/userSlice";
 
 type FormValues = {
     firstName?: string;
@@ -135,18 +136,15 @@ export default function RegisterStep({
     const onSubmit = async (data: FormValues) => {
         try {
             const res: any = await authService.register({ ...data, username: phone });
-            if (res?.id) {
+            if (res?.access_token) {
                 toast.success(t('successRegister'));
+                localStorage.setItem("access_token", res.access_token);
+                dispatch(setUser(res.user));
                 setStep("assign-player");
             }
         } catch (err: any) {
-            if (err?.status === 400) {
-                toast.error(t('invalidPasswordOrCode'));
-            } else if (err?.status === 409) {
-                toast.error(t('phoneAlreadyExists'));
-            } else {
-                toast.error(t('unknownError'));
-            }
+            console.log(err)
+                toast.error(err.message);
         }
     };
 
