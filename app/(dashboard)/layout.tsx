@@ -1,9 +1,11 @@
 import React from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { DashboardSidebar } from "@/app/(dashboard)/dashboard/components/DashboardSidebar"
+import AdminGate from "@/components/AdminGate";
 
 const LayoutDashboard = ({children}:{children:React.ReactNode}) => {
     return (
+        <AdminGate>
         <SidebarProvider  style={
             {
                 "--sidebar-width": "75px",
@@ -15,6 +17,7 @@ const LayoutDashboard = ({children}:{children:React.ReactNode}) => {
                 {children}
             </main>
         </SidebarProvider>
+        </AdminGate>
     );
 };
 
