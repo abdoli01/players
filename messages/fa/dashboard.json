@@ -5,7 +5,7 @@
     "lastName": "نام خانوادگی",
     "phone": "شماره تلفن",
     "role": "نوع کاربر",
-    "active": "وضعیت",
+    "status": "وضعیت",
     "actions": "عملیات",
     "ADMIN": "ادمین",
     "PLAYER": "بازیکن",
@@ -15,6 +15,10 @@
     "previous": "قبلی",
     "next": "بعدی",
     "last": "آخر",
-    "row": "ردیف"
+    "row": "ردیف",
+    "active": "فعال",
+    "inactive": "غیرفعال",
+    "suspended": "مسدود",
+    "accountType": "نوع حساب"
   }
 }

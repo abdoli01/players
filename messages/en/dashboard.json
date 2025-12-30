@@ -5,7 +5,7 @@
     "lastName": "Last Name",
     "phone": "Phone",
     "role": "Role",
-    "active": "Status",
+    "status": "Status",
     "actions": "Actions",
     "ADMIN": "Admin",
     "PLAYER": "Player",
@@ -15,7 +15,12 @@
     "previous": "previous",
     "next": "next",
     "last": "last",
-    "row": "row"
+    "row": "row",
+    "active": "active",
+    "inactive": "inactive",
+    "suspended": "suspended",
+    "accountType": "Account Type"
+
 
   }
 }
