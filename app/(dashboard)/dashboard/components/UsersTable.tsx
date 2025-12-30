@@ -74,7 +74,7 @@ export function UsersTable() {
         { accessorKey: "status", header: t("active"), cell: ({ row }) => row.original.status},
         {
             id: "actions",
-            header: "عملیات",
+            header: t("actions"),
             cell: ({ row }) => {
                 const user = row.original
                 return (
