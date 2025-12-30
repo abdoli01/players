@@ -20,6 +20,8 @@
     "inactive": "غیرفعال",
     "suspended": "مسدود",
     "accountType": "نوع حساب",
-    "noResultsFound": "نتیجه ای یافت نشد"
+    "noResultsFound": "نتیجه ای یافت نشد",
+    "userSearch": "جستجوی کاربر"
+
   }
 }

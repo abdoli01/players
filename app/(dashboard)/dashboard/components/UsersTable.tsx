@@ -189,6 +189,13 @@ export function UsersTable() {
             {/* Search Filters */}
             <div className="flex flex-wrap gap-4 mb-4">
                 <div className="flex flex-col gap-1">
+                    <Label>{t("userSearch")}</Label>
+                    <Input
+                        value={searchParams.q ?? ""}
+                        onChange={(e) => setSearchParams(prev => ({ ...prev, q: e.target.value }))}
+                    />
+                </div>
+                <div className="flex flex-col gap-1">
                     <Label>{t("phone")}</Label>
                     <Input
                         value={searchParams.username ?? ""}
