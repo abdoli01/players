@@ -29,21 +29,10 @@ import { Label } from "@/components/ui/label";
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuTrigger,
     DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import {
-    Dialog,
-    DialogTrigger,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogDescription,
-    DialogFooter,
-    DialogClose,
-} from "@/components/ui/dialog";
 import { MoreHorizontal } from "lucide-react";
 
 export function UsersTable() {
@@ -108,46 +97,6 @@ export function UsersTable() {
                             <DropdownMenuLabel>عملیات</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <EditUserDialog user={user} />
-                            {/* تغییر رمز عبور */}
-                            <Dialog>
-                                <DialogTrigger asChild>
-                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>تغییر رمز عبور</DropdownMenuItem>
-                                </DialogTrigger>
-                                <DialogContent className="max-w-sm">
-                                    <DialogHeader>
-                                        <DialogTitle>تغییر رمز عبور</DialogTitle>
-                                        <DialogDescription>یک رمز جدید وارد کنید</DialogDescription>
-                                    </DialogHeader>
-                                    <Input placeholder="رمز جدید" className="w-full" />
-                                    <DialogFooter className="mt-4">
-                                        <DialogClose className="px-4 py-2 bg-gray-200 dark:bg-muted rounded">انصراف</DialogClose>
-                                        <Button>ذخیره</Button>
-                                    </DialogFooter>
-                                </DialogContent>
-                            </Dialog>
-
-                            {/* انتصاب بازیکن */}
-                            <Dialog>
-                                <DialogTrigger asChild>
-                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>انتصاب بازیکن</DropdownMenuItem>
-                                </DialogTrigger>
-                                <DialogContent className="max-w-sm">
-                                    <DialogHeader>
-                                        <DialogTitle>انتصاب بازیکن</DialogTitle>
-                                        <DialogDescription>بازیکن مورد نظر را انتخاب کنید</DialogDescription>
-                                    </DialogHeader>
-                                    <Input placeholder="نام بازیکن" className="w-full" />
-                                    <DialogFooter className="mt-4">
-                                        <DialogClose className="px-4 py-2 bg-gray-200 dark:bg-muted rounded">انصراف</DialogClose>
-                                        <Button>ثبت</Button>
-                                    </DialogFooter>
-                                </DialogContent>
-                            </Dialog>
-
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(String(user.id))}>
-                                کپی کردن ID کاربر
-                            </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );
@@ -250,16 +199,6 @@ export function UsersTable() {
                         </SelectContent>
                     </Select>
                 </div>
-                {/*<div className="flex flex-col gap-1">*/}
-                {/*    <Label>شناسه Metrica</Label>*/}
-                {/*    <Input*/}
-                {/*        value={searchParams.metricaPlayerId ?? ""}*/}
-                {/*        onChange={(e) => setSearchParams(prev => ({ ...prev, metricaPlayerId: e.target.value }))}*/}
-                {/*    />*/}
-                {/*</div>*/}
-                {/*<div className="flex items-end">*/}
-                {/*    <Button onClick={() => refetch()}>جستجو</Button>*/}
-                {/*</div>*/}
             </div>
 
             {/* Table */}
