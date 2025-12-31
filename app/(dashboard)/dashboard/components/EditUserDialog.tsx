@@ -36,6 +36,8 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import TimePicker from "react-multi-date-picker/plugins/time_picker";
+
 
 type Props = {
     user: User;
@@ -162,6 +164,7 @@ export function EditUserDialog({ user }: Props) {
                     {/* Expire Date - شمسی */}
                     <div>
                         <DatePicker
+                            plugins={[<TimePicker key="time-picker" position="bottom" hideSeconds />]}
                             calendar={persian}
                             locale={persian_fa}
                             value={form.watch("expireDate")}
@@ -179,6 +182,11 @@ export function EditUserDialog({ user }: Props) {
                                 border: "1px solid hsl(var(--input))",
                             }}
                         />
+                                                    <style>{`
+                              .rmdp-time-picker input {
+                                color: black;  /* رنگ اعداد داخل TimePicker */
+                              }
+                            `}</style>
                         {form.formState.errors.expireDate && (
                             <p className="text-sm text-red-500 mt-1">
                                 {form.formState.errors.expireDate.message}
