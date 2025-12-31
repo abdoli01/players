@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
+import { useLocale } from "next-intl";
+
 
 import {
     Dialog,
@@ -58,6 +60,8 @@ type EditUserFormValues = z.infer<typeof editUserSchema>;
 export function EditUserDialog({ user }: Props) {
     const [open, setOpen] = React.useState(false);
     const [updateUser, { isLoading }] = useUpdateUserMutation();
+    const locale = useLocale();
+    const isRtl = locale === "fa";
 
     const form = useForm<EditUserFormValues>({
         resolver: zodResolver(editUserSchema),
@@ -102,7 +106,7 @@ export function EditUserDialog({ user }: Props) {
             </DialogTrigger>
 
             <DialogContent className="max-w-lg">
-                <DialogHeader>
+                <DialogHeader className={isRtl ? '!text-right' : ''}>
                     <DialogTitle>ویرایش کاربر</DialogTitle>
                     <DialogDescription>
                         اطلاعات کاربر را ویرایش کنید
@@ -137,11 +141,12 @@ export function EditUserDialog({ user }: Props) {
                             onValueChange={(value) =>
                                 form.setValue("status", value as EditUserFormValues["status"])
                             }
+
                         >
-                            <SelectTrigger className='w-full'>
+                            <SelectTrigger dir={isRtl ? 'rtl' : 'ltr'} className='w-full'>
                                 <SelectValue placeholder="وضعیت" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent dir={isRtl ? 'rtl' : 'ltr'}>
                                 <SelectItem value="ACTIVE">فعال</SelectItem>
                                 <SelectItem value="INACTIVE">غیرفعال</SelectItem>
                                 <SelectItem value="SUSPENDED">مسدود</SelectItem>
