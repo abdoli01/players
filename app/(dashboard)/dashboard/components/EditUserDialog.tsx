@@ -43,8 +43,8 @@ type Props = {
    Zod Schema
 ========================= */
 const editUserSchema = z.object({
-    firstName: z.string().min(1, "نام الزامی است"),
-    lastName: z.string().min(1, "نام خانوادگی الزامی است"),
+    firstName: z.string(),
+    lastName: z.string(),
     status: z.enum(["ACTIVE", "INACTIVE", "SUSPENDED"]),
     expireDate: z.date().nullable().optional(),
     metricaPlayerId: z.string().optional(),
@@ -187,8 +187,8 @@ export function EditUserDialog({ user }: Props) {
                     </div>
 
                     <DialogFooter className="mt-4 flex justify-end gap-2">
-                        <DialogClose type="button" className="px-4 py-2 bg-gray-200 rounded">
-                            انصراف
+                        <DialogClose type="button" className="px-4 py-2 bg-foreground/30 rounded">
+                          انصراف
                         </DialogClose>
                         <Button type="submit" disabled={isLoading}>
                             {isLoading ? "در حال ذخیره..." : "ذخیره"}
