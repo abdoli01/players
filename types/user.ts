@@ -7,6 +7,7 @@ export interface User {
     status: "ACTIVE" | "INACTIVE" | "SUSPENDED";
     accountType: "PLAYER" | "ADMIN";
     metricaPlayerId?: string;
+    expireDate?: string | null;
 }
 // types/userSearch.ts
 export interface UserSearchParams {

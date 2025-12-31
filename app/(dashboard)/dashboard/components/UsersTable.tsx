@@ -5,6 +5,8 @@ import { useGetUsersQuery, useSearchUsersQuery } from "@/services/api/usersApi";
 import { User, UserSearchParams } from "@/types/user";
 import { useTranslations } from "next-intl";
 import {Spinner} from "@/components/Spinner";
+import { EditUserDialog } from "../components/EditUserDialog";
+
 
 import {
     useReactTable,
@@ -104,7 +106,8 @@ export function UsersTable() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>عملیات</DropdownMenuLabel>
-
+                            <DropdownMenuSeparator />
+                            <EditUserDialog user={user} />
                             {/* تغییر رمز عبور */}
                             <Dialog>
                                 <DialogTrigger asChild>

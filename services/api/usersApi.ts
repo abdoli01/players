@@ -21,10 +21,25 @@ export const usersApi = baseApi.injectEndpoints({
             }),
             providesTags: ["USERS"],
         }),
+
+        // services/usersApi.ts
+        updateUser: builder.mutation<
+            User,
+            { id: string; body: Partial<User> }
+        >({
+            query: ({ id, body }) => ({
+                url: `/users/${id}`,
+                method: "PATCH",
+                body,
+            }),
+            invalidatesTags: ["USERS"],
+        }),
+
     }),
 });
 export const {
     useGetUsersQuery,
     useSearchUsersQuery,
+    useUpdateUserMutation,
 } = usersApi;
 
