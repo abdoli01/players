@@ -161,6 +161,11 @@ export function EditUserDialog({ user }: Props) {
                         )}
                     </div>
 
+                    {/* Metrica Player ID */}
+                    <div>
+                        <Input {...form.register("metricaPlayerId")} placeholder="Metrica Player ID" />
+                    </div>
+
                     {/* Expire Date - شمسی */}
                     <div>
                         <DatePicker
@@ -173,14 +178,11 @@ export function EditUserDialog({ user }: Props) {
                             }}
                             format="YYYY/MM/DD HH:mm"
                             calendarPosition="bottom-right"
-                            editable={false}
-                            style={{
-                                width: "100%",
-                                height: "40px",
-                                padding: "0 12px",
-                                borderRadius: "6px",
-                                border: "1px solid hsl(var(--input))",
-                            }}
+                            editable={true}
+                            className='bg-background text-foreground w-full'
+                            inputClass="w-full h-10 px-3 rounded border border-gray-300 text-foreground"
+                            placeholder="تاریخ"
+
                         />
                                                     <style>{`
                               .rmdp-time-picker input {
@@ -192,11 +194,6 @@ export function EditUserDialog({ user }: Props) {
                                 {form.formState.errors.expireDate.message}
                             </p>
                         )}
-                    </div>
-
-                    {/* Metrica Player ID */}
-                    <div>
-                        <Input {...form.register("metricaPlayerId")} placeholder="Metrica Player ID" />
                     </div>
 
                     <DialogFooter className="mt-4 flex justify-end gap-2">
