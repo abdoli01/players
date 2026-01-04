@@ -9,7 +9,7 @@ import { Package, PackageSearchParams } from "@/types/package";
 import { useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
 import { CreatePackageDialog } from "../components/CreatePackageDialog";
-// import { EditPackageDialog } from "../components/EditPackageDialog";
+import { EditPackageDialog } from "../components/EditPackageDialog";
 
 import {
     useReactTable,
@@ -110,6 +110,8 @@ export function PackagesTable() {
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>عملیات</DropdownMenuLabel>
                         <DropdownMenuSeparator />
+                        <EditPackageDialog packageData={row.original} />
+
                         {/*<EditPackageDialog package={row.original} />*/}
                         {/* میشه اینجا بعداً DeletePackageDialog هم اضافه کرد */}
                     </DropdownMenuContent>
