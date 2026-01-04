@@ -55,6 +55,12 @@
     "downloadMinutes": "Download Minutes",
     "createPackage": "Create Package",
     "editPackage": "Edit Package",
-    "deletePackage": "Delete Package"
+    "deletePackage": "Delete Package",
+
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "deleteConfirm": "Are you sure you want to delete \"{title}\"?",
+    "packageDeleted": "Package deleted successfully",
+    "deleteError": "Error deleting package"
   }
 }

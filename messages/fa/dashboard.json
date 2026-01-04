@@ -56,6 +56,12 @@
     "downloadMinutes": "تعداد دقیقه دانلود",
     "createPackage": "ایجاد پکیج",
     "editPackage": "ویرایش پکیج",
-    "deletePackage": "حذف پکیج"
+    "deletePackage": "حذف پکیج",
+
+    "delete": "حذف",
+    "deleting": "در حال حذف...",
+    "deleteConfirm": "آیا از حذف \"{title}\" مطمئن هستید؟",
+    "packageDeleted": "پکیج با موفقیت حذف شد",
+    "deleteError": "خطا در حذف پکیج"
   }
 }
