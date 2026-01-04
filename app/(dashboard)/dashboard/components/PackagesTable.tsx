@@ -44,6 +44,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
+import {DeletePackageDialog} from "@/app/(dashboard)/dashboard/components/DeletePackageDialog";
 
 export function PackagesTable() {
     const t = useTranslations("Dashboard");
@@ -111,6 +112,7 @@ export function PackagesTable() {
                         <DropdownMenuLabel>عملیات</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <EditPackageDialog packageData={row.original} />
+                        <DeletePackageDialog packageData={row.original} />
 
                         {/*<EditPackageDialog package={row.original} />*/}
                         {/* میشه اینجا بعداً DeletePackageDialog هم اضافه کرد */}
