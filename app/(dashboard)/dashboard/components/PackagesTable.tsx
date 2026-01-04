@@ -8,7 +8,7 @@ import {
 import { Package, PackageSearchParams } from "@/types/package";
 import { useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
-// import { CreatePackageDialog } from "../components/CreatePackageDialog";
+import { CreatePackageDialog } from "../components/CreatePackageDialog";
 // import { EditPackageDialog } from "../components/EditPackageDialog";
 
 import {
@@ -187,9 +187,9 @@ export function PackagesTable() {
                     />
                 </div>
 
-                {/*<div className="flex items-center justify-end flex-1">*/}
-                {/*    <CreatePackageDialog />*/}
-                {/*</div>*/}
+                <div className="flex items-center justify-end flex-1">
+                    <CreatePackageDialog />
+                </div>
             </div>
 
             {/* Table */}
