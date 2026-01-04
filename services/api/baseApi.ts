@@ -14,6 +14,6 @@ export const baseApi = createApi({
             return headers;
         },
     }),
-    tagTypes: ["POSTS", "USERS"], // برای invalidation
+    tagTypes: ["POSTS", "USERS","PLAYERS"], // برای invalidation
     endpoints: () => ({}), // فقط baseApi خودش خالیه
 });
