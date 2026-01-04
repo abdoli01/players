@@ -42,6 +42,20 @@
     "cancel": "انصراف",
     "saving": "در حال ذخیره...",
     "editPlayer": "ویرایش بازیکن",
-    "edit": "ویرایش"
+    "edit": "ویرایش",
+
+    "title": "عنوان پکیج",
+    "description": "توضیحات",
+    "originalPrice": "قیمت اصلی (ریال)",
+    "discountPrice": "قیمت تخفیف (ریال)",
+    "freeUsageDays": "تعداد روز استفاده رایگان",
+    "freeDisplayMinutes": "تعداد دقیقه نمایش رایگان",
+    "freeDownloadMinutes": "تعداد دقیقه دانلود رایگان",
+    "usageDays": "تعداد روز استفاده",
+    "displayMinutes": "تعداد دقیقه نمایش",
+    "downloadMinutes": "تعداد دقیقه دانلود",
+    "createPackage": "ایجاد پکیج",
+    "editPackage": "ویرایش پکیج",
+    "deletePackage": "حذف پکیج"
   }
 }

@@ -41,6 +41,20 @@
     "cancel": "Cancel",
     "saving": "Saving...",
     "editPlayer": "Edit Player",
-    "edit": "Edit"
+    "edit": "Edit",
+
+    "title": "Package Title",
+    "description": "Description",
+    "originalPrice": "Original Price (IRR)",
+    "discountPrice": "Discount Price (IRR)",
+    "freeUsageDays": "Free Usage Days",
+    "freeDisplayMinutes": "Free Display Minutes",
+    "freeDownloadMinutes": "Free Download Minutes",
+    "usageDays": "Usage Days",
+    "displayMinutes": "Display Minutes",
+    "downloadMinutes": "Download Minutes",
+    "createPackage": "Create Package",
+    "editPackage": "Edit Package",
+    "deletePackage": "Delete Package"
   }
 }
