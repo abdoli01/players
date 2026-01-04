@@ -149,3 +149,16 @@ button{
     cursor: pointer;
 }
 
+/* LTR */
+[dir="ltr"] button[data-slot="dialog-close"].right-4 {
+    left: auto;
+    right: 1rem;
+}
+
+/* RTL */
+[dir="rtl"] button[data-slot="dialog-close"].right-4 {
+    right: auto;
+    left: 1rem;
+}
+
+

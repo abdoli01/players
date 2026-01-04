@@ -205,11 +205,6 @@ export function EditUserDialog({ user }: Props) {
                         </Button>
                     </DialogFooter>
                 </form>
-                <style>{`
-                          button.right-4 {
-                            ${isRtl ? 'right: auto; left: 1rem;' : 'left: auto; right: 1rem;'}
-                          }
-                    `}</style>
             </DialogContent>
         </Dialog>
     );
