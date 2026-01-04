@@ -21,7 +21,23 @@
     "suspended": "مسدود",
     "accountType": "نوع حساب",
     "noResultsFound": "نتیجه ای یافت نشد",
-    "userSearch": "جستجوی کاربر"
+    "userSearch": "جستجوی کاربر",
 
+
+    "search": "جستجو",
+    "fullName": "نام کامل",
+    "fullNameEn": "نام کامل (انگلیسی)",
+    "nationalId": "کد ملی",
+    "passportId": "شماره پاسپورت",
+    "birthday": "تاریخ تولد",
+    "height": "قد",
+    "corePlayerId": "شناسه بازیکن (Core)",
+
+    "createPlayer": "ایجاد بازیکن",
+    "shortName": "نام کوتاه",
+    "shortNameEn": "نام کوتاه (انگلیسی)",
+    "image": "تصویر",
+    "save": "ذخیره",
+    "players": "بازیکنان"
   }
 }

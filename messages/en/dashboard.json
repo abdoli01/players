@@ -21,7 +21,23 @@
     "suspended": "suspended",
     "accountType": "Account Type",
     "noResultsFound": "No Results Found",
-    "userSearch": "User search"
+    "userSearch": "User search",
+
+    "search": "Search",
+    "fullName": "Full Name",
+    "fullNameEn": "Full Name (English)",
+    "nationalId": "National ID",
+    "passportId": "Passport Number",
+    "birthday": "Birth Date",
+    "height": "Height",
+    "corePlayerId": "Core Player ID",
+
+    "createPlayer": "Create Player",
+    "shortName": "Short Name",
+    "shortNameEn": "Short Name (English)",
+    "image": "Image",
+    "save": "Save",
+    "players": "Players"
 
 
 

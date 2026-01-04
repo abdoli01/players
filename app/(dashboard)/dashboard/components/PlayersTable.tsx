@@ -8,6 +8,8 @@ import {
 import { Player, PlayerSearchParams } from "@/types/player";
 import { useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
+import { CreatePlayerDialog } from "../components/CreatePlayerDialog";
+
 
 import {
     useReactTable,
@@ -241,6 +243,10 @@ export function PlayersTable() {
                         }
                     />
                 </div>
+                <div className="flex items-center justify-end flex-1 ">
+                    <CreatePlayerDialog />
+                </div>
+
             </div>
 
             {/* Table */}
