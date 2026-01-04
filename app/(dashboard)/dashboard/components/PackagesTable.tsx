@@ -6,7 +6,7 @@ import {
     useSearchPackagesQuery,
 } from "@/services/api/packagesApi";
 import { Package, PackageSearchParams } from "@/types/package";
-import { useTranslations } from "next-intl";
+import {useLocale, useTranslations} from "next-intl";
 import { Spinner } from "@/components/Spinner";
 import { CreatePackageDialog } from "../components/CreatePackageDialog";
 import { EditPackageDialog } from "../components/EditPackageDialog";
@@ -48,6 +48,8 @@ import {DeletePackageDialog} from "@/app/(dashboard)/dashboard/components/Delete
 
 export function PackagesTable() {
     const t = useTranslations("Dashboard");
+    const locale = useLocale();
+    const isRtl = locale === "fa";
 
     // -----------------------
     // Search state
@@ -102,7 +104,7 @@ export function PackagesTable() {
             id: "actions",
             header: t("actions"),
             cell: ({ row }) => (
-                <DropdownMenu>
+                <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
                             <MoreHorizontal className="h-4 w-4" />

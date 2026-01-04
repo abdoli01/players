@@ -6,7 +6,7 @@ import {
     useSearchPlayersQuery,
 } from "@/services/api/playersApi";
 import { Player, PlayerSearchParams } from "@/types/player";
-import { useTranslations } from "next-intl";
+import {useLocale, useTranslations} from "next-intl";
 import { Spinner } from "@/components/Spinner";
 import { CreatePlayerDialog } from "../components/CreatePlayerDialog";
 
@@ -47,6 +47,8 @@ import {EditPlayerDialog} from "@/app/(dashboard)/dashboard/components/EditPlaye
 
 export function PlayersTable() {
     const t = useTranslations("Dashboard");
+    const locale = useLocale();
+    const isRtl = locale === "fa";
 
     // -----------------------
     // Search state
@@ -124,7 +126,7 @@ export function PlayersTable() {
                 const player = row.original;
 
                 return (
-                    <DropdownMenu>
+                    <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
                         <DropdownMenuTrigger asChild>
                             <Button
                                 variant="ghost"

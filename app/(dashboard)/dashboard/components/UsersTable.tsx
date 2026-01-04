@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useGetUsersQuery, useSearchUsersQuery } from "@/services/api/usersApi";
 import { User, UserSearchParams } from "@/types/user";
-import { useTranslations } from "next-intl";
+import {useLocale, useTranslations} from "next-intl";
 import {Spinner} from "@/components/Spinner";
 import { EditUserDialog } from "../components/EditUserDialog";
 
@@ -37,6 +37,8 @@ import { MoreHorizontal } from "lucide-react";
 
 export function UsersTable() {
     const t = useTranslations("Dashboard");
+    const locale = useLocale();
+    const isRtl = locale === "fa";
 
     // -----------------------
     // Search form state
@@ -87,7 +89,7 @@ export function UsersTable() {
             cell: ({ row }) => {
                 const user = row.original;
                 return (
-                    <DropdownMenu>
+                    <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
                         <DropdownMenuTrigger asChild>
                             <Button variant="ghost" className="h-8 w-8 p-0">
                                 <MoreHorizontal className="h-4 w-4" />
