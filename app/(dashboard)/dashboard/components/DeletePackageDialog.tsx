@@ -4,7 +4,7 @@ import * as React from "react";
 import { Package } from "@/types/package";
 import { useDeletePackageMutation } from "@/services/api/packagesApi";
 import { toast } from "react-toastify";
-import { useTranslations } from "next-intl";
+import {useLocale, useTranslations} from "next-intl";
 
 import {
     Dialog,
@@ -23,6 +23,8 @@ interface Props {
 
 export function DeletePackageDialog({ packageData }: Props) {
     const t = useTranslations("Dashboard"); // ترجمه‌ها از بخش Dashboard گرفته می‌شوند
+    const locale = useLocale();
+    const isRtl = locale === "fa";
 
     const [open, setOpen] = React.useState(false);
     const [deletePackage, { isLoading }] = useDeletePackageMutation();
@@ -47,7 +49,7 @@ export function DeletePackageDialog({ packageData }: Props) {
 
             <DialogContent className="max-w-md">
                 <DialogHeader>
-                    <DialogTitle>
+                    <DialogTitle className={isRtl ? "text-right" : "text-left"}>
                         {t("deleteConfirm", { title: packageData.title })}
                     </DialogTitle>
                 </DialogHeader>
