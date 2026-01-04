@@ -169,7 +169,7 @@ export function EditPlayerDialog({ player }: Props) {
                                 )
                             }
                             format="YYYY/MM/DD"
-                            editable={false}
+                            editable={true}
                             inputClass="w-full h-10 px-3 rounded border"
                         />
                     </div>

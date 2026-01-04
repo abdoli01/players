@@ -182,7 +182,7 @@ export function CreatePlayerDialog() {
                             }
                             format="YYYY/MM/DD"
                             calendarPosition="bottom-right"
-                            editable={false}
+                            editable={true}
                             className="bg-background text-foreground w-full"
                             inputClass="w-full h-10 px-3 rounded border border-gray-300 text-foreground"
                             placeholder="تاریخ تولد"
