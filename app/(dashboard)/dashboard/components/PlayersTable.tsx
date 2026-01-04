@@ -43,6 +43,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
+import {EditPlayerDialog} from "@/app/(dashboard)/dashboard/components/EditPlayerDialog";
 
 export function PlayersTable() {
     const t = useTranslations("Dashboard");
@@ -139,9 +140,7 @@ export function PlayersTable() {
                                 EditPlayerDialog
                                 DeletePlayerDialog
                              */}
-                            <div className="px-2 py-1 text-sm text-muted-foreground">
-                                {player.fullName}
-                            </div>
+                            <EditPlayerDialog player={row.original} />
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );

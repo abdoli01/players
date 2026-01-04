@@ -39,9 +39,8 @@
     "save": "Save",
     "players": "Players",
     "cancel": "Cancel",
-    "saving": "Saving..."
-
-
-
+    "saving": "Saving...",
+    "editPlayer": "Edit Player",
+    "edit": "Edit"
   }
 }
