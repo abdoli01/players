@@ -1,5 +1,5 @@
 'use client'
-import { User } from "lucide-react"
+import { User,ChessPawn } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { useLocale } from 'next-intl';
@@ -23,6 +23,11 @@ const items = [
         url: "/dashboard/users",
         icon: User,
     },
+    {
+        title: "players",
+        url: "/dashboard/players",
+        icon: ChessPawn,
+    }
 ]
 
 export function DashboardSidebar() {
