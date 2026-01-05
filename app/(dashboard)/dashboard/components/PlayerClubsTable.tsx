@@ -1,0 +1,281 @@
+"use client";
+
+import * as React from "react";
+import {
+    useGetPlayerClubsQuery,
+    useSearchPlayerClubsQuery,
+} from "@/services/api/playerClubsApi";
+import { PlayerClub, PlayerClubSearchParams } from "@/types/playerClub";
+import { useLocale, useTranslations } from "next-intl";
+import { Spinner } from "@/components/Spinner";
+// import { CreatePlayerClubDialog } from "../components/CreatePlayerClubDialog";
+// import { EditPlayerClubDialog } from "../components/EditPlayerClubDialog";
+
+import {
+    useReactTable,
+    ColumnDef,
+    getCoreRowModel,
+    getSortedRowModel,
+    getPaginationRowModel,
+    getFilteredRowModel,
+    flexRender,
+    SortingState,
+    ColumnFiltersState,
+    VisibilityState,
+} from "@tanstack/react-table";
+
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
+
+export function PlayerClubsTable() {
+    const t = useTranslations("Dashboard");
+    const locale = useLocale();
+    const isRtl = locale === "fa";
+
+    // -----------------------
+    // Search state
+    // -----------------------
+    const [searchParams, setSearchParams] = React.useState<PlayerClubSearchParams>({
+        q: "",
+        playerId: "",
+        clubId: "",
+        sportId: "",
+        startDate: "",
+        endDate: "",
+    });
+
+    // -----------------------
+    // Table states
+    // -----------------------
+    const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] =
+        React.useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] =
+        React.useState<VisibilityState>({});
+    const [rowSelection, setRowSelection] = React.useState({});
+
+    // -----------------------
+    // Fetch data
+    // -----------------------
+    const { data: allPlayerClubs = [], isLoading: isLoadingAll } =
+        useGetPlayerClubsQuery();
+
+    const { data: filteredPlayerClubs = [], isLoading: isLoadingFiltered } =
+        useSearchPlayerClubsQuery(searchParams);
+
+    const hasFilters = Object.values(searchParams).some(Boolean);
+    const playerClubs = hasFilters ? filteredPlayerClubs : allPlayerClubs;
+    const isLoading = hasFilters ? isLoadingFiltered : isLoadingAll;
+
+    // -----------------------
+    // Columns
+    // -----------------------
+    const columns: ColumnDef<PlayerClub>[] = [
+        { accessorKey: "playerId", header: t("playerId") },
+        { accessorKey: "clubId", header: t("clubId") },
+        { accessorKey: "sportId", header: t("sportId") },
+        { accessorKey: "startDate", header: t("startDate") },
+        { accessorKey: "endDate", header: t("endDate") },
+        {
+            id: "actions",
+            header: t("actions"),
+            cell: ({ row }) => {
+                const playerClub = row.original;
+                return (
+                    <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>عملیات</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            {/*<EditPlayerClubDialog playerClub={playerClub} />*/}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                );
+            },
+        },
+    ];
+
+    // -----------------------
+    // Table
+    // -----------------------
+    const table = useReactTable<PlayerClub>({
+        data: playerClubs,
+        columns,
+        onSortingChange: setSorting,
+        onColumnFiltersChange: setColumnFilters,
+        onColumnVisibilityChange: setColumnVisibility,
+        onRowSelectionChange: setRowSelection,
+        getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        state: { sorting, columnFilters, columnVisibility, rowSelection },
+        initialState: { pagination: { pageSize: 20 } },
+    });
+
+    React.useEffect(() => {
+        table.setPageIndex(0);
+    }, [searchParams]);
+
+    // -----------------------
+    // Render
+    // -----------------------
+    if (isLoading) return <Spinner />;
+
+    return (
+        <div className="w-full">
+            {/* Filters */}
+            <div className="flex flex-wrap gap-4 mb-4">
+                <div className="flex flex-col gap-1">
+                    <Label>{t("search")}</Label>
+                    <Input
+                        value={searchParams.q ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({ ...prev, q: e.target.value }))
+                        }
+                    />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                    <Label>{t("playerId")}</Label>
+                    <Input
+                        value={searchParams.playerId ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({ ...prev, playerId: e.target.value }))
+                        }
+                    />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                    <Label>{t("clubId")}</Label>
+                    <Input
+                        value={searchParams.clubId ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({ ...prev, clubId: e.target.value }))
+                        }
+                    />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                    <Label>{t("sportId")}</Label>
+                    <Input
+                        value={searchParams.sportId ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({ ...prev, sportId: e.target.value }))
+                        }
+                    />
+                </div>
+
+                {/*<div className="flex items-center justify-end flex-1">*/}
+                {/*    <CreatePlayerClubDialog />*/}
+                {/*</div>*/}
+            </div>
+
+            {/* Table */}
+            <div className="overflow-hidden rounded-md border">
+                <Table>
+                    <TableHeader>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => (
+                                    <TableHead key={header.id} className="text-center">
+                                        {header.isPlaceholder
+                                            ? null
+                                            : flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext()
+                                            )}
+                                    </TableHead>
+                                ))}
+                            </TableRow>
+                        ))}
+                    </TableHeader>
+                    <TableBody>
+                        {table.getRowModel().rows.length ? (
+                            table.getRowModel().rows.map((row) => (
+                                <TableRow key={row.id}>
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell key={cell.id} className="text-center">
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell colSpan={columns.length} className="h-24 text-center">
+                                    {t("noResultsFound")}
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </div>
+
+            {/* Pagination */}
+            <div className="flex items-center justify-between px-2 py-4">
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.setPageIndex(0)}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        {t("first")}
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        {t("previous")}
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        {t("next")}
+                    </Button>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        {t("last")}
+                    </Button>
+                </div>
+
+                <div className="text-sm text-muted-foreground">
+                    {t("page")} {table.getState().pagination.pageIndex + 1} {t("of")}{" "}
+                    {table.getPageCount()}
+                </div>
+            </div>
+        </div>
+    );
+}
