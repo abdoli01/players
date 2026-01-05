@@ -89,9 +89,9 @@ export function PlayerClubsTable() {
     // Columns
     // -----------------------
     const columns: ColumnDef<PlayerClub>[] = [
-        { accessorKey: "playerId", header: t("playerId") },
-        { accessorKey: "clubId", header: t("clubId") },
-        { accessorKey: "sportId", header: t("sportId") },
+        { accessorKey: "player.fullName", header: t("playerId") },
+        { accessorKey: "club.fullName", header: t("clubId") },
+        { accessorKey: "sport.fullName", header: t("sportId") },
         { accessorKey: "startDate", header: t("startDate") },
         { accessorKey: "endDate", header: t("endDate") },
         {

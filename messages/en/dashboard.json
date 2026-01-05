@@ -89,6 +89,9 @@
     "sportId": "Sport ID",
     "startDate": "Start Date",
     "endDate": "End Date",
-    "createPlayerClub": "Create Player-Club Relation"
+    "createPlayerClub": "Create Player-Club Relation",
+    "selectPlayer": "Select a player",
+    "selectClub": "Select a club",
+    "selectSport": "Select a sport"
   }
 }

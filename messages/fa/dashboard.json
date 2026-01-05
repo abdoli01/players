@@ -93,6 +93,9 @@
     "sportId": "شناسه ورزش",
     "startDate": "تاریخ شروع",
     "endDate": "تاریخ پایان",
-    "createPlayerClub": "ایجاد رابطه بازیکن-باشگاه"
+    "createPlayerClub": "ایجاد رابطه بازیکن-باشگاه",
+    "selectPlayer": "یک بازیکن انتخاب کنید",
+    "selectClub": "یک باشگاه انتخاب کنید",
+    "selectSport": "یک ورزش انتخاب کنید"
   }
 }

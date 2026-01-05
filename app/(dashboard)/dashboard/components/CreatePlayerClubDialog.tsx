@@ -4,7 +4,7 @@ import * as React from "react";
 import { useCreatePlayerClubMutation } from "@/services/api/playerClubsApi";
 import { CreatePlayerClubDto } from "@/types/playerClub";
 
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
@@ -19,12 +19,26 @@ import {
     DialogFooter,
     DialogClose,
 } from "@/components/ui/dialog";
+
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+
+import { useGetPlayersQuery } from "@/services/api/playersApi";
+import { useGetClubsQuery } from "@/services/api/clubsApi";
+import { useGetSportsQuery } from "@/services/api/sportsApi";
+
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 /* =========================
    Zod Schema
@@ -41,10 +55,12 @@ const createPlayerClubSchema = z.object({
     endDate: z
         .any()
         .optional()
-        .refine((val) => val === undefined || (val instanceof Date && !isNaN(val.getTime())), {
-            message: "تاریخ پایان معتبر نیست",
-        }),
+        .refine(
+            (val) => val === undefined || (val instanceof Date && !isNaN(val.getTime())),
+            { message: "تاریخ پایان معتبر نیست" }
+        ),
 });
+
 
 type CreatePlayerClubFormValues = z.infer<typeof createPlayerClubSchema>;
 
@@ -69,6 +85,12 @@ export function CreatePlayerClubDialog() {
     const [open, setOpen] = React.useState(false);
     const [createPlayerClub, { isLoading }] = useCreatePlayerClubMutation();
 
+    // Fetch options
+    const { data: players = [] } = useGetPlayersQuery();
+    const { data: clubs = [] } = useGetClubsQuery();
+    const { data: sports = [] } = useGetSportsQuery();
+
+    // React Hook Form
     const form = useForm<CreatePlayerClubFormValues>({
         resolver: zodResolver(createPlayerClubSchema),
         mode: "onSubmit",
@@ -82,8 +104,8 @@ export function CreatePlayerClubDialog() {
     });
 
     /* =========================
-       Submit
-    ========================== */
+       Submit handler
+    ========================= */
     const onSubmit = async (values: CreatePlayerClubFormValues) => {
         try {
             const payload: CreatePlayerClubDto = {
@@ -91,7 +113,9 @@ export function CreatePlayerClubDialog() {
                 clubId: values.clubId,
                 sportId: values.sportId,
                 startDate: values.startDate.toISOString().slice(0, 10),
-                endDate: values.endDate ? values.endDate.toISOString().slice(0, 10) : undefined,
+                endDate: values.endDate
+                    ? values.endDate.toISOString().slice(0, 10)
+                    : undefined,
             };
 
             await createPlayerClub(payload).unwrap();
@@ -103,14 +127,12 @@ export function CreatePlayerClubDialog() {
             const status = err?.status;
             if (status === 400) toast.error("اطلاعات وارد شده نامعتبر است");
             else if (status === 401) toast.error("نیاز به ورود مجدد");
-            else if (status === 403) toast.error("فقط مدیران می‌توانند این عملیات را انجام دهند");
+            else if (status === 403)
+                toast.error("فقط مدیران می‌توانند این عملیات را انجام دهند");
             else toast.error("خطای غیرمنتظره‌ای رخ داد");
         }
     };
 
-    /* =========================
-       Render
-    ========================== */
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
@@ -126,10 +148,30 @@ export function CreatePlayerClubDialog() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="grid grid-cols-2 gap-4 py-4"
                 >
-                    {/* Player ID */}
+                    {/* Player Select */}
                     <div>
                         <Label className="mb-1">{t("playerId")}</Label>
-                        <Input {...form.register("playerId")} placeholder="UUID بازیکن" />
+                        <Controller
+                            control={form.control}
+                            name="playerId"
+                            render={({ field }) => (
+                                <Select
+                                    value={field.value}
+                                    onValueChange={(val) => field.onChange(val)}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder={t("selectPlayer")} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {players.map((p) => (
+                                            <SelectItem key={p.id} value={p.id}>
+                                                {p.fullName}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            )}
+                        />
                         {renderError(form.formState.errors.playerId) && (
                             <p className="text-sm text-red-500 mt-1">
                                 {renderError(form.formState.errors.playerId)}
@@ -137,10 +179,30 @@ export function CreatePlayerClubDialog() {
                         )}
                     </div>
 
-                    {/* Club ID */}
+                    {/* Club Select */}
                     <div>
                         <Label className="mb-1">{t("clubId")}</Label>
-                        <Input {...form.register("clubId")} placeholder="UUID باشگاه" />
+                        <Controller
+                            control={form.control}
+                            name="clubId"
+                            render={({ field }) => (
+                                <Select
+                                    value={field.value}
+                                    onValueChange={(val) => field.onChange(val)}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder={t("selectClub")} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {clubs.map((c) => (
+                                            <SelectItem key={c.id} value={c.id}>
+                                                {c.fullName}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            )}
+                        />
                         {renderError(form.formState.errors.clubId) && (
                             <p className="text-sm text-red-500 mt-1">
                                 {renderError(form.formState.errors.clubId)}
@@ -148,10 +210,30 @@ export function CreatePlayerClubDialog() {
                         )}
                     </div>
 
-                    {/* Sport ID */}
+                    {/* Sport Select */}
                     <div>
                         <Label className="mb-1">{t("sportId")}</Label>
-                        <Input {...form.register("sportId")} placeholder="UUID ورزش" />
+                        <Controller
+                            control={form.control}
+                            name="sportId"
+                            render={({ field }) => (
+                                <Select
+                                    value={field.value}
+                                    onValueChange={(val) => field.onChange(val)}
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue placeholder={t("selectSport")} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {sports.map((s) => (
+                                            <SelectItem key={s.id} value={s.id}>
+                                                {s.fullName}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            )}
+                        />
                         {renderError(form.formState.errors.sportId) && (
                             <p className="text-sm text-red-500 mt-1">
                                 {renderError(form.formState.errors.sportId)}
@@ -167,7 +249,10 @@ export function CreatePlayerClubDialog() {
                             locale={persian_fa}
                             value={form.watch("startDate")}
                             onChange={(date) =>
-                                form.setValue("startDate", date instanceof Date ? date : date?.toDate() || new Date())
+                                form.setValue(
+                                    "startDate",
+                                    date instanceof Date ? date : date?.toDate() || new Date()
+                                )
                             }
                             format="YYYY/MM/DD"
                             editable
@@ -189,7 +274,10 @@ export function CreatePlayerClubDialog() {
                             locale={persian_fa}
                             value={form.watch("endDate")}
                             onChange={(date) =>
-                                form.setValue("endDate", date instanceof Date ? date : date?.toDate() || undefined)
+                                form.setValue(
+                                    "endDate",
+                                    date instanceof Date ? date : date?.toDate() || undefined
+                                )
                             }
                             format="YYYY/MM/DD"
                             editable
