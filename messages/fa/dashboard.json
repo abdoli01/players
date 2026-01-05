@@ -85,6 +85,13 @@
     "createSport": "ایجاد ورزش",
     "sportCreated": "ورزش با موفقیت ایجاد شد",
     "adminOnly": "دسترسی فقط برای مدیران",
-    "sportDeleted": "ورزش با موفقیت حذف شد"
+    "sportDeleted": "ورزش با موفقیت حذف شد",
+
+
+    "playerId": "شناسه بازیکن",
+    "clubId": "شناسه باشگاه",
+    "sportId": "شناسه ورزش",
+    "startDate": "تاریخ شروع",
+    "endDate": "تاریخ پایان"
   }
 }
