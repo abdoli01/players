@@ -80,6 +80,10 @@
     "invalidData": "داده‌های وارد شده نامعتبر است",
     "loginRequired": "نیاز به ورود مجدد",
     "unexpectedError": "خطای غیرمنتظره‌ای رخ داد",
-    "clubDeleted": "باشگاه با موفقیت حذف شد"
+    "clubDeleted": "باشگاه با موفقیت حذف شد",
+
+    "createSport": "ایجاد ورزش",
+    "sportCreated": "ورزش با موفقیت ایجاد شد",
+    "adminOnly": "دسترسی فقط برای مدیران"
   }
 }

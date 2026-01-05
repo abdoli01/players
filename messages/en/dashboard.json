@@ -77,6 +77,10 @@
     "invalidData": "Invalid data",
     "loginRequired": "Login required",
     "unexpectedError": "An unexpected error occurred",
-    "clubDeleted": "Club deleted successfully"
+    "clubDeleted": "Club deleted successfully",
+
+    "createSport": "Create Sport",
+    "sportCreated": "Sport created successfully",
+    "adminOnly": "Admin access only"
   }
 }

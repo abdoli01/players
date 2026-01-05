@@ -8,7 +8,7 @@ import {
 import { Sport, SportSearchParams } from "@/types/sport";
 import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
-// import { CreateSportDialog } from "../components/CreateSportDialog";
+import { CreateSportDialog } from "../components/CreateSportDialog";
 // import { EditSportDialog } from "../components/EditSportDialog";
 // import { DeleteSportDialog } from "../components/DeleteSportDialog";
 
@@ -192,9 +192,9 @@ export function SportsTable() {
                     />
                 </div>
 
-                {/*<div className="flex items-center justify-end flex-1">*/}
-                {/*    <CreateSportDialog />*/}
-                {/*</div>*/}
+                <div className="flex items-center justify-end flex-1">
+                    <CreateSportDialog />
+                </div>
             </div>
 
             {/* Table */}
