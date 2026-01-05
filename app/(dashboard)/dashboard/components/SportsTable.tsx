@@ -10,7 +10,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
 import { CreateSportDialog } from "../components/CreateSportDialog";
 // import { EditSportDialog } from "../components/EditSportDialog";
-// import { DeleteSportDialog } from "../components/DeleteSportDialog";
+import { DeleteSportDialog } from "../components/DeleteSportDialog";
 
 import {
     useReactTable,
@@ -103,7 +103,7 @@ export function SportsTable() {
                             <DropdownMenuLabel>عملیات</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             {/*<EditSportDialog sport={sport} />*/}
-                            {/*<DeleteSportDialog sport={sport} />*/}
+                            <DeleteSportDialog sportData={sport} />
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );
