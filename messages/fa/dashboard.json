@@ -65,6 +65,12 @@
     "deleteError": "خطا در حذف پکیج",
 
     "createSeason": "ایجاد فصل",
-    "seasonDeleted": "فصل با موفقیت حذف شد"
+    "seasonDeleted": "فصل با موفقیت حذف شد",
+
+    "isNational": "ملی",
+    "yes": "بله",
+    "no": "خیر",
+    "createClub": "ایجاد باشگاه",
+    "username": "نام کاربری / شماره تلفن"
   }
 }

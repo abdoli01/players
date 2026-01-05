@@ -63,6 +63,13 @@
     "packageDeleted": "Package deleted successfully",
     "deleteError": "Error deleting package",
     "createSeason": "Create Season",
-    "seasonDeleted": "Season deleted successfully"
+    "seasonDeleted": "Season deleted successfully",
+
+    "isNational": "National",
+    "yes": "Yes",
+    "no": "No",
+    "createClub": "Create Club",
+    "username": "Username / Phone"
+
   }
 }
