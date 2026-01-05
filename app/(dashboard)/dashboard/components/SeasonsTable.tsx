@@ -9,6 +9,7 @@ import { Season, SeasonSearchParams } from "@/types/season";
 import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
 import { CreateSeasonDialog } from "../components/CreateSeasonDialog";
+import { DeleteSeasonDialog } from "../components/DeleteSeasonDialog";
 
 import {
     useReactTable,
@@ -120,6 +121,7 @@ export function SeasonsTable() {
                         <DropdownMenuLabel>عملیات</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         {/*<EditSeasonDialog season={row.original} />*/}
+                        <DeleteSeasonDialog seasonData={row.original}/>
                     </DropdownMenuContent>
                 </DropdownMenu>
             ),

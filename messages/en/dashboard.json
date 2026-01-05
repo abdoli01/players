@@ -62,6 +62,7 @@
     "deleteConfirm": "Are you sure you want to delete \"{title}\"?",
     "packageDeleted": "Package deleted successfully",
     "deleteError": "Error deleting package",
-    "createSeason": "Create Season"
+    "createSeason": "Create Season",
+    "seasonDeleted": "Season deleted successfully"
   }
 }

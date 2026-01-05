@@ -64,6 +64,7 @@
     "packageDeleted": "پکیج با موفقیت حذف شد",
     "deleteError": "خطا در حذف پکیج",
 
-    "createSeason": "ایجاد فصل"
+    "createSeason": "ایجاد فصل",
+    "seasonDeleted": "فصل با موفقیت حذف شد"
   }
 }
