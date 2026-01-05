@@ -92,6 +92,7 @@
     "createPlayerClub": "Create Player-Club Relation",
     "selectPlayer": "Select a player",
     "selectClub": "Select a club",
-    "selectSport": "Select a sport"
+    "selectSport": "Select a sport",
+    "playerClubDeleted": "Player-club relation deleted successfully"
   }
 }

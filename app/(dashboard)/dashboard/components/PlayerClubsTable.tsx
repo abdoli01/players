@@ -10,6 +10,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
 import { CreatePlayerClubDialog } from "../components/CreatePlayerClubDialog";
 // import { EditPlayerClubDialog } from "../components/EditPlayerClubDialog";
+import { DeletePlayerClubDialog } from "../components/DeletePlayerClubDialog";
 
 import {
     useReactTable,
@@ -110,6 +111,7 @@ export function PlayerClubsTable() {
                             <DropdownMenuLabel>عملیات</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             {/*<EditPlayerClubDialog playerClub={playerClub} />*/}
+                            <DeletePlayerClubDialog playerClub={playerClub}/>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );
