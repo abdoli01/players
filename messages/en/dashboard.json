@@ -76,7 +76,7 @@
     "clubCreated": "Club created successfully",
     "invalidData": "Invalid data",
     "loginRequired": "Login required",
-    "unexpectedError": "An unexpected error occurred"
-
+    "unexpectedError": "An unexpected error occurred",
+    "clubDeleted": "Club deleted successfully"
   }
 }

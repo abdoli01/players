@@ -9,6 +9,7 @@ import { Club, ClubSearchParams } from "@/types/club";
 import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
 import { CreateClubDialog } from "../components/CreateClubDialog";
+import { DeleteClubDialog } from "../components/DeleteClubDialog";
 // import { EditClubDialog } from "../components/EditClubDialog";
 
 import {
@@ -134,6 +135,7 @@ export function ClubsTable() {
                                 {t("actions")}
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />
+                            <DeleteClubDialog clubData={club}/>
                             {/*<EditClubDialog club={club} />*/}
                             {/* DeleteClubDialog بعداً */}
                         </DropdownMenuContent>
