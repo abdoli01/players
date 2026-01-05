@@ -8,7 +8,7 @@ import {
 import { Club, ClubSearchParams } from "@/types/club";
 import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
-// import { CreateClubDialog } from "../components/CreateClubDialog";
+import { CreateClubDialog } from "../components/CreateClubDialog";
 // import { EditClubDialog } from "../components/EditClubDialog";
 
 import {
@@ -222,9 +222,9 @@ export function ClubsTable() {
                     />
                 </div>
 
-                {/*<div className="flex items-center justify-end flex-1">*/}
-                {/*    <CreateClubDialog />*/}
-                {/*</div>*/}
+                <div className="flex items-center justify-end flex-1">
+                    <CreateClubDialog />
+                </div>
             </div>
 
             {/* Table */}

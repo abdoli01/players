@@ -69,7 +69,14 @@
     "yes": "Yes",
     "no": "No",
     "createClub": "Create Club",
-    "username": "Username / Phone"
+    "username": "Username / Phone",
+
+    "image50": "Image 50x50",
+    "image26": "Image 26x26",
+    "clubCreated": "Club created successfully",
+    "invalidData": "Invalid data",
+    "loginRequired": "Login required",
+    "unexpectedError": "An unexpected error occurred"
 
   }
 }
