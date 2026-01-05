@@ -8,7 +8,7 @@ import {
 import { Season, SeasonSearchParams } from "@/types/season";
 import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
-// import { CreateSeasonDialog } from "../components/CreateSeasonDialog";
+import { CreateSeasonDialog } from "../components/CreateSeasonDialog";
 
 import {
     useReactTable,
@@ -205,9 +205,9 @@ export function SeasonsTable() {
                     />
                 </div>
 
-                {/*<div className="flex items-center justify-end flex-1">*/}
-                {/*    <CreateSeasonDialog />*/}
-                {/*</div>*/}
+                <div className="flex items-center justify-end flex-1">
+                    <CreateSeasonDialog />
+                </div>
             </div>
 
             {/* Table */}

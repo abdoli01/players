@@ -62,6 +62,8 @@
     "deleting": "در حال حذف...",
     "deleteConfirm": "آیا از حذف \"{title}\" مطمئن هستید؟",
     "packageDeleted": "پکیج با موفقیت حذف شد",
-    "deleteError": "خطا در حذف پکیج"
+    "deleteError": "خطا در حذف پکیج",
+
+    "createSeason": "ایجاد فصل"
   }
 }
