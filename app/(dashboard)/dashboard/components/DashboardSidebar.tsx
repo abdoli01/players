@@ -1,5 +1,5 @@
 'use client'
-import { User,ChessPawn,Package,Dice4,Boxes } from "lucide-react"
+import { User,ChessPawn,Package,Dice4,Boxes,LandPlot } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { useLocale } from 'next-intl';
@@ -42,6 +42,11 @@ const items = [
         title: "clubs",
         url: "/dashboard/clubs",
         icon: Boxes,
+    },
+    {
+        title: "sports",
+        url: "/dashboard/sports",
+        icon: LandPlot,
     }
 ]
 
