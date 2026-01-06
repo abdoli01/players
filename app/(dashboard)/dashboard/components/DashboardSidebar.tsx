@@ -82,6 +82,11 @@ const items = [
         title: "teams",
         url: "/dashboard/teams",
         icon: Waves,
+    },
+    {
+        title: "tournaments",
+        url: "/dashboard/tournaments",
+        icon: Waves,
     }
 ]
 
