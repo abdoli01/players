@@ -97,6 +97,7 @@
     "selectPlayer": "یک بازیکن انتخاب کنید",
     "selectClub": "یک باشگاه انتخاب کنید",
     "selectSport": "یک ورزش انتخاب کنید",
-    "playerClubDeleted": "رابطه بازیکن-باشگاه با موفقیت حذف شد"
+    "playerClubDeleted": "رابطه بازیکن-باشگاه با موفقیت حذف شد",
+    "continent": "قاره"
   }
 }

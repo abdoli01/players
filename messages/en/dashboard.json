@@ -93,6 +93,8 @@
     "selectPlayer": "Select a player",
     "selectClub": "Select a club",
     "selectSport": "Select a sport",
-    "playerClubDeleted": "Player-club relation deleted successfully"
+    "playerClubDeleted": "Player-club relation deleted successfully",
+    "continent": "continent"
+
   }
 }

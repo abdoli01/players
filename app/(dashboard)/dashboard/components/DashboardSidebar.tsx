@@ -62,6 +62,11 @@ const items = [
         title: "continents",
         url: "/dashboard/continents",
         icon: Waves,
+    },
+    {
+        title: "countries",
+        url: "/dashboard/countries",
+        icon: Waves,
     }
 ]
 
