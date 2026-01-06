@@ -96,6 +96,11 @@
     "playerClubDeleted": "Player-club relation deleted successfully",
     "continent": "continent",
     "country": "country",
-    "province": "province"
+    "province": "province",
+
+    "club": "Club",
+    "sport": "Sport",
+    "teamLevel": "Team Level",
+    "city": "City"
   }
 }

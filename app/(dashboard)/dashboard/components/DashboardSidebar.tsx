@@ -77,6 +77,11 @@ const items = [
         title: "cities",
         url: "/dashboard/cities",
         icon: Waves,
+    },
+    {
+        title: "teams",
+        url: "/dashboard/teams",
+        icon: Waves,
     }
 ]
 

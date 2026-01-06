@@ -100,7 +100,12 @@
     "playerClubDeleted": "رابطه بازیکن-باشگاه با موفقیت حذف شد",
     "continent": "قاره",
     "country": "کشور",
-    "province": "استان"
+    "province": "استان",
+
+    "club": "باشگاه",
+    "sport": "ورزش",
+    "teamLevel": "سطح تیم",
+    "city": "شهر"
 
 
   }
