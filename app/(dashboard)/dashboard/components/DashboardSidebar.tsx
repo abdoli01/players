@@ -57,6 +57,11 @@ const items = [
         title: "teamLevels",
         url: "/dashboard/team-levels",
         icon: Waves,
+    },
+    {
+        title: "continents",
+        url: "/dashboard/continents",
+        icon: Waves,
     }
 ]
 
