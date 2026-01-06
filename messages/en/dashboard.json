@@ -95,7 +95,7 @@
     "selectSport": "Select a sport",
     "playerClubDeleted": "Player-club relation deleted successfully",
     "continent": "continent",
-    "country": "country"
-
+    "country": "country",
+    "province": "province"
   }
 }
