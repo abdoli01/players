@@ -5,6 +5,8 @@ import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 // import { PanelLeftIcon } from "lucide-react"
 import { Menu } from "lucide-react";
+import { usePathname } from "next/navigation"
+
 
 
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -167,6 +169,8 @@ function Sidebar({
   collapsible?: "offcanvas" | "icon" | "none"
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
+    const pathname = usePathname() || ""
+    const isDashboard = pathname.includes("/dashboard")
 
   if (collapsible === "none") {
     return (
@@ -193,7 +197,7 @@ function Sidebar({
           className="bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden"
           style={
             {
-              "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
+              "--sidebar-width": isDashboard ? '140px' : SIDEBAR_WIDTH_MOBILE,
             } as React.CSSProperties
           }
           side={side}
