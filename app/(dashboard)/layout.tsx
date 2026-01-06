@@ -8,7 +8,8 @@ const LayoutDashboard = ({children}:{children:React.ReactNode}) => {
         <AdminGate>
         <SidebarProvider  style={
             {
-                "--sidebar-width": "75px",
+                // "--sidebar-width": "75px",
+                "--sidebar-width": "140px",
             } as React.CSSProperties
         }>
             <DashboardSidebar />
