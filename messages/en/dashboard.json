@@ -113,7 +113,8 @@
     "teamSeasonId": "Team Season ID",
     "tournamentSeasonId": "Tournament Season ID",
     "tournament": "tournament",
-    "all": "all"
-
+    "all": "all",
+    "tournamentSeason": "tournament - season",
+    "teamSeason": "team - season"
   }
 }

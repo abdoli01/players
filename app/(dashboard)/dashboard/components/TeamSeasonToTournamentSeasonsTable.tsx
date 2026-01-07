@@ -9,17 +9,20 @@ import {
     TeamSeasonToTournamentSeason,
     TeamSeasonToTournamentSeasonSearchParams,
 } from "@/types/teamSeasonToTournamentSeason";
+import { useGetTeamSeasonsQuery } from "@/services/api/teamSeasonsApi";
+import { useGetTournamentSeasonsQuery } from "@/services/api/tournamentSeasonsApi";
+import { useGetTeamsQuery } from "@/services/api/teamsApi";
+import { useGetTournamentsQuery } from "@/services/api/tournamentsApi";
+import { useGetSeasonsQuery } from "@/services/api/seasonsApi";
+
 import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
-// import { CreateTeamSeasonToTournamentSeasonDialog } from "../components/CreateTeamSeasonToTournamentSeasonDialog";
 
 import {
     useReactTable,
     ColumnDef,
     getCoreRowModel,
-    getSortedRowModel,
     getPaginationRowModel,
-    getFilteredRowModel,
     flexRender,
     SortingState,
     ColumnFiltersState,
@@ -35,7 +38,6 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
     DropdownMenu,
@@ -45,13 +47,15 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
-// import { EditTeamSeasonToTournamentSeasonDialog } from "../components/EditTeamSeasonToTournamentSeasonDialog";
 
 export function TeamSeasonToTournamentSeasonsTable() {
     const t = useTranslations("Dashboard");
     const locale = useLocale();
     const isRtl = locale === "fa";
 
+    // -----------------------
+    // Search state
+    // -----------------------
     const [searchParams, setSearchParams] =
         React.useState<TeamSeasonToTournamentSeasonSearchParams>({
             q: "",
@@ -59,30 +63,56 @@ export function TeamSeasonToTournamentSeasonsTable() {
             tournamentSeasonId: "",
         });
 
-    const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] =
-        React.useState<ColumnFiltersState>([]);
-    const [columnVisibility, setColumnVisibility] =
-        React.useState<VisibilityState>({});
-    const [rowSelection, setRowSelection] = React.useState({});
-
+    // -----------------------
+    // Fetch all data
+    // -----------------------
     const { data: allRelations = [], isLoading: isLoadingAll } =
         useGetTeamSeasonToTournamentSeasonsQuery();
     const { data: filteredRelations = [], isLoading: isLoadingFiltered } =
         useSearchTeamSeasonToTournamentSeasonsQuery(searchParams);
 
+    const { data: teamSeasons = [] } = useGetTeamSeasonsQuery();
+    const { data: tournamentSeasons = [] } = useGetTournamentSeasonsQuery();
+    const { data: teams = [] } = useGetTeamsQuery();
+    const { data: tournaments = [] } = useGetTournamentsQuery();
+    const { data: seasons = [] } = useGetSeasonsQuery();
+
     const hasFilters = Object.values(searchParams).some(Boolean);
     const relations = hasFilters ? filteredRelations : allRelations;
-    const isLoading = hasFilters ? isLoadingFiltered : isLoadingAll;
+    const isLoading = isLoadingAll || isLoadingFiltered;
 
+    // -----------------------
+    // Lookup helpers
+    // -----------------------
+    const teamSeasonLabel = (teamSeasonId: string) => {
+        const ts = teamSeasons.find(ts => ts.id === teamSeasonId);
+        if (!ts) return teamSeasonId;
+        const team = teams.find(t => t.id === ts.teamId)?.fullName ?? ts.teamId;
+        const season = seasons.find(s => s.id === ts.seasonId)?.fullName ?? ts.seasonId;
+        return `${team} - ${season}`;
+    };
+
+    const tournamentSeasonLabel = (tournamentSeasonId: string) => {
+        const ts = tournamentSeasons.find(ts => ts.id === tournamentSeasonId);
+        if (!ts) return tournamentSeasonId;
+        const tournament = tournaments.find(t => t.id === ts.tournamentId)?.fullName ?? ts.tournamentId;
+        const season = seasons.find(s => s.id === ts.seasonId)?.fullName ?? ts.seasonId;
+        return `${tournament} - ${season}`;
+    };
+
+    // -----------------------
+    // Columns
+    // -----------------------
     const columns: ColumnDef<TeamSeasonToTournamentSeason>[] = [
         {
             accessorKey: "teamSeasonId",
-            header: t("teamSeasonId"),
+            header: t("teamSeason"),
+            cell: ({ row }) => teamSeasonLabel(row.original.teamSeasonId),
         },
         {
             accessorKey: "tournamentSeasonId",
-            header: t("tournamentSeasonId"),
+            header: t("tournamentSeason"),
+            cell: ({ row }) => tournamentSeasonLabel(row.original.tournamentSeasonId),
         },
         {
             id: "actions",
@@ -97,12 +127,20 @@ export function TeamSeasonToTournamentSeasonsTable() {
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>عملیات</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        {/*<EditTeamSeasonToTournamentSeasonDialog relation={row.original} />*/}
+                        {/* Edit/Delete dialogs can go here */}
                     </DropdownMenuContent>
                 </DropdownMenu>
             ),
         },
     ];
+
+    // -----------------------
+    // React Table
+    // -----------------------
+    const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+    const [rowSelection, setRowSelection] = React.useState({});
 
     const table = useReactTable<TeamSeasonToTournamentSeason>({
         data: relations,
@@ -112,9 +150,7 @@ export function TeamSeasonToTournamentSeasonsTable() {
         onColumnVisibilityChange: setColumnVisibility,
         onRowSelectionChange: setRowSelection,
         getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
         state: { sorting, columnFilters, columnVisibility, rowSelection },
         initialState: { pagination: { pageSize: 20 } },
     });
@@ -125,59 +161,74 @@ export function TeamSeasonToTournamentSeasonsTable() {
 
     if (isLoading) return <Spinner />;
 
+    // -----------------------
+    // Render
+    // -----------------------
     return (
         <div className="w-full">
             {/* Filters */}
             <div className="flex flex-wrap gap-4 mb-4">
+                {/* Search */}
                 <div className="flex flex-col gap-1">
                     <Label>{t("search")}</Label>
-                    <Input
+                    <input
+                        type="text"
+                        className="border rounded px-2 h-10"
                         value={searchParams.q ?? ""}
-                        onChange={(e) =>
-                            setSearchParams((prev) => ({ ...prev, q: e.target.value }))
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setSearchParams(prev => ({ ...prev, q: e.target.value }))
                         }
                     />
                 </div>
 
+                {/* TeamSeason */}
                 <div className="flex flex-col gap-1">
-                    <Label>{t("teamSeasonId")}</Label>
-                    <Input
+                    <Label>{t("teamSeason")}</Label>
+                    <select
+                        className="border rounded px-2 h-10 bg-background"
                         value={searchParams.teamSeasonId ?? ""}
-                        onChange={(e) =>
-                            setSearchParams((prev) => ({ ...prev, teamSeasonId: e.target.value }))
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                            setSearchParams(prev => ({ ...prev, teamSeasonId: e.target.value }))
                         }
-                    />
+                    >
+                        <option value="">همه</option>
+                        {teamSeasons.map(ts => (
+                            <option key={ts.id} value={ts.id}>
+                                {teamSeasonLabel(ts.id)}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
+                {/* TournamentSeason */}
                 <div className="flex flex-col gap-1">
-                    <Label>{t("tournamentSeasonId")}</Label>
-                    <Input
+                    <Label>{t("tournamentSeason")}</Label>
+                    <select
+                        className="border rounded px-2 h-10 bg-background"
                         value={searchParams.tournamentSeasonId ?? ""}
-                        onChange={(e) =>
-                            setSearchParams((prev) => ({ ...prev, tournamentSeasonId: e.target.value }))
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                            setSearchParams(prev => ({ ...prev, tournamentSeasonId: e.target.value }))
                         }
-                    />
+                    >
+                        <option value="">همه</option>
+                        {tournamentSeasons.map(ts => (
+                            <option key={ts.id} value={ts.id}>
+                                {tournamentSeasonLabel(ts.id)}
+                            </option>
+                        ))}
+                    </select>
                 </div>
-
-                {/*<div className="flex items-center justify-end flex-1">*/}
-                {/*    <CreateTeamSeasonToTournamentSeasonDialog />*/}
-                {/*</div>*/}
             </div>
 
             {/* Table */}
             <div className="overflow-hidden rounded-md border">
                 <Table>
                     <TableHeader>
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => (
+                        {table.getHeaderGroups().map(hg => (
+                            <TableRow key={hg.id}>
+                                {hg.headers.map(header => (
                                     <TableHead key={header.id} className="text-center">
-                                        {header.isPlaceholder
-                                            ? null
-                                            : flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext()
-                                            )}
+                                        {flexRender(header.column.columnDef.header, header.getContext())}
                                     </TableHead>
                                 ))}
                             </TableRow>
@@ -185,9 +236,9 @@ export function TeamSeasonToTournamentSeasonsTable() {
                     </TableHeader>
                     <TableBody>
                         {table.getRowModel().rows.length ? (
-                            table.getRowModel().rows.map((row) => (
+                            table.getRowModel().rows.map(row => (
                                 <TableRow key={row.id}>
-                                    {row.getVisibleCells().map((cell) => (
+                                    {row.getVisibleCells().map(cell => (
                                         <TableCell key={cell.id} className="text-center">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
@@ -208,43 +259,22 @@ export function TeamSeasonToTournamentSeasonsTable() {
             {/* Pagination */}
             <div className="flex items-center justify-between px-2 py-4">
                 <div className="flex items-center gap-2">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.setPageIndex(0)}
-                        disabled={!table.getCanPreviousPage()}
-                    >
+                    <Button variant="outline" size="sm" onClick={() => table.setPageIndex(0)} disabled={!table.getCanPreviousPage()}>
                         {t("first")}
                     </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
-                    >
+                    <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
                         {t("previous")}
                     </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
-                    >
+                    <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
                         {t("next")}
                     </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                        disabled={!table.getCanNextPage()}
-                    >
+                    <Button variant="outline" size="sm" onClick={() => table.setPageIndex(table.getPageCount() - 1)} disabled={!table.getCanNextPage()}>
                         {t("last")}
                     </Button>
                 </div>
 
                 <div className="text-sm text-muted-foreground">
-                    {t("page")} {table.getState().pagination.pageIndex + 1} {t("of")}{" "}
-                    {table.getPageCount()}
+                    {t("page")} {table.getState().pagination.pageIndex + 1} {t("of")} {table.getPageCount()}
                 </div>
             </div>
         </div>
