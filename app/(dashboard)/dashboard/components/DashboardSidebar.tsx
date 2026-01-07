@@ -92,6 +92,11 @@ const items = [
         title: "tournamentSeasons",
         url: "/dashboard/tournament-seasons",
         icon: Waves,
+    },
+    {
+        title: "teamSeasons",
+        url: "/dashboard/team-seasons",
+        icon: Waves,
     }
 ]
 
