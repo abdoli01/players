@@ -114,6 +114,8 @@
     "team": "تیم",
     "season": "فصل",
     "teamSeasonId": "شناسه تیم-فصل",
-    "tournamentSeasonId": "شناسه تورنمنت-فصل"
+    "tournamentSeasonId": "شناسه تورنمنت-فصل",
+    "tournament": "تورنومنت"
+
   }
 }

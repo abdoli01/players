@@ -81,11 +81,11 @@ export function TournamentSeasonsTable() {
     const columns: ColumnDef<TournamentSeason>[] = [
         {
             accessorKey: "tournament.fullName",
-            header: t("tournamentId"),
+            header: t("tournament"),
         },
         {
             accessorKey: "season.fullName",
-            header: t("seasonId"),
+            header: t("season"),
         },
         {
             accessorKey: "type",
@@ -151,7 +151,7 @@ export function TournamentSeasonsTable() {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                    <Label>{t("tournamentId")}</Label>
+                    <Label>{t("tournament")}</Label>
                     <Input
                         value={searchParams.tournamentId ?? ""}
                         onChange={(e) =>
@@ -164,7 +164,7 @@ export function TournamentSeasonsTable() {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                    <Label>{t("seasonId")}</Label>
+                    <Label>{t("season")}</Label>
                     <Input
                         value={searchParams.seasonId ?? ""}
                         onChange={(e) =>
