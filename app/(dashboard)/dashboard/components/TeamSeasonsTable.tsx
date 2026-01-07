@@ -6,9 +6,10 @@ import {
     useSearchTeamSeasonsQuery,
 } from "@/services/api/teamSeasonsApi";
 import { TeamSeason, TeamSeasonSearchParams } from "@/types/teamSeason";
+import { useGetTeamsQuery } from "@/services/api/teamsApi";
+import { useGetSeasonsQuery } from "@/services/api/seasonsApi";
 import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
-// import { CreateTeamSeasonDialog } from "../components/CreateTeamSeasonDialog";
 
 import {
     useReactTable,
@@ -42,7 +43,6 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
-// import { EditTeamSeasonDialog } from "../components/EditTeamSeasonDialog";
 
 export function TeamSeasonsTable() {
     const t = useTranslations("Dashboard");
@@ -63,6 +63,9 @@ export function TeamSeasonsTable() {
         React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
 
+    // -----------------------
+    // Fetch team-seasons
+    // -----------------------
     const { data: allTeamSeasons = [], isLoading: isLoadingAll } =
         useGetTeamSeasonsQuery();
     const { data: filteredTeamSeasons = [], isLoading: isLoadingFiltered } =
@@ -72,6 +75,15 @@ export function TeamSeasonsTable() {
     const teamSeasons = hasFilters ? filteredTeamSeasons : allTeamSeasons;
     const isLoading = hasFilters ? isLoadingFiltered : isLoadingAll;
 
+    // -----------------------
+    // Fetch teams and seasons for select
+    // -----------------------
+    const { data: teams = [] } = useGetTeamsQuery();
+    const { data: seasons = [] } = useGetSeasonsQuery();
+
+    // -----------------------
+    // Columns
+    // -----------------------
     const columns: ColumnDef<TeamSeason>[] = [
         {
             accessorKey: "team.fullName",
@@ -94,13 +106,16 @@ export function TeamSeasonsTable() {
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>عملیات</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        {/*<EditTeamSeasonDialog teamSeason={row.original} />*/}
+                        {/* EditTeamSeasonDialog */}
                     </DropdownMenuContent>
                 </DropdownMenu>
             ),
         },
     ];
 
+    // -----------------------
+    // Table
+    // -----------------------
     const table = useReactTable<TeamSeason>({
         data: teamSeasons,
         columns,
@@ -137,28 +152,40 @@ export function TeamSeasonsTable() {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                    <Label>{t("teamId")}</Label>
-                    <Input
+                    <Label>{t("team")}</Label>
+                    <select
+                        className="border rounded px-2 h-10 bg-background"
                         value={searchParams.teamId ?? ""}
                         onChange={(e) =>
                             setSearchParams((prev) => ({ ...prev, teamId: e.target.value }))
                         }
-                    />
+                    >
+                        <option value="">{t("all")}</option>
+                        {teams.map((team) => (
+                            <option key={team.id} value={team.id}>
+                                {team.fullName}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
                 <div className="flex flex-col gap-1">
-                    <Label>{t("seasonId")}</Label>
-                    <Input
+                    <Label>{t("season")}</Label>
+                    <select
+                        className="border rounded px-2 h-10 bg-background"
                         value={searchParams.seasonId ?? ""}
                         onChange={(e) =>
                             setSearchParams((prev) => ({ ...prev, seasonId: e.target.value }))
                         }
-                    />
+                    >
+                        <option value="">{t("all")}</option>
+                        {seasons.map((season) => (
+                            <option key={season.id} value={season.id}>
+                                {season.fullName}
+                            </option>
+                        ))}
+                    </select>
                 </div>
-
-                {/*<div className="flex items-center justify-end flex-1">*/}
-                {/*    <CreateTeamSeasonDialog />*/}
-                {/*</div>*/}
             </div>
 
             {/* Table */}
