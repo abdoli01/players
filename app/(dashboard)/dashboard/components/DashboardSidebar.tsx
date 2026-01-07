@@ -87,6 +87,11 @@ const items = [
         title: "tournaments",
         url: "/dashboard/tournaments",
         icon: Waves,
+    },
+    {
+        title: "tournamentSeasons",
+        url: "/dashboard/tournament-seasons",
+        icon: Waves,
     }
 ]
 

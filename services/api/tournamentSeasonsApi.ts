@@ -78,3 +78,11 @@ export const tournamentSeasonsApi = baseApi.injectEndpoints({
 
     }),
 })
+export const {
+    useCreateTournamentSeasonMutation,
+    useGetTournamentSeasonsQuery,
+    useSearchTournamentSeasonsQuery,
+    useGetTournamentSeasonByIdQuery,
+    useUpdateTournamentSeasonMutation,
+    useDeleteTournamentSeasonMutation,
+} = tournamentSeasonsApi

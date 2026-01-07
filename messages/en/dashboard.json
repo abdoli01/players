@@ -101,6 +101,12 @@
     "club": "Club",
     "sport": "Sport",
     "teamLevel": "Team Level",
-    "city": "City"
+    "city": "City",
+
+
+    "tournamentId": "Tournament ID",
+    "seasonId": "Season ID",
+    "type": "Type"
+
   }
 }

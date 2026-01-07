@@ -1,29 +1,28 @@
-export enum TournamentSeasonType {
-    LEAGUE = "LEAGUE",
-    KNOCKOUT = "KNOCKOUT",
-    MIXED = "MIXED",
-    FRIENDLY = "FRIENDLY",
-}
+export type TournamentSeasonType =
+    | "LEAGUE"
+    | "KNOCKOUT"
+    | "MIXED"
+    | "FRIENDLY";
 
 export interface TournamentSeason {
-    id: string
-    tournamentId: string
-    seasonId: string
-    type: TournamentSeasonType
+    id: string;
+    tournamentId: string;
+    seasonId: string;
+    type: TournamentSeasonType;
 }
 
 export interface CreateTournamentSeasonDto {
-    tournamentId: string
-    seasonId: string
-    type: TournamentSeasonType
+    tournamentId: string;
+    seasonId: string;
+    type: TournamentSeasonType;
 }
 
 export type UpdateTournamentSeasonDto =
-    Partial<CreateTournamentSeasonDto>
+    Partial<CreateTournamentSeasonDto>;
 
 export interface TournamentSeasonSearchParams {
-    q?: string
-    tournamentId?: string
-    seasonId?: string
-    type?: TournamentSeasonType
+    q?: string;
+    tournamentId?: string;
+    seasonId?: string;
+    type?: TournamentSeasonType;
 }
