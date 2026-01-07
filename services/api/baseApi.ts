@@ -14,6 +14,6 @@ export const baseApi = createApi({
             return headers;
         },
     }),
-    tagTypes: ["POSTS", "USERS","PLAYERS","PACKAGES","SEASONS","CLUBS","SPORTS","PLAYER_CLUBS","TEAM_LEVELS","CONTINENTS","COUNTRIES","PROVINCES","CITIES","TEAMS","TOURNAMENTS","TOURNAMENT_SEASONS","TEAM_SEASONS"], // برای invalidation
+    tagTypes: ["POSTS", "USERS","PLAYERS","PACKAGES","SEASONS","CLUBS","SPORTS","PLAYER_CLUBS","TEAM_LEVELS","CONTINENTS","COUNTRIES","PROVINCES","CITIES","TEAMS","TOURNAMENTS","TOURNAMENT_SEASONS","TEAM_SEASONS","TEAM_SEASON_TO_TOURNAMENT_SEASONS"], // برای invalidation
     endpoints: () => ({}), // فقط baseApi خودش خالیه
 });
