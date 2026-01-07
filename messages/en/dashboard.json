@@ -109,6 +109,8 @@
     "type": "Type",
     "teamId": "Team ID",
     "team": "team",
-    "season": "season"
+    "season": "season",
+    "teamSeasonId": "Team Season ID",
+    "tournamentSeasonId": "Tournament Season ID"
   }
 }
