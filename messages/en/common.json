@@ -1,6 +1,7 @@
 {
   "Common": {
     "submit": "submit",
-    "loading": "loading"
+    "loading": "loading",
+    "noPlayers": "no players"
   }
 }
