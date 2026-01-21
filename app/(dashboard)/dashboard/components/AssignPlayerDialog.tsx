@@ -32,12 +32,8 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 
-import { useGetPlayersQuery } from "@/services/api/playersApi";
-import { useAdminSetPlayerIdMutation } from "@/services/api/playersApi";
+import { useGetPlayersQuery, useAdminSetPlayerIdMutation } from "@/services/api/playersApi";
 
-// ----------------------
-// تایپ‌ها و Schema
-// ----------------------
 interface AssignPlayerDialogProps {
     userId: string;
     currentPlayerId?: string | null;
@@ -49,54 +45,48 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-// ----------------------
-// کامپوننت
-// ----------------------
 export function AssignPlayerDialog({ userId, currentPlayerId }: AssignPlayerDialogProps) {
     const t = useTranslations();
     const locale = useLocale();
     const isRtl = locale === "fa";
 
+    const [open, setOpen] = React.useState(false);
+
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
-        defaultValues: { player: currentPlayerId || "" },
+        defaultValues: {
+            player: currentPlayerId ?? "",
+        },
     });
 
-    // ----------------------
-    // گرفتن لیست پلیرها
-    // ----------------------
     const { data: players = [], isLoading } = useGetPlayersQuery();
+    const [adminSetPlayerId, { isLoading: isSubmitting }] =
+        useAdminSetPlayerIdMutation();
 
-    const [adminSetPlayerId, { isLoading: isSubmitting }] = useAdminSetPlayerIdMutation();
+    const getDisplayName = (player: any) =>
+        locale === "fa" ? player.fullName : player.fullNameEn || player.fullName;
 
-    // ----------------------
-    // Helper: نمایش نام بازیکن بر اساس زبان
-    // ----------------------
-    const getDisplayName = (player: any) => {
-        return locale === "fa"
-            ? player.fullName
-            : player.fullNameEn || player.fullName;
-    };
-
-    // ----------------------
-    // Submit فرم
-    // ----------------------
-    const onSubmit = async (data: FormValues, close: () => void) => {
+    const onSubmit = async (data: FormValues) => {
         try {
             await adminSetPlayerId({
                 userId,
                 playerId: data.player,
             }).unwrap();
 
-            toast.success(t("Common.successAction")); // پیام موفقیت
-            close(); // بستن دیالوگ
+            toast.success(t("Common.successAction"));
+
+            // آپدیت مقدار فرم
+            form.reset({ player: data.player });
+
+            // بستن دیالوگ
+            setOpen(false);
         } catch (err: any) {
-            toast.error(err?.data?.message || t("Common.errorAction")); // پیام خطا
+            toast.error(err?.data?.message || t("Common.errorAction"));
         }
     };
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button variant="ghost" size="sm">
                     {t("Auth.assignPlayer")}
@@ -109,40 +99,30 @@ export function AssignPlayerDialog({ userId, currentPlayerId }: AssignPlayerDial
                 </DialogHeader>
 
                 <Form {...form}>
-                    <form
-                        onSubmit={form.handleSubmit((values) => onSubmit(values, () => form.reset()))}
-                        className="space-y-4"
-                    >
-                        {/* انتخاب پلیر */}
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                         <FormField
                             name="player"
                             control={form.control}
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>{t("Auth.selectPlayer")}</FormLabel>
-                                    <Select value={field.value} onValueChange={field.onChange} disabled={isLoading}>
+                                    <Select
+                                        value={field.value}
+                                        onValueChange={field.onChange}
+                                        disabled={isLoading}
+                                    >
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder={t("Auth.selectPlayer")} />
                                             </SelectTrigger>
                                         </FormControl>
+
                                         <SelectContent>
-                                            {isLoading ? (
-                                                <div className="p-2 text-sm text-muted-foreground">
-                                                    {t("Common.loading")}...
-                                                </div>
-                                            ) : players.length > 0 ? (
-                                                players.map((player) => (
-                                                    <SelectItem key={player.id} value={player.id}>
-                                                        {getDisplayName(player)}
-                                                        {player.shortName ? ` (${player.shortName})` : ""}
-                                                    </SelectItem>
-                                                ))
-                                            ) : (
-                                                <div className="p-2 text-sm text-muted-foreground">
-                                                    {t("Common.noPlayers")}
-                                                </div>
-                                            )}
+                                            {players.map((player) => (
+                                                <SelectItem key={player.id} value={player.id}>
+                                                    {getDisplayName(player)}
+                                                </SelectItem>
+                                            ))}
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -151,7 +131,11 @@ export function AssignPlayerDialog({ userId, currentPlayerId }: AssignPlayerDial
                         />
 
                         <DialogFooter>
-                            <Button type="submit" disabled={isSubmitting} className="w-full">
+                            <Button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="w-full"
+                            >
                                 {t("Common.submit")}
                             </Button>
                         </DialogFooter>
