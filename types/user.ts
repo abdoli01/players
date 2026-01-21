@@ -20,3 +20,11 @@ export interface UserSearchParams {
     accountType?: "PLAYER" | "ADMIN";
     metricaPlayerId?: string;
 }
+export interface SetPlayerIdDto {
+    playerId: string; // شناسه بازیکن
+}
+
+export interface AdminSetPlayerIdDto {
+    userId: string;   // شناسه کاربر
+    playerId: string; // شناسه بازیکن
+}

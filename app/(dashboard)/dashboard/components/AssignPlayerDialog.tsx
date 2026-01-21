@@ -32,7 +32,8 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 
-import { useGetPlayersQuery, useAdminSetPlayerIdMutation } from "@/services/api/playersApi";
+import { useGetPlayersQuery } from "@/services/api/playersApi";
+import { useAdminSetPlayerIdMutation } from "@/services/api/usersApi";
 
 interface AssignPlayerDialogProps {
     userId: string;

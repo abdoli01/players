@@ -24,7 +24,8 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 
-import { useGetPlayersQuery, useSetPlayerIdMutation } from "@/services/api/playersApi";
+import { useGetPlayersQuery } from "@/services/api/playersApi";
+import { useSetPlayerIdMutation } from "@/services/api/usersApi";
 import {
     Dialog,
     DialogContent,

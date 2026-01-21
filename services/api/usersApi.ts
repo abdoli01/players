@@ -2,7 +2,7 @@
 // services/usersApi.ts
 import { baseApi } from "./baseApi";
 import { User } from "@/types/user";
-import { UserSearchParams } from "@/types/user";
+import { UserSearchParams,SetPlayerIdDto, AdminSetPlayerIdDto } from "@/types/user";
 
 export const usersApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -35,11 +35,39 @@ export const usersApi = baseApi.injectEndpoints({
             invalidatesTags: ["USERS"],
         }),
 
+        // ----------------------------
+        // POST /users/set-player-id
+        // فقط برای PLAYER که playerId هنوز null باشد
+        // ----------------------------
+        setPlayerId: builder.mutation<void, SetPlayerIdDto>({
+            query: (body) => ({
+                url: "/users/set-player-id",
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: ["USERS"],
+        }),
+
+        // ----------------------------
+        // POST /users/admin/set-player-id
+        // Admin می‌تواند هر بار تغییر دهد
+        // ----------------------------
+        adminSetPlayerId: builder.mutation<void, AdminSetPlayerIdDto>({
+            query: (body) => ({
+                url: "/users/admin/set-player-id",
+                method: "POST",
+                body,
+            }),
+            invalidatesTags: ["USERS"],
+        }),
+
     }),
 });
 export const {
     useGetUsersQuery,
     useSearchUsersQuery,
     useUpdateUserMutation,
+    useSetPlayerIdMutation,       // <-- اضافه شد
+    useAdminSetPlayerIdMutation,  // <-- اضافه شد
 } = usersApi;
 

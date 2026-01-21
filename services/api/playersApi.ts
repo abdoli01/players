@@ -5,7 +5,6 @@ import {
     CreatePlayerDto,
     UpdatePlayerDto,
     PlayerSearchParams,
-    SetPlayerIdDto, AdminSetPlayerIdDto
 } from "@/types/player";
 
 export const playersApi = baseApi.injectEndpoints({
@@ -66,29 +65,7 @@ export const playersApi = baseApi.injectEndpoints({
             invalidatesTags: ["PLAYERS"],
         }),
 
-        // ----------------------------
-        // POST /users/set-player-id
-        // فقط برای PLAYER که playerId هنوز null باشد
-        // ----------------------------
-        setPlayerId: builder.mutation<void, SetPlayerIdDto>({
-            query: (body) => ({
-                url: "/users/set-player-id",
-                method: "POST",
-                body,
-            }),
-        }),
 
-        // ----------------------------
-        // POST /users/admin/set-player-id
-        // Admin می‌تواند هر بار تغییر دهد
-        // ----------------------------
-        adminSetPlayerId: builder.mutation<void, AdminSetPlayerIdDto>({
-            query: (body) => ({
-                url: "/users/admin/set-player-id",
-                method: "POST",
-                body,
-            }),
-        }),
 
     }),
 });
@@ -100,6 +77,4 @@ export const {
     useGetPlayerByIdQuery,
     useUpdatePlayerMutation,
     useDeletePlayerMutation,
-    useSetPlayerIdMutation,       // <-- اضافه شد
-    useAdminSetPlayerIdMutation,  // <-- اضافه شد
 } = playersApi;
