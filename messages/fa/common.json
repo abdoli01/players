@@ -2,7 +2,9 @@
   "Common": {
     "submit": "تایید",
     "loading": "در حال انتظار",
-    "noPlayers": "بازیکنی یافت نشد"
+    "noPlayers": "بازیکنی یافت نشد",
+    "confirm": "تایید",
+    "cancel": "لغو"
 
 
   }

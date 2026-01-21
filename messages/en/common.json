@@ -2,6 +2,8 @@
   "Common": {
     "submit": "submit",
     "loading": "loading",
-    "noPlayers": "no players"
+    "noPlayers": "no players",
+    "confirm": "confirm",
+    "cancel": "cancel"
   }
 }
