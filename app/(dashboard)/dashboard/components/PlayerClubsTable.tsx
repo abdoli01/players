@@ -95,28 +95,28 @@ export function PlayerClubsTable() {
         { accessorKey: "sport.fullName", header: t("sportId") },
         { accessorKey: "startDate", header: t("startDate") },
         { accessorKey: "endDate", header: t("endDate") },
-        {
-            id: "actions",
-            header: t("actions"),
-            cell: ({ row }) => {
-                const playerClub = row.original;
-                return (
-                    <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                                <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>عملیات</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            {/*<EditPlayerClubDialog playerClub={playerClub} />*/}
-                            <DeletePlayerClubDialog playerClub={playerClub}/>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                );
-            },
-        },
+        // {
+        //     id: "actions",
+        //     header: t("actions"),
+        //     cell: ({ row }) => {
+        //         const playerClub = row.original;
+        //         return (
+        //             <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
+        //                 <DropdownMenuTrigger asChild>
+        //                     <Button variant="ghost" className="h-8 w-8 p-0">
+        //                         <MoreHorizontal className="h-4 w-4" />
+        //                     </Button>
+        //                 </DropdownMenuTrigger>
+        //                 <DropdownMenuContent align="end">
+        //                     <DropdownMenuLabel>عملیات</DropdownMenuLabel>
+        //                     <DropdownMenuSeparator />
+        //                     {/*<EditPlayerClubDialog playerClub={playerClub} />*/}
+        //                     <DeletePlayerClubDialog playerClub={playerClub}/>
+        //                 </DropdownMenuContent>
+        //             </DropdownMenu>
+        //         );
+        //     },
+        // },
     ];
 
     // -----------------------
@@ -190,9 +190,9 @@ export function PlayerClubsTable() {
                     />
                 </div>
 
-                <div className="flex items-center justify-end flex-1">
-                    <CreatePlayerClubDialog />
-                </div>
+                {/*<div className="flex items-center justify-end flex-1">*/}
+                {/*    <CreatePlayerClubDialog />*/}
+                {/*</div>*/}
             </div>
 
             {/* Table */}

@@ -116,27 +116,27 @@ export function TeamLevelsTable() {
             accessorKey: "shortNameEn",
             header: t("shortNameEn"),
         },
-        {
-            id: "actions",
-            header: t("actions"),
-            cell: ({ row }) => (
-                <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>عملیات</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        {/*
-              <EditTeamLevelDialog teamLevel={row.original} />
-              <DeleteTeamLevelDialog teamLevel={row.original} />
-            */}
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            ),
-        },
+        // {
+        //     id: "actions",
+        //     header: t("actions"),
+        //     cell: ({ row }) => (
+        //         <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
+        //             <DropdownMenuTrigger asChild>
+        //                 <Button variant="ghost" className="h-8 w-8 p-0">
+        //                     <MoreHorizontal className="h-4 w-4" />
+        //                 </Button>
+        //             </DropdownMenuTrigger>
+        //             <DropdownMenuContent align="end">
+        //                 <DropdownMenuLabel>عملیات</DropdownMenuLabel>
+        //                 <DropdownMenuSeparator />
+        //                 {/*
+        //       <EditTeamLevelDialog teamLevel={row.original} />
+        //       <DeleteTeamLevelDialog teamLevel={row.original} />
+        //     */}
+        //             </DropdownMenuContent>
+        //         </DropdownMenu>
+        //     ),
+        // },
     ];
 
     // -----------------------

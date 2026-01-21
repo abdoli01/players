@@ -87,28 +87,28 @@ export function SportsTable() {
         { accessorKey: "shortName", header: t("shortName") },
         { accessorKey: "fullNameEn", header: t("fullNameEn") },
         { accessorKey: "shortNameEn", header: t("shortNameEn") },
-        {
-            id: "actions",
-            header: t("actions"),
-            cell: ({ row }) => {
-                const sport = row.original;
-                return (
-                    <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                                <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>عملیات</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            {/*<EditSportDialog sport={sport} />*/}
-                            <DeleteSportDialog sportData={sport} />
-                        </DropdownMenuContent>
-                    </DropdownMenu>
-                );
-            },
-        },
+        // {
+        //     id: "actions",
+        //     header: t("actions"),
+        //     cell: ({ row }) => {
+        //         const sport = row.original;
+        //         return (
+        //             <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
+        //                 <DropdownMenuTrigger asChild>
+        //                     <Button variant="ghost" className="h-8 w-8 p-0">
+        //                         <MoreHorizontal className="h-4 w-4" />
+        //                     </Button>
+        //                 </DropdownMenuTrigger>
+        //                 <DropdownMenuContent align="end">
+        //                     <DropdownMenuLabel>عملیات</DropdownMenuLabel>
+        //                     <DropdownMenuSeparator />
+        //                     {/*<EditSportDialog sport={sport} />*/}
+        //                     <DeleteSportDialog sportData={sport} />
+        //                 </DropdownMenuContent>
+        //             </DropdownMenu>
+        //         );
+        //     },
+        // },
     ];
 
     // -----------------------
@@ -192,9 +192,9 @@ export function SportsTable() {
                     />
                 </div>
 
-                <div className="flex items-center justify-end flex-1">
-                    <CreateSportDialog />
-                </div>
+                {/*<div className="flex items-center justify-end flex-1">*/}
+                {/*    <CreateSportDialog />*/}
+                {/*</div>*/}
             </div>
 
             {/* Table */}
