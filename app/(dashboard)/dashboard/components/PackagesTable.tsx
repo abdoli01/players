@@ -92,8 +92,18 @@ export function PackagesTable() {
     const columns: ColumnDef<Package>[] = [
         { accessorKey: "title", header: t("title") },
         { accessorKey: "description", header: t("description") },
-        { accessorKey: "originalPrice", header: t("originalPrice") },
-        { accessorKey: "discountPrice", header: t("discountPrice") },
+        {
+            accessorKey: "originalPrice",
+            header: t("originalPrice"),
+            cell: ({ getValue }) =>
+                Number(getValue()).toLocaleString(locale === "fa" ? "fa-IR" : "en-US"),
+        },
+        {
+            accessorKey: "discountPrice",
+            header: t("discountPrice"),
+            cell: ({ getValue }) =>
+                Number(getValue()).toLocaleString(locale === "fa" ? "fa-IR" : "en-US"),
+        },
         { accessorKey: "freeUsageDays", header: t("freeUsageDays") },
         { accessorKey: "freeDisplayMinutes", header: t("freeDisplayMinutes") },
         { accessorKey: "freeDownloadMinutes", header: t("freeDownloadMinutes") },
