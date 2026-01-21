@@ -45,3 +45,12 @@ export interface PlayerSearchParams {
     corePlayerId?: number;
     image?: string;
 }
+
+export interface SetPlayerIdDto {
+    playerId: string; // شناسه بازیکن
+}
+
+export interface AdminSetPlayerIdDto {
+    userId: string;   // شناسه کاربر
+    playerId: string; // شناسه بازیکن
+}

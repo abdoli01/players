@@ -34,3 +34,12 @@ export interface UserProfile {
     firstName: string;
     lastName: string;
 }
+// DTOs
+export interface SetPlayerIdDto {
+    playerId: string; // شناسه بازیکن
+}
+
+export interface AdminSetPlayerIdDto {
+    userId: string;   // شناسه کاربر
+    playerId: string; // شناسه بازیکن
+}
