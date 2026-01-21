@@ -43,9 +43,12 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
+import {PageHeader} from "@/app/(dashboard)/dashboard/components/PageHeader";
+
 
 export function TeamSeasonsTable() {
     const t = useTranslations("Dashboard");
+    const tp = useTranslations();
     const locale = useLocale();
     const isRtl = locale === "fa";
 
@@ -139,6 +142,9 @@ export function TeamSeasonsTable() {
 
     return (
         <div className="w-full">
+            <PageHeader
+                title={tp("SideBar.teamSeasons")}
+            />
             {/* Filters */}
             <div className="flex flex-wrap gap-4 mb-4">
                 <div className="flex flex-col gap-1">

@@ -9,6 +9,7 @@ import { Tournament, TournamentSearchParams } from "@/types/tournament";
 import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
 // import { CreateTournamentDialog } from "../components/CreateTournamentDialog";
+import {PageHeader} from "@/app/(dashboard)/dashboard/components/PageHeader";
 
 import {
     useReactTable,
@@ -46,6 +47,7 @@ import { MoreHorizontal } from "lucide-react";
 
 export function TournamentsTable() {
     const t = useTranslations("Dashboard");
+    const tp = useTranslations();
     const locale = useLocale();
     const isRtl = locale === "fa";
 
@@ -159,6 +161,9 @@ export function TournamentsTable() {
 
     return (
         <div className="w-full">
+            <PageHeader
+                title={tp("SideBar.tournaments")}
+            />
             {/* Filters */}
             <div className="flex flex-wrap gap-4 mb-4">
                 <div className="flex flex-col gap-1">

@@ -11,6 +11,7 @@ import { Spinner } from "@/components/Spinner";
 import { CreateSportDialog } from "../components/CreateSportDialog";
 // import { EditSportDialog } from "../components/EditSportDialog";
 import { DeleteSportDialog } from "../components/DeleteSportDialog";
+import {PageHeader} from "@/app/(dashboard)/dashboard/components/PageHeader";
 
 import {
     useReactTable,
@@ -47,6 +48,7 @@ import { MoreHorizontal } from "lucide-react";
 
 export function SportsTable() {
     const t = useTranslations("Dashboard");
+    const tp = useTranslations();
     const locale = useLocale();
     const isRtl = locale === "fa";
 
@@ -140,6 +142,9 @@ export function SportsTable() {
 
     return (
         <div className="w-full">
+            <PageHeader
+                title={tp("SideBar.sports")}
+            />
             {/* Filters */}
             <div className="flex flex-wrap gap-4 mb-4">
                 <div className="flex flex-col gap-1">

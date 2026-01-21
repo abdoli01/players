@@ -115,6 +115,8 @@
     "tournament": "tournament",
     "all": "all",
     "tournamentSeason": "tournament - season",
-    "teamSeason": "team - season"
+    "teamSeason": "team - season",
+    "management": "management"
+
   }
 }

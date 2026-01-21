@@ -10,6 +10,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
 import { CreateSeasonDialog } from "../components/CreateSeasonDialog";
 import { DeleteSeasonDialog } from "../components/DeleteSeasonDialog";
+import {PageHeader} from "@/app/(dashboard)/dashboard/components/PageHeader";
 
 import {
     useReactTable,
@@ -47,6 +48,7 @@ import { MoreHorizontal } from "lucide-react";
 
 export function SeasonsTable() {
     const t = useTranslations("Dashboard");
+    const tp = useTranslations();
     const locale = useLocale();
     const isRtl = locale === "fa";
 
@@ -166,6 +168,9 @@ export function SeasonsTable() {
 
     return (
         <div className="w-full">
+            <PageHeader
+                title={tp("SideBar.seasons")}
+            />
             {/* Filters */}
             <div className="flex flex-wrap gap-4 mb-4">
                 <div className="flex flex-col gap-1">

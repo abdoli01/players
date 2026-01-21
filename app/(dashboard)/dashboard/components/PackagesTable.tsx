@@ -10,6 +10,7 @@ import {useLocale, useTranslations} from "next-intl";
 import { Spinner } from "@/components/Spinner";
 import { CreatePackageDialog } from "../components/CreatePackageDialog";
 import { EditPackageDialog } from "../components/EditPackageDialog";
+import {PageHeader} from "@/app/(dashboard)/dashboard/components/PageHeader";
 
 import {
     useReactTable,
@@ -48,6 +49,7 @@ import {DeletePackageDialog} from "@/app/(dashboard)/dashboard/components/Delete
 
 export function PackagesTable() {
     const t = useTranslations("Dashboard");
+    const tp = useTranslations();
     const locale = useLocale();
     const isRtl = locale === "fa";
 
@@ -168,6 +170,9 @@ export function PackagesTable() {
 
     return (
         <div className="w-full">
+            <PageHeader
+                title={tp("SideBar.packages")}
+            />
             {/* Filters */}
             <div className="flex flex-wrap gap-4 mb-4">
                 <div className="flex flex-col gap-1">

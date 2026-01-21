@@ -11,6 +11,7 @@ import { Spinner } from "@/components/Spinner";
 import { CreatePlayerClubDialog } from "../components/CreatePlayerClubDialog";
 // import { EditPlayerClubDialog } from "../components/EditPlayerClubDialog";
 import { DeletePlayerClubDialog } from "../components/DeletePlayerClubDialog";
+import {PageHeader} from "@/app/(dashboard)/dashboard/components/PageHeader";
 
 import {
     useReactTable,
@@ -48,6 +49,7 @@ import { MoreHorizontal } from "lucide-react";
 
 export function PlayerClubsTable() {
     const t = useTranslations("Dashboard");
+    const tp = useTranslations();
     const locale = useLocale();
     const isRtl = locale === "fa";
 
@@ -148,6 +150,9 @@ export function PlayerClubsTable() {
 
     return (
         <div className="w-full">
+            <PageHeader
+                title={tp("SideBar.playerClubs")}
+            />
             {/* Filters */}
             <div className="flex flex-wrap gap-4 mb-4">
                 <div className="flex flex-col gap-1">
