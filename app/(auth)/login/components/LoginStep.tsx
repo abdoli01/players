@@ -22,6 +22,7 @@ import { ArrowLeft, ArrowRight, Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
 import { useLocale, useTranslations } from 'next-intl';
 import Image from "next/image";
+import {useRouter} from "next/navigation";
 
 interface LoginStepProps {
     userMeta: { phone?: string; hasPlayerAssignment?: boolean };
@@ -41,6 +42,7 @@ export default function LoginStep({
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const dispatch = useAppDispatch();
+    const router = useRouter();
     const locale = useLocale();
     const t = useTranslations('Auth');
 
@@ -72,7 +74,13 @@ export default function LoginStep({
             dispatch(setUser(response.user));
 
             toast.success(t('loginSuccess'));
-            setStep(userMeta.hasPlayerAssignment ? "assign-player" : "assign-player");
+            if(response.user && response.user.playerId){
+                sessionStorage.removeItem("auth_wizard_state");
+                router.push("/"); // بعد از موفقیت
+            }else{
+                setStep("assign-player")
+            }
+            // setStep(userMeta.hasPlayerAssignment ? "assign-player" : "assign-player");
         } catch (err: any) {
             toast.error(err.message || t('loginError'));
         } finally {
