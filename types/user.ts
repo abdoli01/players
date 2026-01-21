@@ -8,6 +8,7 @@ export interface User {
     accountType: "PLAYER" | "ADMIN";
     metricaPlayerId?: string;
     expireDate?: string | null;
+    playerId?: string | null;
 }
 // types/userSearch.ts
 export interface UserSearchParams {

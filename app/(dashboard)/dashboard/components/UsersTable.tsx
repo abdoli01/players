@@ -35,6 +35,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import {PageHeader} from "@/app/(dashboard)/dashboard/components/PageHeader";
+import {AssignPlayerDialog} from "@/app/(dashboard)/dashboard/components/AssignPlayerDialog";
 
 export function UsersTable() {
     const t = useTranslations("Dashboard");
@@ -101,6 +102,7 @@ export function UsersTable() {
                             <DropdownMenuLabel>عملیات</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <EditUserDialog user={user} />
+                            <AssignPlayerDialog userId={user.id} currentPlayerId={user.playerId} />
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );
