@@ -23,6 +23,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+import {
+    DropdownMenu,
+    DropdownMenuTrigger,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal } from "lucide-react";
+
 import { useGetSettingsQuery, useUpdateSettingsMutation } from "@/services/api/settingsApi";
 import { UpdateSettingsDto } from "@/types/settings";
 import { toast } from "react-toastify";
@@ -46,7 +56,9 @@ export function SettingsTable() {
         if (settings) setEditableSettings({ currentSeasonId: settings.currentSeasonId });
     }, [settings]);
 
+    // -----------------------
     // Columns
+    // -----------------------
     const columns: ColumnDef<UpdateSettingsDto>[] = [
         {
             accessorKey: "currentSeasonId",
@@ -67,27 +79,38 @@ export function SettingsTable() {
             id: "actions",
             header: t("actions"),
             cell: () => (
-                <Button
-                    size="sm"
-                    disabled={isUpdating || !editableSettings}
-                    onClick={async () => {
-                        if (!editableSettings) return;
-                        try {
-                            await updateSettings(editableSettings).unwrap();
-                            toast.success(tp("successAction"));
-                        } catch (err) {
-                            console.error(err);
-                            toast.error(tp("errorAction"));
-                        }
-                    }}
-                >
-                    {t("edit")}
-                </Button>
+                <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                            onClick={async () => {
+                                if (!editableSettings) return;
+                                try {
+                                    await updateSettings(editableSettings).unwrap();
+                                    toast.success(tp("successAction"));
+                                } catch (err) {
+                                    console.error(err);
+                                    toast.error(tp("errorAction"));
+                                }
+                            }}
+                        >
+                            {t("Common.save")}
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             ),
         },
     ];
 
+    // -----------------------
     // Table setup
+    // -----------------------
     const table = useReactTable<UpdateSettingsDto>({
         data: editableSettings ? [editableSettings] : [],
         columns,
