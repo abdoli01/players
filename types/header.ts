@@ -1,15 +1,14 @@
 // types/header.ts
-
-export interface HeaderParams {
-    keyword: "PLAYER" | "CLUB";
-    playerId?: string;        // الزامی اگر keyword = PLAYER
-    currentSeasonId?: string; // الزامی اگر keyword = PLAYER
+export interface HeaderFieldDto {
+    title: string;
+    key: string;
+    value: any;
 }
 
-export interface HeaderResponse {
-    full_name: string;
-    image: string;
-    club: string;
-    kitNumber: string;
-    age: number;
+export interface HeaderPlayerResponseDto {
+    fullName: HeaderFieldDto;
+    image?: HeaderFieldDto;
+    club?: HeaderFieldDto;
+    kitNumber?: HeaderFieldDto;
+    age: HeaderFieldDto;
 }

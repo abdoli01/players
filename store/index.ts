@@ -5,6 +5,7 @@ import counterReducer from "./slices/counterSlice";
 import userReducer from './slices/userSlice'
 import playerReducer from './slices/playerSlice'
 import seasonReducer from './slices/seasonSlice'
+import playerHeaderReducer from './slices/playerHeaderSlice'
 
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
         user: userReducer,
         player: playerReducer,
         season: seasonReducer,
+        playerHeader: playerHeaderReducer,
         [baseApi.reducerPath]: baseApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>

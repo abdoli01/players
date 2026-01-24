@@ -1,19 +1,24 @@
-// services/headerApi.ts
+// services/api/headerApi.ts
 import { baseApi } from "./baseApi";
-import { HeaderParams, HeaderResponse } from "@/types/header";
+import { HeaderPlayerResponseDto } from "@/types/header";
 
 export const headerApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-
-        getHeader: builder.query<HeaderResponse, HeaderParams>({
-            query: (params) => ({
+        getPlayerHeader: builder.query<
+            HeaderPlayerResponseDto,
+            { playerId: string; seasonId: string }
+        >({
+            query: ({ playerId, seasonId }) => ({
                 url: "/header",
-                params,
+                params: {
+                    keyword: "PLAYER",
+                    playerId,
+                    seasonId,
+                },
             }),
             providesTags: ["HEADER"],
         }),
-
     }),
 });
 
-export const { useGetHeaderQuery } = headerApi;
+export const { useGetPlayerHeaderQuery } = headerApi;
