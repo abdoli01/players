@@ -6,9 +6,13 @@ import {ReactNode} from "react";
 import Image from "next/image";
 import {cn} from "@/lib/utils";
 import { useAppSelector } from "@/store/hooks";
-import {useTranslations} from "next-intl";
+import {useLocale, useTranslations} from "next-intl";
+import {Player} from "@/types/player";
+
 export default function Navbar({children}: { children: ReactNode }) {
     const pathname = usePathname();
+    const locale = useLocale();
+    const isRtl = locale === "fa";
 
     const tabs = [
         { title: "profile", url: "/profile" },
@@ -21,7 +25,9 @@ export default function Navbar({children}: { children: ReactNode }) {
     const { user } = useAppSelector(
         (state) => state.user
     );
+    const player : Player | null = useAppSelector((s) => s.player.player);
     console.log('3333',user)
+    console.log('player in navbar',player)
     const t = useTranslations('Navbar');
 
     return (
@@ -32,7 +38,7 @@ export default function Navbar({children}: { children: ReactNode }) {
                <div className="flex items-center gap-3">
                    <Image src="/images/alipor.png" alt="player"  width={40} height={40} className='rounded-full' />
                    <div className="flex flex-col leading-tight">
-                       <span className="font-semibold text-lg text-foreground">Serdar Durson</span>
+                       <span className="font-semibold text-lg text-foreground">{isRtl ? player?.fullName : player?.fullNameEn}</span>
                        <span className="text-sm text-gray-400">Persepolis | #09 | 29yo</span>
                    </div>
                </div>

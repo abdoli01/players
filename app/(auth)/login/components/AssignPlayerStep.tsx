@@ -6,6 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
+import { setUser } from "@/store/slices/userSlice";
+import { useAppDispatch } from "@/store/hooks";
+import { toast } from "react-toastify";
+
 
 import { Button } from "@/components/ui/button";
 import {
@@ -48,6 +52,7 @@ export default function AssignPlayerStep() {
     const locale = useLocale();
     const isRtl = locale === "fa";
     const router = useRouter();
+    const dispatch = useAppDispatch();
 
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
@@ -82,13 +87,15 @@ export default function AssignPlayerStep() {
         if (!selectedPlayer) return;
 
         try {
-            await setPlayerId({ playerId: selectedPlayer }).unwrap();
+            const updatedUser:any = await setPlayerId({ playerId: selectedPlayer }).unwrap();
+            dispatch(setUser(updatedUser.user)); // آپدیت user در redux
             setOpenConfirm(false);
             sessionStorage.removeItem("auth_wizard_state");
-            router.push("/"); // بعد از موفقیت
+
+            router.push("/"); // فقط redirect، بدون reload
         } catch (err) {
             console.error(err);
-            alert(t("Common.errorOccurred")); // میشه بعداً Toast بذاریم
+            toast.error(t("Common.errorAction"));
         }
     };
 
