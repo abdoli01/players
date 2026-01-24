@@ -116,7 +116,10 @@
     "all": "all",
     "tournamentSeason": "tournament - season",
     "teamSeason": "team - season",
-    "management": "management"
-
+    "management": "management",
+    "settings": "settings",
+    "currentSeasonId": "Current Season ID",
+    "successAction": "Operation completed successfully",
+    "errorAction": "The operation could not be completed successfully"
   }
 }

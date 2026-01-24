@@ -34,6 +34,11 @@ const items = [
         icon: Package,
     },
     {
+        title: "settings",
+        url: "/dashboard/settings",
+        icon: Waves,
+    },
+    {
         title: "seasons",
         url: "/dashboard/seasons",
         icon: Dice4,

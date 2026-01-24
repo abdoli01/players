@@ -119,6 +119,10 @@
     "all": "همه",
     "tournamentSeason": "تورنومنت - فصل",
     "teamSeason": "تیم - فصل",
-    "management": "مدیریت"
+    "management": "مدیریت",
+    "settings": "تنظیمات",
+    "currentSeasonId": "شناسه فصل جاری",
+    "successAction": "عملیات با موفقیت انجام شد",
+    "errorAction": "عملیات با موفقیت انجام نشد"
   }
 }
