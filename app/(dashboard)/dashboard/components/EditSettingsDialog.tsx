@@ -53,11 +53,11 @@ export function EditSettingsDialog({ settings }: Props) {
     const onSubmit = async (values: EditSettingsFormValues) => {
         try {
             await updateSettings(values).unwrap();
-            toast.success(tp("successAction"));
+            toast.success(t("successAction"));
             setOpen(false);
         } catch (err) {
             console.error(err);
-            toast.error(tp("errorAction"));
+            toast.error(t("errorAction"));
         }
     };
 

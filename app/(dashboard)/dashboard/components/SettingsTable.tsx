@@ -9,17 +9,16 @@ import {
     useReactTable,
     ColumnDef,
     getCoreRowModel,
+    getSortedRowModel,
+    getPaginationRowModel,
+    getFilteredRowModel,
     flexRender,
+    SortingState,
+    ColumnFiltersState,
+    VisibilityState,
 } from "@tanstack/react-table";
 
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 
 import {
@@ -28,12 +27,12 @@ import {
     DropdownMenuContent,
     DropdownMenuLabel,
     DropdownMenuSeparator,
-    DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+
 import { MoreHorizontal } from "lucide-react";
 
 import { useGetSettingsQuery } from "@/services/api/settingsApi";
-import { UpdateSettingsDto, Settings } from "@/types/settings";
+import { Settings } from "@/types/settings";
 import { EditSettingsDialog } from "./EditSettingsDialog";
 
 export function SettingsTable() {
@@ -42,15 +41,26 @@ export function SettingsTable() {
     const locale = useLocale();
     const isRtl = locale === "fa";
 
+    // -----------------------
+    // Table states
+    // -----------------------
+    const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+    const [rowSelection, setRowSelection] = React.useState({});
+
+    // -----------------------
     // Fetch settings
+    // -----------------------
     const { data: settings, isLoading } = useGetSettingsQuery();
+    const data = settings ? [settings] : [];
 
     // -----------------------
     // Columns
     // -----------------------
-    const columns: ColumnDef<UpdateSettingsDto>[] = [
+    const columns: ColumnDef<Settings>[] = [
         {
-            accessorFn: (row: any) => row.currentSeason?.fullName || "", // ← optional chaining
+            accessorFn: (row) => row.currentSeason?.fullName || "",
             id: "currentSeason",
             header: t("currentSeason"),
         },
@@ -58,20 +68,19 @@ export function SettingsTable() {
             id: "actions",
             header: t("actions"),
             cell: ({ row }) => {
-                if (!settings) return null;
-
+                const setting = row.original;
                 return (
                     <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                            <Button variant="ghost" className="h-8 w-8 p-0">
                                 <MoreHorizontal className="h-4 w-4" />
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
                             <DropdownMenuSeparator />
-                            {/* کامپوننت ویرایش */}
-                            <EditSettingsDialog settings={settings} />
+                            {/* مدال ویرایش داخل Dropdown */}
+                            <EditSettingsDialog settings={setting} />
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );
@@ -82,18 +91,32 @@ export function SettingsTable() {
     // -----------------------
     // Table setup
     // -----------------------
-    const table = useReactTable<UpdateSettingsDto>({
-        data: settings ? [{ currentSeasonId: settings.currentSeasonId }] : [],
+    const table = useReactTable<Settings>({
+        data,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        state: { sorting, columnFilters, columnVisibility, rowSelection },
+        onSortingChange: setSorting,
+        onColumnFiltersChange: setColumnFilters,
+        onColumnVisibilityChange: setColumnVisibility,
+        onRowSelectionChange: setRowSelection,
+        initialState: {
+            pagination: {
+                pageSize: 20,
+            },
+        },
     });
 
-    if (isLoading || !settings) return <Spinner />;
+    if (isLoading) return <Spinner />;
 
     return (
         <div className="w-full">
             <PageHeader title={tp("SideBar.settings")} />
 
+            {/* Table */}
             <div className="overflow-hidden rounded-md border">
                 <Table>
                     <TableHeader>
@@ -112,7 +135,7 @@ export function SettingsTable() {
                     <TableBody>
                         {table.getRowModel().rows.length ? (
                             table.getRowModel().rows.map((row) => (
-                                <TableRow key={row.id}>
+                                <TableRow key={row.id} className="hover:bg-gray-100 dark:hover:bg-muted/50">
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id} className="text-center">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
