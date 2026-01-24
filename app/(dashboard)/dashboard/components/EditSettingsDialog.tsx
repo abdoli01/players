@@ -76,7 +76,7 @@ export function EditSettingsDialog({ settings }: Props) {
 
                 <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
                     <div>
-                        <Label>{t("currentSeason")}</Label>
+                        <Label className="mb-2">{t("currentSeason")}</Label>
                         <Select
                             value={form.watch("currentSeasonId")}
                             onValueChange={(val) => form.setValue("currentSeasonId", val)}
