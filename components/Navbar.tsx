@@ -38,7 +38,7 @@ export default function Navbar({children}: { children: ReactNode }) {
                <div className="flex items-center gap-3">
                    <Image src="/images/alipor.png" alt="player"  width={40} height={40} className='rounded-full' />
                    <div className="flex flex-col leading-tight">
-                       <span className="font-semibold text-lg text-foreground">{isRtl ? player?.fullName : player?.fullNameEn}</span>
+                       <span className="font-semibold text-lg text-foreground">{!isRtl ? player?.fullNameEn : player?.fullName}</span>
                        <span className="text-sm text-gray-400">Persepolis | #09 | 29yo</span>
                    </div>
                </div>
