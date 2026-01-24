@@ -4,6 +4,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import counterReducer from "./slices/counterSlice";
 import userReducer from './slices/userSlice'
 import playerReducer from './slices/playerSlice'
+import seasonReducer from './slices/seasonSlice'
 
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
         counter: counterReducer,
         user: userReducer,
         player: playerReducer,
+        season: seasonReducer,
         [baseApi.reducerPath]: baseApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
