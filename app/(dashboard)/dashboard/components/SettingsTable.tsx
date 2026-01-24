@@ -21,7 +21,6 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 
 import {
     DropdownMenu,
@@ -33,9 +32,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 
-import { useGetSettingsQuery, useUpdateSettingsMutation } from "@/services/api/settingsApi";
-import { UpdateSettingsDto } from "@/types/settings";
-import { toast } from "react-toastify";
+import { useGetSettingsQuery } from "@/services/api/settingsApi";
+import { UpdateSettingsDto, Settings } from "@/types/settings";
+import { EditSettingsDialog } from "./EditSettingsDialog";
 
 export function SettingsTable() {
     const t = useTranslations("Dashboard");
@@ -43,68 +42,40 @@ export function SettingsTable() {
     const locale = useLocale();
     const isRtl = locale === "fa";
 
-    // -----------------------
     // Fetch settings
-    // -----------------------
     const { data: settings, isLoading } = useGetSettingsQuery();
-    const [updateSettings, { isLoading: isUpdating }] = useUpdateSettingsMutation();
-
-    // Editable state
-    const [editableSettings, setEditableSettings] = React.useState<UpdateSettingsDto | null>(null);
-
-    React.useEffect(() => {
-        if (settings) setEditableSettings({ currentSeasonId: settings.currentSeasonId });
-    }, [settings]);
 
     // -----------------------
     // Columns
     // -----------------------
     const columns: ColumnDef<UpdateSettingsDto>[] = [
         {
-            accessorKey: "currentSeasonId",
-            header: t("currentSeasonId"),
-            cell: ({ row }) => (
-                <Input
-                    type="text"
-                    value={row.original.currentSeasonId}
-                    onChange={(e) => {
-                        setEditableSettings((prev) =>
-                            prev ? { ...prev, currentSeasonId: e.target.value } : null
-                        );
-                    }}
-                />
-            ),
+            accessorFn: (row: any) => row.currentSeason?.fullName || "", // ← optional chaining
+            id: "currentSeason",
+            header: t("currentSeason"),
         },
         {
             id: "actions",
             header: t("actions"),
-            cell: () => (
-                <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                            onClick={async () => {
-                                if (!editableSettings) return;
-                                try {
-                                    await updateSettings(editableSettings).unwrap();
-                                    toast.success(tp("successAction"));
-                                } catch (err) {
-                                    console.error(err);
-                                    toast.error(tp("errorAction"));
-                                }
-                            }}
-                        >
-                            {t("Common.save")}
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            ),
+            cell: ({ row }) => {
+                if (!settings) return null;
+
+                return (
+                    <DropdownMenu dir={isRtl ? "rtl" : "ltr"}>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            {/* کامپوننت ویرایش */}
+                            <EditSettingsDialog settings={settings} />
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                );
+            },
         },
     ];
 
@@ -112,12 +83,12 @@ export function SettingsTable() {
     // Table setup
     // -----------------------
     const table = useReactTable<UpdateSettingsDto>({
-        data: editableSettings ? [editableSettings] : [],
+        data: settings ? [{ currentSeasonId: settings.currentSeasonId }] : [],
         columns,
         getCoreRowModel: getCoreRowModel(),
     });
 
-    if (isLoading || !editableSettings) return <Spinner />;
+    if (isLoading || !settings) return <Spinner />;
 
     return (
         <div className="w-full">

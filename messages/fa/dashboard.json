@@ -123,6 +123,9 @@
     "settings": "تنظیمات",
     "currentSeasonId": "شناسه فصل جاری",
     "successAction": "عملیات با موفقیت انجام شد",
-    "errorAction": "عملیات با موفقیت انجام نشد"
+    "errorAction": "عملیات با موفقیت انجام نشد",
+    "selectSeason": "انتخاب فصل",
+    "currentSeason": "فصل جاری",
+    "editSettings": "ویرایش تنظیمات"
   }
 }

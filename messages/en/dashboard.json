@@ -120,6 +120,9 @@
     "settings": "settings",
     "currentSeasonId": "Current Season ID",
     "successAction": "Operation completed successfully",
-    "errorAction": "The operation could not be completed successfully"
+    "errorAction": "The operation could not be completed successfully",
+    "selectSeason": "Select Season",
+    "currentSeason": "Current Season",
+    "editSettings": "Edit Settings"
   }
 }
