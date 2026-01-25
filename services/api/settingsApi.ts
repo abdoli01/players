@@ -6,7 +6,7 @@ export const settingsApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
 
         // GET /settings/current-season-id
-        getCurrentSeasonId: builder.query<string, void>({
+        getCurrentSeasonId: builder.query<UpdateSettingsDto, void>({
             query: () => "/settings/current-season-id",
             providesTags: ["SETTINGS"],
         }),

@@ -16,7 +16,7 @@ export default function SeasonInitializer() {
 
     useEffect(() => {
         if (seasonId && !storedSeasonId) {
-            dispatch(setCurrentSeasonId(seasonId));
+            dispatch(setCurrentSeasonId(seasonId.currentSeasonId));
         }
     }, [seasonId, storedSeasonId, dispatch]);
 
