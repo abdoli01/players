@@ -28,3 +28,14 @@ export interface AdminSetPlayerIdDto {
     userId: string;   // شناسه کاربر
     playerId: string; // شناسه بازیکن
 }
+
+export type UpdateProfileDto = {
+    firstName: string;
+    lastName: string;
+};
+
+export type ChangePasswordDto = {
+    oldPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+};

@@ -2,7 +2,7 @@
 // services/usersApi.ts
 import { baseApi } from "./baseApi";
 import { User } from "@/types/user";
-import { UserSearchParams,SetPlayerIdDto, AdminSetPlayerIdDto } from "@/types/user";
+import { UserSearchParams,SetPlayerIdDto, AdminSetPlayerIdDto, ChangePasswordDto, UpdateProfileDto } from "@/types/user";
 
 export const usersApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -61,13 +61,31 @@ export const usersApi = baseApi.injectEndpoints({
             invalidatesTags: ["USERS"],
         }),
 
+        editProfile: builder.mutation<User, UpdateProfileDto>({
+            query: (body) => ({
+                url: "/users",
+                method: "PATCH",
+                body,
+            }),
+            invalidatesTags: ["USERS"], // اختیاری: پاک کردن cache کاربران
+        }),
+
+        changePassword: builder.mutation<void, ChangePasswordDto>({
+            query: (body) => ({
+                url: "/users/change-password",
+                method: "PATCH",
+                body,
+            }),
+        })
+
     }),
 });
 export const {
     useGetUsersQuery,
     useSearchUsersQuery,
     useUpdateUserMutation,
-    useSetPlayerIdMutation,       // <-- اضافه شد
-    useAdminSetPlayerIdMutation,  // <-- اضافه شد
+    useSetPlayerIdMutation,
+    useAdminSetPlayerIdMutation,
+    useEditProfileMutation,      // ← اضافه شد
+    useChangePasswordMutation,   // ← اضافه شد
 } = usersApi;
-
