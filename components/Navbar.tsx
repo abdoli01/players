@@ -27,9 +27,6 @@ export default function Navbar({children}: { children: ReactNode }) {
     );
     // const player : Player | null = useAppSelector((s) => s.player.player);
     const header = useAppSelector(s => s.playerHeader.header);
-    console.log('headerrr',header)
-    // console.log('3333',user)
-    // console.log('player in navbar',player)
     const t = useTranslations('Navbar');
 
 
