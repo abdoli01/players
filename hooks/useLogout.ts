@@ -1,6 +1,9 @@
 import { useAppDispatch } from "@/store/hooks";
-import { clearUser } from "@/store/slices/userSlice";
+// import { clearUser } from "@/store/slices/userSlice";
 import { useRouter } from "next/navigation";
+import { clearAppState } from "@/store/clearStore";
+
+
 
 export function useLogout() {
     const dispatch = useAppDispatch();
@@ -11,7 +14,11 @@ export function useLogout() {
         localStorage.removeItem("access_token");
 
         // 2️⃣ پاک کردن user از redux
-        dispatch(clearUser());
+        // dispatch(clearUser());
+
+
+        clearAppState(dispatch);
+
 
         // 3️⃣ ریدایرکت (اختیاری)
         router.replace("/login");

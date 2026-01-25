@@ -8,9 +8,10 @@ import { useGetCurrentSeasonIdQuery } from "@/services/api/settingsApi";
 export default function SeasonInitializer() {
     const dispatch = useAppDispatch();
     const storedSeasonId = useAppSelector(s => s.season.currentSeasonId);
+    const user = useAppSelector(s => s.user.user); // ✅ اضافه شد
 
     const { data: seasonId } = useGetCurrentSeasonIdQuery(undefined, {
-        skip: !!storedSeasonId,
+        skip: !user || !!storedSeasonId, // ⚡ اگر user نیست یا seasonId داریم، skip
     });
 
     useEffect(() => {

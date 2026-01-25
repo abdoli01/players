@@ -32,6 +32,9 @@ export default function Navbar({children}: { children: ReactNode }) {
     // console.log('player in navbar',player)
     const t = useTranslations('Navbar');
 
+
+    if (!user) return null;
+
     return (
         <div className="w-full py-2 md:flex items-end justify-between text-white border-b-2 border-[#2c2c2c]">
             {/* LEFT: Player Info */}
