@@ -3,12 +3,16 @@
     "editProfile": "Edit Profile",
     "firstName": "First Name",
     "lastName": "Last Name",
+    "firstNameRequired": "First name is required",
+    "lastNameRequired": "Last name is required",
     "saveChanges": "Save Changes",
     "changePassword": "Change Password",
-    "oldPassword": "Current Password",
+    "oldPassword": "Old Password",
     "newPassword": "New Password",
-    "confirmPassword": "Confirm New Password",
-    "passwordMismatch": "New password and confirmation do not match",
-    "passwordMinLength": "New password must be at least 8 characters"
+    "confirmPassword": "Confirm Password",
+    "passwordMin": "Password must be at least 8 characters",
+    "passwordRule": "Password must contain letters and numbers",
+    "confirmPasswordRequired": "Confirm password is required",
+    "passwordsNotMatch": "Passwords do not match"
   }
 }

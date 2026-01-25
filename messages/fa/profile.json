@@ -3,12 +3,16 @@
     "editProfile": "ویرایش پروفایل",
     "firstName": "نام",
     "lastName": "نام خانوادگی",
+    "firstNameRequired": "نام الزامی است",
+    "lastNameRequired": "نام خانوادگی الزامی است",
     "saveChanges": "ذخیره تغییرات",
     "changePassword": "تغییر رمز عبور",
-    "oldPassword": "رمز عبور فعلی",
+    "oldPassword": "رمز عبور قدیم",
     "newPassword": "رمز عبور جدید",
-    "confirmPassword": "تکرار رمز عبور جدید",
-    "passwordMismatch": "رمز عبور جدید و تکرار آن یکسان نیست",
-    "passwordMinLength": "رمز عبور جدید حداقل ۸ کاراکتر باشد"
+    "confirmPassword": "تکرار رمز عبور",
+    "passwordMin": "رمز عبور حداقل ۸ کاراکتر باشد",
+    "passwordRule": "رمز عبور باید شامل حروف و اعداد باشد",
+    "confirmPasswordRequired": "تکرار رمز عبور الزامی است",
+    "passwordsNotMatch": "رمزهای عبور مطابقت ندارند"
   }
 }

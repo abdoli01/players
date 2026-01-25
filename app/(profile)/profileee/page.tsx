@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import {useLocale, useTranslations} from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Eye, EyeOff } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
@@ -21,39 +21,46 @@ import {
 
 import { useEditProfileMutation, useChangePasswordMutation } from '@/services/api/usersApi';
 
-/* ----------------- schemas ----------------- */
-const profileSchema = z.object({
-    firstName: z.string().min(1, { message: 'نام الزامی است' }),
-    lastName: z.string().min(1, { message: 'نام خانوادگی الزامی است' }),
-});
-
-const passwordSchema = z
-    .object({
-        oldPassword: z
-            .string()
-            .min(8, { message: 'رمز عبور قدیم حداقل ۸ کاراکتر باشد' })
-            .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, { message: 'رمز عبور باید شامل حروف و اعداد باشد' }),
-        newPassword: z
-            .string()
-            .min(8, { message: 'رمز عبور جدید حداقل ۸ کاراکتر باشد' })
-            .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, { message: 'رمز عبور جدید باید شامل حروف و اعداد باشد' }),
-        confirmPassword: z.string().min(1, { message: 'تکرار رمز عبور الزامی است' }),
-    })
-    .refine((data) => data.newPassword === data.confirmPassword, {
-        message: 'رمزهای عبور مطابقت ندارند',
-        path: ['confirmPassword'],
-    });
-
-type ProfileForm = z.infer<typeof profileSchema>;
-type PasswordForm = z.infer<typeof passwordSchema>;
-
 export default function ProfilePage() {
-    const t = useTranslations('profile'); // کلید translation باید در messages.json باشه
+    const t = useTranslations('profile');
+    const locale = useLocale();
+
     const [editProfile, { isLoading: profileLoading }] = useEditProfileMutation();
     const [changePassword, { isLoading: passwordLoading }] = useChangePasswordMutation();
 
-    const locale = useLocale();
+    /* ----------------- dynamic schemas with translation ----------------- */
+    const profileSchema = useMemo(
+        () =>
+            z.object({
+                firstName: z.string().min(1, { message: t('firstNameRequired') }),
+                lastName: z.string().min(1, { message: t('lastNameRequired') }),
+            }),
+        [t]
+    );
 
+    const passwordSchema = useMemo(
+        () =>
+            z
+                .object({
+                    oldPassword: z
+                        .string()
+                        .min(8, { message: t('passwordMin') })
+                        .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, { message: t('passwordRule') }),
+                    newPassword: z
+                        .string()
+                        .min(8, { message: t('passwordMin') })
+                        .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, { message: t('passwordRule') }),
+                    confirmPassword: z.string().min(1, { message: t('confirmPasswordRequired') }),
+                })
+                .refine((data) => data.newPassword === data.confirmPassword, {
+                    message: t('passwordsNotMatch'),
+                    path: ['confirmPassword'],
+                }),
+        [t]
+    );
+
+    type ProfileForm = z.infer<typeof profileSchema>;
+    type PasswordForm = z.infer<typeof passwordSchema>;
 
     const profileForm = useForm<ProfileForm>({
         resolver: zodResolver(profileSchema),
@@ -157,7 +164,7 @@ export default function ProfilePage() {
                                                 <Input
                                                     {...field}
                                                     type={showOldPassword ? 'text' : 'password'}
-                                                    className="pr-10"
+                                                    className={locale === 'fa' ? 'pl-10' : 'pr-10'}
                                                     disabled={passwordLoading}
                                                     style={fieldState.invalid ? { borderColor: '#ff6467' } : {}}
                                                 />
@@ -188,7 +195,7 @@ export default function ProfilePage() {
                                                 <Input
                                                     {...field}
                                                     type={showNewPassword ? 'text' : 'password'}
-                                                    className="pr-10"
+                                                    className={locale === 'fa' ? 'pl-10' : 'pr-10'}
                                                     disabled={passwordLoading}
                                                     style={fieldState.invalid ? { borderColor: '#ff6467' } : {}}
                                                 />
@@ -219,7 +226,7 @@ export default function ProfilePage() {
                                                 <Input
                                                     {...field}
                                                     type={showConfirmPassword ? 'text' : 'password'}
-                                                    className="pr-10"
+                                                    className={locale === 'fa' ? 'pl-10' : 'pr-10'}
                                                     disabled={passwordLoading}
                                                     style={fieldState.invalid ? { borderColor: '#ff6467' } : {}}
                                                 />
