@@ -1,0 +1,14 @@
+{
+  "profile": {
+    "editProfile": "Edit Profile",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "saveChanges": "Save Changes",
+    "changePassword": "Change Password",
+    "oldPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "passwordMismatch": "New password and confirmation do not match",
+    "passwordMinLength": "New password must be at least 8 characters"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "profile": {
+    "editProfile": "ویرایش پروفایل",
+    "firstName": "نام",
+    "lastName": "نام خانوادگی",
+    "saveChanges": "ذخیره تغییرات",
+    "changePassword": "تغییر رمز عبور",
+    "oldPassword": "رمز عبور فعلی",
+    "newPassword": "رمز عبور جدید",
+    "confirmPassword": "تکرار رمز عبور جدید",
+    "passwordMismatch": "رمز عبور جدید و تکرار آن یکسان نیست",
+    "passwordMinLength": "رمز عبور جدید حداقل ۸ کاراکتر باشد"
+  }
+}
