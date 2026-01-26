@@ -39,3 +39,9 @@ export type ChangePasswordDto = {
     newPassword: string;
     confirmPassword: string;
 };
+
+export interface AdminChangePasswordDto {
+    userId: string;
+    newPassword: string;
+    confirmPassword: string;
+}

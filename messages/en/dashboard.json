@@ -123,6 +123,17 @@
     "errorAction": "The operation could not be completed successfully",
     "selectSeason": "Select Season",
     "currentSeason": "Current Season",
-    "editSettings": "Edit Settings"
-  }
+    "editSettings": "Edit Settings",
+
+    "changePassword": "Change Password",
+    "changeUserPassword": "Change User Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "passwordsNotMatch": "Passwords do not match",
+    "passwordRequired": "Password is required",
+    "passwordChangedSuccessfully": "Password changed successfully",
+    "passwordChangeFailed": "Failed to change password"
+
+
+ }
 }

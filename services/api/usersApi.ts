@@ -2,7 +2,7 @@
 // services/usersApi.ts
 import { baseApi } from "./baseApi";
 import { User } from "@/types/user";
-import { UserSearchParams,SetPlayerIdDto, AdminSetPlayerIdDto, ChangePasswordDto, UpdateProfileDto } from "@/types/user";
+import { UserSearchParams,SetPlayerIdDto, AdminSetPlayerIdDto, ChangePasswordDto, UpdateProfileDto,AdminChangePasswordDto } from "@/types/user";
 
 export const usersApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -76,7 +76,20 @@ export const usersApi = baseApi.injectEndpoints({
                 method: "PATCH",
                 body,
             }),
-        })
+        }),
+
+        // ----------------------------
+        // PATCH /users/admin/change-password
+        // تغییر رمز عبور کاربر توسط Admin
+        // ----------------------------
+        adminChangePassword: builder.mutation<void, AdminChangePasswordDto>({
+            query: (body) => ({
+                url: "/users/admin/change-password",
+                method: "PATCH",
+                body,
+            }),
+        }),
+
 
     }),
 });
@@ -88,4 +101,5 @@ export const {
     useAdminSetPlayerIdMutation,
     useEditProfileMutation,      // ← اضافه شد
     useChangePasswordMutation,   // ← اضافه شد
+    useAdminChangePasswordMutation
 } = usersApi;

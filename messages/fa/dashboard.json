@@ -126,6 +126,18 @@
     "errorAction": "عملیات با موفقیت انجام نشد",
     "selectSeason": "انتخاب فصل",
     "currentSeason": "فصل جاری",
-    "editSettings": "ویرایش تنظیمات"
-  }
+    "editSettings": "ویرایش تنظیمات",
+
+
+  "changePassword": "تغییر رمز عبور",
+  "changeUserPassword": "تغییر رمز عبور کاربر",
+  "newPassword": "رمز عبور جدید",
+  "confirmPassword": "تکرار رمز عبور",
+  "passwordsNotMatch": "رمز عبور و تکرار آن یکسان نیست",
+  "passwordRequired": "وارد کردن رمز عبور الزامی است",
+  "passwordChangedSuccessfully": "رمز عبور با موفقیت تغییر یافت",
+  "passwordChangeFailed": "خطا در تغییر رمز عبور"
+
+
+}
 }

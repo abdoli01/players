@@ -6,6 +6,8 @@ import { User, UserSearchParams } from "@/types/user";
 import {useLocale, useTranslations} from "next-intl";
 import {Spinner} from "@/components/Spinner";
 import { EditUserDialog } from "../components/EditUserDialog";
+import { AdminChangePasswordDialog } from "../components/AdminChangePasswordDialog";
+
 
 
 import {
@@ -103,6 +105,7 @@ export function UsersTable() {
                             <DropdownMenuSeparator />
                             <EditUserDialog user={user} />
                             <AssignPlayerDialog userId={user.id} currentPlayerId={user.playerId} />
+                            <AdminChangePasswordDialog userId={user.id} />
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );
