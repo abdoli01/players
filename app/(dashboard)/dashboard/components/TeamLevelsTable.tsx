@@ -45,6 +45,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 // بعداً:
 // import { CreateTeamLevelDialog } from "../components/CreateTeamLevelDialog";
@@ -342,6 +343,21 @@ export function TeamLevelsTable() {
                     >
                         {t("last")}
                     </Button>
+                    <Select
+                        value={String(table.getState().pagination.pageSize)}
+                        onValueChange={(value) => table.setPageSize(Number(value))}
+                    >
+                        <SelectTrigger className="w-auto">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {[5, 10, 20, 50, 100].map(size => (
+                                <SelectItem key={size} value={String(size)}>
+                                    {size} {t("row")}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
 
                 <div className="text-sm text-muted-foreground">

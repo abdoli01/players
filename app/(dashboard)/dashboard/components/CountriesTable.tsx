@@ -44,6 +44,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import {PageHeader} from "@/app/(dashboard)/dashboard/components/PageHeader";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 
 export function CountriesTable() {
     const t = useTranslations("Dashboard");
@@ -305,6 +306,21 @@ export function CountriesTable() {
                     >
                         {t("last")}
                     </Button>
+                    <Select
+                        value={String(table.getState().pagination.pageSize)}
+                        onValueChange={(value) => table.setPageSize(Number(value))}
+                    >
+                        <SelectTrigger className="w-auto">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {[5, 10, 20, 50, 100].map(size => (
+                                <SelectItem key={size} value={String(size)}>
+                                    {size} {t("row")}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
 
                 <div className="text-sm text-muted-foreground">

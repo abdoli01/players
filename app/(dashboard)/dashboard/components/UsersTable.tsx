@@ -266,7 +266,7 @@ export function UsersTable() {
                         value={String(table.getState().pagination.pageSize)}
                         onValueChange={(value) => table.setPageSize(Number(value))}
                     >
-                        <SelectTrigger className="w-20">
+                        <SelectTrigger className="w-auto">
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
