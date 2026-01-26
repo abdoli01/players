@@ -17,6 +17,8 @@
     "profileUpdated": "پروفایل با موفقیت به‌روزرسانی شد",
     "profileUpdateFailed": "به‌روزرسانی پروفایل ناموفق بود",
     "passwordChanged": "رمز عبور با موفقیت تغییر کرد",
-    "passwordChangeFailed": "تغییر رمز عبور ناموفق بود"
+    "passwordChangeFailed": "تغییر رمز عبور ناموفق بود",
+    "backToHome": "بازگشت به صفحه اصلی"
+
   }
 }

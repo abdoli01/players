@@ -17,6 +17,8 @@
     "profileUpdated": "Profile updated successfully",
     "profileUpdateFailed": "Profile update failed",
     "passwordChanged": "Password changed successfully",
-    "passwordChangeFailed": "Password change failed"
+    "passwordChangeFailed": "Password change failed",
+    "backToHome": "Back to home"
+
   }
 }

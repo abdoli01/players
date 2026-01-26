@@ -9,6 +9,9 @@ import { Eye, EyeOff } from 'lucide-react';
 import { toast, ToastContainer } from 'react-toastify';
 import { useAppDispatch } from '@/store/hooks';
 import { setUser } from '@/store/slices/userSlice';
+import { useRouter } from 'next/navigation';
+import { ArrowRight, ArrowLeft } from 'lucide-react';
+
 
 
 import { Input } from '@/components/ui/input';
@@ -29,6 +32,7 @@ import { useAppSelector } from '@/store/hooks';
 export default function ProfilePage() {
     const t = useTranslations('profile');
     const locale = useLocale();
+    const router = useRouter();
 
     const dispatch = useAppDispatch();
 
@@ -141,6 +145,27 @@ export default function ProfilePage() {
     return (
         <div className="max-w-3xl mx-auto p-6 grid gap-6">
             <ToastContainer position="top-right" autoClose={3000} />
+            <div className="flex items-center">
+                <Button
+                    type="button"
+                    variant="default"
+                    onClick={() => router.push('/')}
+                    className="flex items-center gap-2"
+                >
+                    {locale === 'fa' ? (
+                        <>
+                            <ArrowRight size={18} />
+                            {t('backToHome')}
+                        </>
+                    ) : (
+                        <>
+                            <ArrowLeft size={18} />
+                            {t('backToHome')}
+                        </>
+                    )}
+                </Button>
+            </div>
+
 
             {/* ---------- Edit Profile ---------- */}
             <Card className="rounded-2xl shadow-md">
