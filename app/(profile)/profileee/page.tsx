@@ -1,13 +1,15 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useTranslations, useLocale } from 'next-intl';
 import { Eye, EyeOff } from 'lucide-react';
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { useAppDispatch } from '@/store/hooks';
+import { setUser } from '@/store/slices/userSlice';
+
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -22,42 +24,64 @@ import {
 } from '@/components/ui/form';
 
 import { useEditProfileMutation, useChangePasswordMutation } from '@/services/api/usersApi';
+import { useAppSelector } from '@/store/hooks';
 
 export default function ProfilePage() {
     const t = useTranslations('profile');
     const locale = useLocale();
 
+    const dispatch = useAppDispatch();
+
+
+    /* ---------- redux ---------- */
+    const user = useAppSelector((s) => s.user.user);
+    const hydrated = useAppSelector((s) => s.user.hydrated);
+
+    /* ---------- api ---------- */
     const [editProfile, { isLoading: profileLoading }] = useEditProfileMutation();
     const [changePassword, { isLoading: passwordLoading }] = useChangePasswordMutation();
 
-    const profileSchema = useMemo(() =>
+    /* ---------- schemas ---------- */
+    const profileSchema = useMemo(
+        () =>
             z.object({
                 firstName: z.string().min(1, { message: t('firstNameRequired') }),
                 lastName: z.string().min(1, { message: t('lastNameRequired') }),
             }),
-        [t]);
+        [t]
+    );
 
-    const passwordSchema = useMemo(() =>
-            z.object({
-                oldPassword: z
-                    .string()
-                    .min(8, { message: t('passwordMin') })
-                    .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, { message: t('passwordRule') }),
-                newPassword: z
-                    .string()
-                    .min(8, { message: t('passwordMin') })
-                    .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, { message: t('passwordRule') }),
-                confirmPassword: z.string().min(1, { message: t('confirmPasswordRequired') }),
-            })
-                .refine((data) => data.newPassword === data.confirmPassword, {
+    const passwordSchema = useMemo(
+        () =>
+            z
+                .object({
+                    oldPassword: z
+                        .string()
+                        .min(8, { message: t('passwordMin') })
+                        .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, {
+                            message: t('passwordRule'),
+                        }),
+                    newPassword: z
+                        .string()
+                        .min(8, { message: t('passwordMin') })
+                        .regex(/^(?=.*[A-Za-z])(?=.*\d).+$/, {
+                            message: t('passwordRule'),
+                        }),
+                    confirmPassword: z.string().min(1, {
+                        message: t('confirmPasswordRequired'),
+                    }),
+                })
+                .refine((d) => d.newPassword === d.confirmPassword, {
                     message: t('passwordsNotMatch'),
                     path: ['confirmPassword'],
                 }),
-        [t]);
+        [t]
+    );
 
     type ProfileForm = z.infer<typeof profileSchema>;
     type PasswordForm = z.infer<typeof passwordSchema>;
 
+    /* ---------- forms ---------- */
     const profileForm = useForm<ProfileForm>({
         resolver: zodResolver(profileSchema),
         defaultValues: { firstName: '', lastName: '' },
@@ -65,16 +89,33 @@ export default function ProfilePage() {
 
     const passwordForm = useForm<PasswordForm>({
         resolver: zodResolver(passwordSchema),
-        defaultValues: { oldPassword: '', newPassword: '', confirmPassword: '' },
+        defaultValues: {
+            oldPassword: '',
+            newPassword: '',
+            confirmPassword: '',
+        },
     });
 
-    const [showOldPassword, setShowOldPassword] = useState(false);
-    const [showNewPassword, setShowNewPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    /* ---------- prefill profile ---------- */
+    useEffect(() => {
+        if (hydrated && user) {
+            profileForm.reset({
+                firstName: user.firstName ?? '',
+                lastName: user.lastName ?? '',
+            });
+        }
+    }, [hydrated, user, profileForm]);
 
+    /* ---------- password visibility ---------- */
+    const [showOld, setShowOld] = useState(false);
+    const [showNew, setShowNew] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
+
+    /* ---------- handlers ---------- */
     const onProfileSubmit = async (data: ProfileForm) => {
         try {
-            await editProfile(data).unwrap();
+            const updatedUser = await editProfile(data).unwrap();
+            dispatch(setUser(updatedUser));
             toast.success(t('profileUpdated'));
         } catch (err: any) {
             toast.error(err?.data?.message || t('profileUpdateFailed'));
@@ -83,17 +124,19 @@ export default function ProfilePage() {
 
     const onPasswordSubmit = async (data: PasswordForm) => {
         try {
-            await changePassword({
-                oldPassword: data.oldPassword,
-                newPassword: data.newPassword,
-                confirmPassword: data.confirmPassword,
-            }).unwrap();
+            await changePassword(data).unwrap();
             passwordForm.reset();
             toast.success(t('passwordChanged'));
         } catch (err: any) {
             toast.error(err?.data?.message || t('passwordChangeFailed'));
         }
     };
+
+    const passwordFields = [
+        { name: 'oldPassword', show: showOld, setShow: setShowOld },
+        { name: 'newPassword', show: showNew, setShow: setShowNew },
+        { name: 'confirmPassword', show: showConfirm, setShow: setShowConfirm },
+    ] as const;
 
     return (
         <div className="max-w-3xl mx-auto p-6 grid gap-6">
@@ -106,14 +149,19 @@ export default function ProfilePage() {
                 </CardHeader>
                 <CardContent>
                     <Form {...profileForm}>
-                        <form onSubmit={profileForm.handleSubmit(onProfileSubmit)} className="grid gap-4">
+                        <form
+                            onSubmit={profileForm.handleSubmit(onProfileSubmit)}
+                            className="grid gap-4"
+                        >
                             <FormField
                                 control={profileForm.control}
                                 name="firstName"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>{t('firstName')}</FormLabel>
-                                        <FormControl><Input {...field} /></FormControl>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
@@ -124,12 +172,16 @@ export default function ProfilePage() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>{t('lastName')}</FormLabel>
-                                        <FormControl><Input {...field} /></FormControl>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
-                            <Button type="submit" disabled={profileLoading}>{t('saveChanges')}</Button>
+                            <Button type="submit" disabled={profileLoading}>
+                                {t('saveChanges')}
+                            </Button>
                         </form>
                     </Form>
                 </CardContent>
@@ -142,47 +194,62 @@ export default function ProfilePage() {
                 </CardHeader>
                 <CardContent>
                     <Form {...passwordForm}>
-                        <form onSubmit={passwordForm.handleSubmit(onPasswordSubmit)} className="grid gap-4">
-                            {['oldPassword','newPassword','confirmPassword'].map((name) => {
-                                const showState = name === 'oldPassword' ? showOldPassword :
-                                    name === 'newPassword' ? showNewPassword : showConfirmPassword;
-                                const setShow = name === 'oldPassword' ? setShowOldPassword :
-                                    name === 'newPassword' ? setShowNewPassword : setShowConfirmPassword;
+                        <form
+                            onSubmit={passwordForm.handleSubmit(onPasswordSubmit)}
+                            className="grid gap-4"
+                        >
+                            {passwordFields.map(({ name, show, setShow }) => (
+                                <FormField
+                                    key={name}
+                                    control={passwordForm.control}
+                                    name={name}
+                                    render={({ field, fieldState }) => (
+                                        <FormItem>
+                                            <FormLabel>{t(name)}</FormLabel>
+                                            <FormControl>
+                                                <div className="relative">
+                                                    <Input
+                                                        {...field}
+                                                        type={show ? 'text' : 'password'}
+                                                        className={
+                                                            locale === 'fa'
+                                                                ? 'pl-10'
+                                                                : 'pr-10'
+                                                        }
+                                                        disabled={passwordLoading}
+                                                        style={
+                                                            fieldState.invalid
+                                                                ? { borderColor: '#ff6467' }
+                                                                : {}
+                                                        }
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setShow((p) => !p)}
+                                                        className={`absolute top-1/2 -translate-y-1/2 text-gray-500 ${
+                                                            locale === 'fa'
+                                                                ? 'left-2'
+                                                                : 'right-2'
+                                                        }`}
+                                                        disabled={passwordLoading}
+                                                    >
+                                                        {show ? (
+                                                            <EyeOff size={20} />
+                                                        ) : (
+                                                            <Eye size={20} />
+                                                        )}
+                                                    </button>
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            ))}
 
-                                return (
-                                    <FormField
-                                        key={name}
-                                        control={passwordForm.control}
-                                        name={name as keyof PasswordForm}
-                                        render={({ field, fieldState }) => (
-                                            <FormItem>
-                                                <FormLabel>{t(name)}</FormLabel>
-                                                <FormControl>
-                                                    <div className="relative">
-                                                        <Input
-                                                            {...field}
-                                                            type={showState ? 'text' : 'password'}
-                                                            className={locale==='fa'?'pl-10':'pr-10'}
-                                                            disabled={passwordLoading}
-                                                            style={fieldState.invalid?{borderColor:'#ff6467'}:{}}
-                                                        />
-                                                        <button
-                                                            type="button"
-                                                            onClick={()=>setShow(p=>!p)}
-                                                            className={`absolute top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer ${locale==='fa'?'left-2':'right-2'}`}
-                                                            disabled={passwordLoading}
-                                                        >
-                                                            {showState?<EyeOff size={20}/>:<Eye size={20}/>}
-                                                        </button>
-                                                    </div>
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                );
-                            })}
-                            <Button type="submit" disabled={passwordLoading}>{t('changePassword')}</Button>
+                            <Button type="submit" disabled={passwordLoading}>
+                                {t('changePassword')}
+                            </Button>
                         </form>
                     </Form>
                 </CardContent>
