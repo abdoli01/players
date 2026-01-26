@@ -22,6 +22,7 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import {setUser} from "@/store/slices/userSlice";
 import {useAppDispatch} from "@/store/hooks";
+import {useRouter} from "next/navigation";
 
 type FormValues = {
     code: string;
@@ -45,6 +46,8 @@ export default function ResetPasswordStep({
 
     const locale = useLocale();
     const t = useTranslations('Auth');
+    const router = useRouter();
+
 
     const dispatch = useAppDispatch();
 
@@ -121,7 +124,13 @@ export default function ResetPasswordStep({
                 toast.success(res.message);
                 localStorage.setItem("access_token", res.access_token);
                 dispatch(setUser(res.user));
-                setStep("assign-player");
+                if(res?.user?.playerId){
+                    sessionStorage.removeItem("auth_wizard_state");
+                    router.push("/"); // بعد از موفقیت
+                }else{
+                    setStep("assign-player");
+                }
+
             }
         } catch (err: any) {
             console.log(err)
