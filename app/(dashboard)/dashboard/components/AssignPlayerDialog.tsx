@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "react-toastify";
 import { useTranslations, useLocale } from "next-intl";
+import { Check, ChevronsUpDown } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,13 +18,6 @@ import {
     DialogFooter,
 } from "@/components/ui/dialog";
 import {
-    Select,
-    SelectTrigger,
-    SelectValue,
-    SelectContent,
-    SelectItem,
-} from "@/components/ui/select";
-import {
     Form,
     FormField,
     FormItem,
@@ -31,55 +25,84 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command";
+import { cn } from "@/lib/utils";
 
-import { useGetPlayersQuery } from "@/services/api/playersApi";
+import { useSearchPlayersQuery } from "@/services/api/playersApi";
 import { useAdminSetPlayerIdMutation } from "@/services/api/usersApi";
+
+/* ---------------- schema ---------------- */
+const schema = z.object({
+    playerId: z.string().min(1),
+});
+
+type FormValues = z.infer<typeof schema>;
 
 interface AssignPlayerDialogProps {
     userId: string;
     currentPlayerId?: string | null;
 }
 
-const schema = z.object({
-    player: z.string().min(1, "انتخاب الزامی"),
-});
-
-type FormValues = z.infer<typeof schema>;
-
-export function AssignPlayerDialog({ userId, currentPlayerId }: AssignPlayerDialogProps) {
+export function AssignPlayerDialog({
+                                       userId,
+                                       currentPlayerId,
+                                   }: AssignPlayerDialogProps) {
     const t = useTranslations();
     const locale = useLocale();
     const isRtl = locale === "fa";
 
     const [open, setOpen] = React.useState(false);
+    const [comboOpen, setComboOpen] = React.useState(false);
+    const [search, setSearch] = React.useState("");
 
+    /* ---------------- debounce ---------------- */
+    const [debouncedSearch, setDebouncedSearch] = React.useState("");
+    React.useEffect(() => {
+        const t = setTimeout(() => setDebouncedSearch(search), 400);
+        return () => clearTimeout(t);
+    }, [search]);
+
+    /* ---------------- form ---------------- */
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
         defaultValues: {
-            player: currentPlayerId ?? "",
+            playerId: currentPlayerId ?? "",
         },
     });
 
-    const { data: players = [], isLoading } = useGetPlayersQuery();
-    const [adminSetPlayerId, { isLoading: isSubmitting }] =
+    /* ---------------- api ---------------- */
+    const { data: players = [], isFetching } = useSearchPlayersQuery(
+        { q: debouncedSearch },
+        { skip: !debouncedSearch }
+    );
+
+    const [adminSetPlayerId, { isLoading }] =
         useAdminSetPlayerIdMutation();
 
-    const getDisplayName = (player: any) =>
-        locale === "fa" ? player.fullName : player.fullNameEn || player.fullName;
+    const getLabel = (p: any) =>
+        locale === "fa" ? p.fullName : p.fullNameEn || p.fullName;
 
+    /* ---------------- submit ---------------- */
     const onSubmit = async (data: FormValues) => {
         try {
             await adminSetPlayerId({
                 userId,
-                playerId: data.player,
+                playerId: data.playerId,
             }).unwrap();
 
             toast.success(t("Common.successAction"));
-
-            // آپدیت مقدار فرم
-            form.reset({ player: data.player });
-
-            // بستن دیالوگ
             setOpen(false);
         } catch (err: any) {
             toast.error(err?.data?.message || t("Common.errorAction"));
@@ -94,38 +117,121 @@ export function AssignPlayerDialog({ userId, currentPlayerId }: AssignPlayerDial
                 </Button>
             </DialogTrigger>
 
-            <DialogContent className="sm:max-w-[400px]">
+            <DialogContent className="sm:max-w-[420px]">
                 <DialogHeader className={isRtl ? "!text-right" : ""}>
                     <DialogTitle>{t("Auth.assignPlayer")}</DialogTitle>
                 </DialogHeader>
 
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-4"
+                    >
                         <FormField
-                            name="player"
                             control={form.control}
+                            name="playerId"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>{t("Auth.selectPlayer")}</FormLabel>
-                                    <Select
-                                        value={field.value}
-                                        onValueChange={field.onChange}
-                                        disabled={isLoading}
-                                    >
-                                        <FormControl>
-                                            <SelectTrigger>
-                                                <SelectValue placeholder={t("Auth.selectPlayer")} />
-                                            </SelectTrigger>
-                                        </FormControl>
+                                    <FormLabel>
+                                        {t("Auth.selectPlayer")}
+                                    </FormLabel>
 
-                                        <SelectContent>
-                                            {players.map((player) => (
-                                                <SelectItem key={player.id} value={player.id}>
-                                                    {getDisplayName(player)}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
+                                    <Popover
+                                        open={comboOpen}
+                                        onOpenChange={setComboOpen}
+                                    >
+                                        <PopoverTrigger asChild>
+                                            <FormControl>
+                                                <Button
+                                                    variant="outline"
+                                                    role="combobox"
+                                                    className="w-full justify-between"
+                                                >
+                                                    {field.value
+                                                        ? players.find(
+                                                            (p) =>
+                                                                p.id ===
+                                                                field.value
+                                                        )?.fullName ??
+                                                        t(
+                                                            "Auth.selectPlayer"
+                                                        )
+                                                        : t(
+                                                            "Auth.selectPlayer"
+                                                        )}
+                                                    <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
+                                                </Button>
+                                            </FormControl>
+                                        </PopoverTrigger>
+
+                                        <PopoverContent className="w-full p-0">
+                                            <Command shouldFilter={false}>
+                                                <CommandInput
+                                                    placeholder={t(
+                                                        "Common.search"
+                                                    )}
+                                                    value={search}
+                                                    onValueChange={setSearch}
+                                                />
+                                                <CommandList>
+                                                    {isFetching && (
+                                                        <CommandEmpty>
+                                                            {t(
+                                                                "Common.loading"
+                                                            )}
+                                                        </CommandEmpty>
+                                                    )}
+
+                                                    {!isFetching &&
+                                                        players.length ===
+                                                        0 && (
+                                                            <CommandEmpty>
+                                                                {t(
+                                                                    "Common.noResults"
+                                                                )}
+                                                            </CommandEmpty>
+                                                        )}
+
+                                                    <CommandGroup>
+                                                        {players.map(
+                                                            (player) => (
+                                                                <CommandItem
+                                                                    key={
+                                                                        player.id
+                                                                    }
+                                                                    value={
+                                                                        player.id
+                                                                    }
+                                                                    onSelect={() => {
+                                                                        field.onChange(
+                                                                            player.id
+                                                                        );
+                                                                        setComboOpen(
+                                                                            false
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    <Check
+                                                                        className={cn(
+                                                                            "mr-2 h-4 w-4",
+                                                                            field.value ===
+                                                                            player.id
+                                                                                ? "opacity-100"
+                                                                                : "opacity-0"
+                                                                        )}
+                                                                    />
+                                                                    {getLabel(
+                                                                        player
+                                                                    )}
+                                                                </CommandItem>
+                                                            )
+                                                        )}
+                                                    </CommandGroup>
+                                                </CommandList>
+                                            </Command>
+                                        </PopoverContent>
+                                    </Popover>
+
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -134,7 +240,7 @@ export function AssignPlayerDialog({ userId, currentPlayerId }: AssignPlayerDial
                         <DialogFooter>
                             <Button
                                 type="submit"
-                                disabled={isSubmitting}
+                                disabled={isLoading}
                                 className="w-full"
                             >
                                 {t("Common.submit")}

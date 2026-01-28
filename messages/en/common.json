@@ -6,7 +6,10 @@
     "confirm": "confirm",
     "cancel": "cancel",
     "successAction": "Operation completed successfully",
-    "errorAction": "The operation could not be completed successfully"
+    "errorAction": "The operation could not be completed successfully",
+    "search": "search",
+    "noResults": "no results"
+
 
   }
 }
