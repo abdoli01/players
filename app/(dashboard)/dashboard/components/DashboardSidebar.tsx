@@ -143,7 +143,7 @@ export function DashboardSidebar() {
                                     <CollapsibleTrigger asChild>
                                         <SidebarMenuButton
                                             className={cn(
-                                                "flex flex-col items-center justify-center gap-1 h-[65px] transition-colors",
+                                                "flex flex-col items-center justify-center gap-1 h-[65px] transition-colors rounded-none",
                                                 isBaseInfoActive
                                                     ? "bg-gray-700 text-white"
                                                     : "text-gray-700"
