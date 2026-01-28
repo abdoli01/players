@@ -35,6 +35,7 @@
     "logoutTitle": "خروج از حساب",
     "logoutDescription": "آیا مطمئن هستید که می‌خواهید از حساب کاربری خود خارج شوید؟",
     "logoutCancel": "انصراف",
-    "logoutConfirm": "خروج"
+    "logoutConfirm": "خروج",
+    "baseInfo": "اطلاعات پایه"
   }
 }

@@ -35,6 +35,7 @@
     "logoutTitle": "Logout",
     "logoutDescription": "Are you sure you want to logout from your account?",
     "logoutCancel": "Cancel",
-    "logoutConfirm": "Logout"
+    "logoutConfirm": "Logout",
+    "baseInfo": "Base Information"
   }
 }
