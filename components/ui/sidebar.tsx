@@ -197,7 +197,7 @@ function Sidebar({
           className="bg-sidebar text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden"
           style={
             {
-              "--sidebar-width": isDashboard ? '140px' : SIDEBAR_WIDTH_MOBILE,
+              "--sidebar-width": isDashboard ? '200px' : SIDEBAR_WIDTH_MOBILE,
             } as React.CSSProperties
           }
           side={side}
