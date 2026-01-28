@@ -146,7 +146,7 @@ export function DashboardSidebar() {
                                                 "flex flex-col items-center justify-center gap-1 h-[65px] transition-colors",
                                                 isBaseInfoActive
                                                     ? "bg-gray-700 text-white"
-                                                    : "text-gray-700 hover:bg-gray-200"
+                                                    : "text-gray-700"
                                             )}
                                         >
                                             <Waves className="w-4 h-4" />
@@ -161,7 +161,7 @@ export function DashboardSidebar() {
                                     </CollapsibleTrigger>
 
                                     <CollapsibleContent>
-                                        <SidebarMenuSub>
+                                        <SidebarMenuSub className={isRtl ? 'border-r border-l-0' : ''}>
                                             {baseInfoItems.map((item) => {
                                                 const isActive =
                                                     pathname === item.url
