@@ -10,37 +10,18 @@ import { setUser } from "@/store/slices/userSlice";
 import { useAppDispatch } from "@/store/hooks";
 import { toast } from "react-toastify";
 
-
 import { Button } from "@/components/ui/button";
-import {
-    Select,
-    SelectTrigger,
-    SelectValue,
-    SelectContent,
-    SelectItem,
-} from "@/components/ui/select";
-import {
-    Form,
-    FormField,
-    FormItem,
-    FormControl,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
+import { Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from "@/components/ui/form";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from "@/components/ui/command";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-import { useGetPlayersQuery } from "@/services/api/playersApi";
+import { useSearchPlayersQuery } from "@/services/api/playersApi";
 import { useSetPlayerIdMutation } from "@/services/api/usersApi";
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogFooter,
-} from "@/components/ui/dialog";
 
-// ----------------------
-// Validation schema
-// ----------------------
+/* ---------------- schema ---------------- */
 const schema = z.object({
     player: z.string().min(1, "انتخاب الزامی"),
 });
@@ -54,45 +35,48 @@ export default function AssignPlayerStep() {
     const router = useRouter();
     const dispatch = useAppDispatch();
 
+    const [openConfirm, setOpenConfirm] = React.useState(false);
+    const [selectedPlayer, setSelectedPlayer] = React.useState<string | null>(null);
+    const [comboOpen, setComboOpen] = React.useState(false);
+    const [search, setSearch] = React.useState("");
+
+    /* ---------------- debounce ---------------- */
+    const [debouncedSearch, setDebouncedSearch] = React.useState("");
+    React.useEffect(() => {
+        const t = setTimeout(() => setDebouncedSearch(search), 400);
+        return () => clearTimeout(t);
+    }, [search]);
+
+    /* ---------------- form ---------------- */
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
         defaultValues: { player: "" },
     });
 
-    // Fetch players
-    const { data: players = [], isLoading } = useGetPlayersQuery();
+    /* ---------------- api ---------------- */
+    const { data: players = [], isFetching } = useSearchPlayersQuery(
+        { q: debouncedSearch },
+        { skip: !debouncedSearch }
+    );
 
-    // Mutation
     const [setPlayerId, { isLoading: isSetting }] = useSetPlayerIdMutation();
 
-    // Modal state
-    const [openConfirm, setOpenConfirm] = React.useState(false);
-    const [selectedPlayer, setSelectedPlayer] = React.useState<string | null>(null);
+    const getLabel = (player: any) => locale === "fa" ? player.fullName : player.fullNameEn || player.fullName;
 
-    // Helper: Get display name based on locale
-    const getDisplayName = (player: any) => {
-        return locale === "fa"
-            ? player.fullName
-            : player.fullNameEn || player.fullName;
-    };
-
-    // Handle form submit: open modal
+    /* ---------------- submit ---------------- */
     const onSubmit = (values: FormValues) => {
         setSelectedPlayer(values.player);
         setOpenConfirm(true);
     };
 
-    // Handle confirm modal
     const handleConfirm = async () => {
         if (!selectedPlayer) return;
-
         try {
-            const updatedUser:any = await setPlayerId({ playerId: selectedPlayer }).unwrap();
-            dispatch(setUser(updatedUser.user)); // آپدیت user در redux
+            const updatedUser: any = await setPlayerId({ playerId: selectedPlayer }).unwrap();
+            dispatch(setUser(updatedUser.user));
             setOpenConfirm(false);
             sessionStorage.removeItem("auth_wizard_state");
-
-            router.push("/"); // فقط redirect، بدون reload
+            router.push("/");
         } catch (err) {
             console.error(err);
             toast.error(t("Common.errorAction"));
@@ -103,7 +87,6 @@ export default function AssignPlayerStep() {
         <>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                    {/* Player select */}
                     <FormField
                         name="player"
                         control={form.control}
@@ -111,44 +94,56 @@ export default function AssignPlayerStep() {
                             <FormItem>
                                 <FormLabel>{t("Auth.assignPlayer")}</FormLabel>
 
-                                <Select
-                                    value={field.value}
-                                    onValueChange={field.onChange}
-                                    disabled={isLoading || players.length === 0 || isSetting}
-                                >
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder={t("Auth.selectPlayer")} />
-                                        </SelectTrigger>
-                                    </FormControl>
+                                <Popover open={comboOpen} onOpenChange={setComboOpen}>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                                variant="outline"
+                                                role="combobox"
+                                                className="w-full justify-between"
+                                            >
+                                                {field.value ? getLabel(players.find(p => p.id === field.value) || { fullName: field.value }) : t("Auth.selectPlayer")}
+                                                <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
 
-                                    <SelectContent>
-                                        {isLoading ? (
-                                            <div className="p-2 text-sm text-muted-foreground">
-                                                {t("Common.loading")}...
-                                            </div>
-                                        ) : players.length > 0 ? (
-                                            players.map((player) => (
-                                                <SelectItem key={player.id} value={player.id}>
-                                                    {getDisplayName(player)}
-                                                    {player.shortName ? ` (${player.shortName})` : ""}
-                                                </SelectItem>
-                                            ))
-                                        ) : (
-                                            <div className="p-2 text-sm text-muted-foreground">
-                                                {t("Common.noPlayers")}
-                                            </div>
-                                        )}
-                                    </SelectContent>
-                                </Select>
+                                    <PopoverContent className="w-full p-0">
+                                        <Command shouldFilter={false}>
+                                            <CommandInput
+                                                placeholder={t("Common.search")}
+                                                value={search}
+                                                onValueChange={setSearch}
+                                            />
+                                            <CommandList>
+                                                {isFetching && <CommandEmpty>{t("Common.loading")}</CommandEmpty>}
+                                                {!isFetching && players.length === 0 && <CommandEmpty>{t("Common.noPlayers")}</CommandEmpty>}
+                                                <CommandGroup>
+                                                    {players.map(player => (
+                                                        <CommandItem
+                                                            key={player.id}
+                                                            value={player.id}
+                                                            onSelect={() => {
+                                                                field.onChange(player.id);
+                                                                setComboOpen(false);
+                                                            }}
+                                                        >
+                                                            <Check className={cn("mr-2 h-4 w-4", field.value === player.id ? "opacity-100" : "opacity-0")} />
+                                                            {getLabel(player)}
+                                                        </CommandItem>
+                                                    ))}
+                                                </CommandGroup>
+                                            </CommandList>
+                                        </Command>
+                                    </PopoverContent>
+                                </Popover>
 
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
 
-                    {/* Submit button */}
-                    <Button className="w-full" disabled={isSetting}>
+                    <Button type="submit" className="w-full" disabled={isSetting}>
                         {t("Common.submit")}
                     </Button>
                 </form>
@@ -160,9 +155,7 @@ export default function AssignPlayerStep() {
                     <DialogHeader className={isRtl ? "!text-right" : ""}>
                         <DialogTitle>{t("Auth.confirmAssignPlayer")}</DialogTitle>
                     </DialogHeader>
-                    <p className="py-2 text-sm">
-                        {t("Auth.confirmAssignPlayerMessage")}
-                    </p>
+                    <p className="py-2 text-sm">{t("Auth.confirmAssignPlayerMessage")}</p>
                     <DialogFooter className="flex justify-end gap-2">
                         <Button variant="outline" onClick={() => setOpenConfirm(false)}>
                             {t("Common.cancel")}
