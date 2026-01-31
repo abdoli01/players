@@ -16,6 +16,9 @@ import { cn } from "@/lib/utils"
 import { useLocale, useTranslations } from "next-intl"
 import Link from "next/link"
 import Image from "next/image"
+import { useSidebar } from "@/components/ui/sidebar"
+import { useEffect } from "react"
+
 
 import {
     Sidebar,
@@ -79,14 +82,20 @@ export function DashboardSidebar() {
     const locale = useLocale()
     const t = useTranslations("SideBar")
 
-    const isRtl = locale === "fa"
 
+    const isRtl = locale === "fa"
+    const { setOpenMobile, isMobile } = useSidebar()
     // --------------------
     // آیا یکی از childها فعاله؟
     // --------------------
     const isBaseInfoActive = baseInfoItems.some(
         (item) => pathname === item.url
     )
+    useEffect(() => {
+        if (isMobile) setOpenMobile(false)
+    }, [pathname])
+
+
 
     return (
         <Sidebar side={isRtl ? "right" : "left"}>
