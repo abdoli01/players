@@ -270,7 +270,7 @@ export function ProvincesTable() {
             </div>
 
             {/* Pagination */}
-            <div className="flex items-center justify-between px-2 py-4">
+            <div className="flex items-center justify-between px-2 py-4 flex-wrap gap-2">
                 <div className="flex items-center gap-2">
                     <Button
                         variant="outline"
