@@ -17,6 +17,9 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import {SidebarProfile} from "@/components/SidebarProfile";
+import { useEffect } from "react"
+import { useSidebar } from "@/components/ui/sidebar"
+
 
 // Menu items.
 const items = [
@@ -51,6 +54,14 @@ export function AppSidebar() {
     const pathname = usePathname()
     const locale = useLocale();
     const t = useTranslations('SideBar');
+    const { isMobile, setOpenMobile } = useSidebar()
+    useEffect(() => {
+        if (isMobile) {
+            setOpenMobile(false)
+        }
+    }, [pathname, isMobile, setOpenMobile])
+
+
     return (
         <Sidebar side={`${(locale && locale === 'fa') ? 'right' : (locale && locale === 'en') ? 'left' : 'right'}`}>
         <SidebarContent>
