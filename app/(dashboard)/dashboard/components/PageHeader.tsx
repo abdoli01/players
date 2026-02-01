@@ -16,7 +16,7 @@ export function PageHeader({ title, description, action }: PageHeaderProps) {
             : `${title} ${t('Dashboard.management')}`; // انگلیسی: Users Management
 
     return (
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-6 md:mt-2">
             <div>
                 <h1 className="text-xl font-semibold">{headerText}</h1>
                 {description && (
