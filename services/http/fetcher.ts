@@ -4,7 +4,7 @@ export async function fetcher<T>(
     endpoint: string,
     options?: RequestInit
 ): Promise<T> {
-    const token = localStorage.getItem("access_token"); // اضافه شد
+    const token = localStorage.getItem("access_token");
 
     const res = await fetch(`${BASE_URL}${endpoint}`, {
         headers: {
@@ -15,10 +15,11 @@ export async function fetcher<T>(
         ...options,
     });
 
+    const data = await res.json();
+
     if (!res.ok) {
-        const error = await res.json();
-        throw error;
+        throw { ...data, status: res.status }; // ✅ ارسال status
     }
 
-    return res.json();
+    return data;
 }
