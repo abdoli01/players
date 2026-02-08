@@ -25,7 +25,7 @@ export function VideoCard({
 
             {/* Title */}
             <div className="flex flex-col">
-                <span className="text-foreground font-semibold text-sm">{title}</span>
+                <span className="text-foreground font-medium text-sm">{title}</span>
                 <span className="text-foreground/50 text-xs">{code}</span>
             </div>
 

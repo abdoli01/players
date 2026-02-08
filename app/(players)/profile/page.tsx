@@ -72,7 +72,7 @@ const ProfilePage = () => {
         : [];
 
     return (
-        <div className="p-4">
+        <div className="py-4">
             {/* ---------- KEYWORDS ---------- */}
             <div className="flex gap-2 mb-6 flex-wrap">
                 {keywords.map((item) => (
@@ -89,34 +89,44 @@ const ProfilePage = () => {
             {/* ---------- GRID ---------- */}
             <div className="grid grid-cols-12 gap-4">
                 {/* ---------- LEFT CARDS ---------- */}
-                <div className="col-span-12 lg:col-span-3 space-y-4">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Positions</CardTitle>
+                <div className="col-span-12 lg:col-span-3 space-y-1">
+                    {/* Positions */}
+                    <Card className='py-4'>
+                        <CardHeader className="flex flex-row items-center justify-between">
+                            <CardTitle className="text-sm font-medium">
+                                {data?.positionsAndGrade?.title}
+                            </CardTitle>
+                            <span className="text-sm font-semibold text-foreground">
+                                {data?.positionsAndGrade?.value ?? "-"}
+                              </span>
                         </CardHeader>
-                        <CardContent>
-                            {data?.positionsAndGrade?.value ?? "-"}
-                        </CardContent>
                     </Card>
 
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Minutes Played</CardTitle>
+                    {/* Minutes Played */}
+                    <Card className='py-4'>
+                        <CardHeader className="flex flex-row items-center justify-between">
+                            <CardTitle className="text-sm font-medium">
+                                {data?.minutesPlayed?.title}
+                            </CardTitle>
+                            <span className="text-sm font-semibold text-foreground">
+                                {data?.minutesPlayed?.value ?? "-"}
+                              </span>
                         </CardHeader>
-                        <CardContent>
-                            {data?.minutesPlayed?.value ?? "-"}
-                        </CardContent>
                     </Card>
 
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Overall Index</CardTitle>
+                    {/* Overall Index */}
+                    <Card className='py-4'>
+                        <CardHeader className="flex flex-row items-center justify-between">
+                            <CardTitle className="text-sm font-medium">
+                                {data?.overallIndex?.title}
+                            </CardTitle>
+                            <span className="text-sm font-bold text-green-500">
+                                {data?.overallIndex?.value ?? "-"}
+                              </span>
                         </CardHeader>
-                        <CardContent className="text-green-500 font-bold">
-                            {data?.overallIndex?.value ?? "-"}
-                        </CardContent>
                     </Card>
                 </div>
+
 
                 {/* ---------- RIGHT CHARTS ---------- */}
                 <div className="col-span-12 lg:col-span-6 space-y-4">
