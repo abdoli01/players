@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Video, Minus, SquareCheck } from "lucide-react";
+import {Card} from "@/components/ui/card";
 
 interface VideoCardProps {
     checked?: boolean; // ✅ اضافceه شد
@@ -21,7 +22,7 @@ export function VideoCard({
                               onRemove = () => {}
                           }: VideoCardProps) {
     return (
-        <div className="flex items-center justify-between bg-card px-4 py-2 mb-1 shadow w-full rounded-md">
+        <Card className="flex flex-row items-center justify-between bg-card px-4 py-2 mb-1 shadow w-full rounded-md">
 
             {/* Title */}
             <div className="flex flex-col">
@@ -68,6 +69,6 @@ export function VideoCard({
             </div>
 
 
-        </div>
+        </Card>
     );
 }
