@@ -14,8 +14,6 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import {
-    PieChart,
-    Pie,
     BarChart,
     Bar,
     XAxis,
@@ -24,14 +22,24 @@ import {
     ResponsiveContainer,
 } from "recharts";
 import CustomTooltip from "./components/CustomTooltip"
-import PieTooltip from "./components/PieTooltip"
+
+// Chart.js
+import {
+    Chart as ChartJS,
+    ArcElement,
+    Tooltip as ChartTooltip,
+    Legend,
+    RadialLinearScale
+} from "chart.js";
+import { PolarArea } from "react-chartjs-2";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
 
-const ProfilePage = () => {
+ChartJS.register(ArcElement, RadialLinearScale, ChartTooltip, Legend, ChartDataLabels);
+
+const Page = () => {
     /* ---------- REDUX ---------- */
-    const seasonId =
-        useAppSelector((s) => s.season.currentSeasonId) ?? undefined;
-
+    const seasonId = useAppSelector((s) => s.season.currentSeasonId) ?? undefined;
     const user = useAppSelector((s) => s.user.user);
     const playerId = user?.playerId ?? undefined;
 
@@ -39,41 +47,46 @@ const ProfilePage = () => {
     const [selectedKey, setSelectedKey] = useState<string | undefined>(undefined);
 
     /* ---------- KEYWORDS ---------- */
-    const { data: keywords = [] } = useGetProfileKeywordsQuery({
-        keyword: "PLAYER",
-    });
-
-    /* ---------- DERIVED ACTIVE KEY ---------- */
+    const { data: keywords = [] } = useGetProfileKeywordsQuery({ keyword: "PLAYER" });
     const activeKey = selectedKey ?? keywords[0]?.key;
 
     /* ---------- PROFILE DATA ---------- */
     const { data: profileData, isFetching } = useGetProfileQuery(
-        {
-            keyword: "PLAYER",
-            key: activeKey,
-            playerId,
-            seasonId,
-        },
-        {
-            skip: !activeKey || !playerId || !seasonId,
-        }
+        { keyword: "PLAYER", key: activeKey, playerId, seasonId },
+        { skip: !activeKey || !playerId || !seasonId }
     );
 
     const data = profileData?.data;
 
-    /* ---------- NORMALIZED DATA (NO useMemo) ---------- */
+    /* ---------- NORMALIZED DATA ---------- */
     const pieData =
         data?.pie
             ? Object.values(data.pie).map((item: any) => ({
-                name: item.title,  // title رو برای نمایش tooltip و legend می‌گیریم
-                value: item.value, // عدد واقعی برای رسم PieChart
+                name: item.title,
+                value: item.value,
             }))
             : [];
 
+    const barData: any = Array.isArray(data?.bar?.value) ? data!.bar : [];
 
-    const barData:any = Array.isArray(data?.bar?.value)
-        ? data!.bar
-        : [];
+    /* ---------- Polar Area Chart DATA ---------- */
+    const polarData = {
+        labels: pieData.map(d => d.name),
+        datasets: [
+            {
+                label: "Value",
+                data: pieData.map(d => d.value),
+                backgroundColor: [
+                    "#FF6384",
+                    "#36A2EB",
+                    "#FFCE56",
+                    "#4BC0C0",
+                    "#9966FF",
+                    "#FF9F40",
+                ],
+            },
+        ],
+    };
 
     return (
         <div className="py-4">
@@ -131,32 +144,83 @@ const ProfilePage = () => {
                     </Card>
                 </div>
 
-
                 {/* ---------- RIGHT CHARTS ---------- */}
                 <div className="col-span-12 lg:col-span-6 space-y-4">
                     <Card className="h-[500px]">
                         <CardHeader>
-                            <CardTitle>Pie Chart</CardTitle>
+                            <CardTitle>Polar Area Chart</CardTitle>
                         </CardHeader>
-                        <CardContent className="h-full">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie
-                                        data={pieData}
-                                        dataKey="value"
-                                        nameKey="name"
-                                        cx="50%"
-                                        cy="50%"
-                                        outerRadius="80%"
-                                        label={({ name }) => name}  // ⚡ این خط مهمه
-                                        labelLine={true}            // خط از Pie به label
-                                    />
-                                    <Tooltip cursor={false} content={<PieTooltip />} />
-                                </PieChart>
-                            </ResponsiveContainer>
+                        <CardContent className="flex justify-center items-center w-full h-full px-0">
+                            <div className="w-full h-full">
+                                {/*<PolarArea*/}
+                                {/*    data={polarData}*/}
+                                {/*    options={{*/}
+                                {/*        responsive: true,*/}
+                                {/*        maintainAspectRatio: false,*/}
+                                {/*        scales: {*/}
+                                {/*            r: {*/}
+                                {/*                grid: { display: false },     // خطوط شعاعی (دایره‌ها) مخفی شوند*/}
+                                {/*                ticks: { display: false },    // اعداد روی شعاع مخفی شوند*/}
+                                {/*            },*/}
+                                {/*        },*/}
+                                {/*        plugins: {*/}
+                                {/*            legend: { display: false },*/}
+                                {/*            datalabels: {*/}
+                                {/*                color: "#ddd",*/}
+                                {/*                anchor: "start",      // بیرون slice*/}
+                                {/*                align: "end",       // جهت label به بیرون*/}
+                                {/*                textAlign:"end",*/}
+                                {/*                rotation:5,*/}
+                                {/*                offset:180,*/}
+                                {/*                font: { size: 12 },*/}
+
+                                {/*                clip: false,*/}
+                                {/*                clamp: false,*/}
+
+                                {/*                formatter: (value, context) =>*/}
+                                {/*                    context.chart.data.labels?.[context.dataIndex] ?? "",*/}
+
+                                {/*            },*/}
+                                {/*        },*/}
+
+                                {/*    }}*/}
+                                {/*    style={{ width: "100%", height: "100%" }}*/}
+                                {/*/>*/}
+                                <PolarArea
+                                    data={polarData}
+                                    options={{
+                                        responsive: true,
+                                        maintainAspectRatio: false,
+                                        scales: {
+                                            r: {
+                                                grid: { display: false },     // خطوط شعاعی (دایره‌ها) مخفی شوند
+                                                ticks: { display: false },    // اعداد روی شعاع مخفی شوند
+                                            },
+                                        },
+                                        plugins: {
+                                            legend: {
+                                                display: true,
+                                                position: "top",
+                                                labels: {
+                                                    color: "#ddd",
+                                                    usePointStyle: true,
+                                                    padding: 16,
+                                                },
+                                            },
+                                            datalabels: {
+                                                display: false, // جلوگیری از نمایش داخل slice
+                                            },
+                                        }
+
+
+                                    }}
+                                    style={{ width: "100%", height: "100%" }}
+                                />
+                            </div>
                         </CardContent>
                     </Card>
 
+                    {/* Bar Chart */}
                     <Card className="h-[500px]">
                         <CardHeader>
                             <CardTitle>{barData.title}</CardTitle>
@@ -187,4 +251,18 @@ const ProfilePage = () => {
     );
 };
 
-export default ProfilePage;
+export default Page;
+// plugins: {
+//     legend: { display: false },
+//     datalabels: {
+//         color: "#ddd",
+//         anchor: "end",      // بیرون slice
+//         align: "end",       // جهت label به بیرون
+//         offset:50,
+//         font: { size: 12 },
+//
+//         formatter: (value, context) =>
+//             context.chart.data.labels?.[context.dataIndex] ?? "",
+//
+//     },
+// },
