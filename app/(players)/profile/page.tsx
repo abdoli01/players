@@ -67,8 +67,8 @@ const ProfilePage = () => {
             }))
             : [];
 
-    const barData = Array.isArray(data?.bar?.value)
-        ? data!.bar.value
+    const barData:any = Array.isArray(data?.bar?.value)
+        ? data!.bar
         : [];
 
     return (
@@ -130,7 +130,7 @@ const ProfilePage = () => {
 
                 {/* ---------- RIGHT CHARTS ---------- */}
                 <div className="col-span-12 lg:col-span-6 space-y-4">
-                    <Card className="h-[300px]">
+                    <Card className="h-[500px]">
                         <CardHeader>
                             <CardTitle>Pie Chart</CardTitle>
                         </CardHeader>
@@ -149,17 +149,26 @@ const ProfilePage = () => {
                         </CardContent>
                     </Card>
 
-                    <Card className="h-[300px]">
+                    <Card className="h-[500px]">
                         <CardHeader>
-                            <CardTitle>Bar Chart</CardTitle>
+                            <CardTitle>{barData.title}</CardTitle>
                         </CardHeader>
                         <CardContent className="h-full">
                             <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={barData}>
-                                    <XAxis dataKey="name" />
+                                <BarChart data={barData.value}>
+                                    <XAxis dataKey="title" />
                                     <YAxis />
-                                    <Tooltip />
-                                    <Bar dataKey="value" />
+                                    <Tooltip
+                                        cursor={false}
+                                        contentStyle={{
+                                            backgroundColor: "#09090b",
+                                            borderRadius: "8px",
+                                            border: "1px solid #27272a",
+                                        }}
+                                        labelStyle={{ color: "#a1a1aa" }}
+                                        itemStyle={{ color: "#65ff00" }}
+                                    />
+                                    <Bar dataKey="value" fill="#65ff00"/>
                                 </BarChart>
                             </ResponsiveContainer>
                         </CardContent>
