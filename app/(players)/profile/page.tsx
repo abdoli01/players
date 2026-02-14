@@ -23,6 +23,8 @@ import {
     Tooltip,
     ResponsiveContainer,
 } from "recharts";
+import CustomTooltip from "./components/CustomTooltip"
+
 
 const ProfilePage = () => {
     /* ---------- REDUX ---------- */
@@ -160,13 +162,7 @@ const ProfilePage = () => {
                                     <YAxis />
                                     <Tooltip
                                         cursor={false}
-                                        contentStyle={{
-                                            backgroundColor: "#09090b",
-                                            borderRadius: "8px",
-                                            border: "1px solid #27272a",
-                                        }}
-                                        labelStyle={{ color: "#a1a1aa" }}
-                                        itemStyle={{ color: "#65ff00" }}
+                                        content={<CustomTooltip />}
                                     />
                                     <Bar dataKey="value" fill="#65ff00"/>
                                 </BarChart>
