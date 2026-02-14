@@ -147,7 +147,9 @@ const ProfilePage = () => {
                                         nameKey="name"
                                         cx="50%"
                                         cy="50%"
-                                        outerRadius="100%"
+                                        outerRadius="80%"
+                                        label={({ name }) => name}  // ⚡ این خط مهمه
+                                        labelLine={true}            // خط از Pie به label
                                     />
                                     <Tooltip cursor={false} content={<PieTooltip />} />
                                 </PieChart>
