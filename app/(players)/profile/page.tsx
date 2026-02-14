@@ -24,6 +24,7 @@ import {
     ResponsiveContainer,
 } from "recharts";
 import CustomTooltip from "./components/CustomTooltip"
+import PieTooltip from "./components/PieTooltip"
 
 
 const ProfilePage = () => {
@@ -63,11 +64,12 @@ const ProfilePage = () => {
     /* ---------- NORMALIZED DATA (NO useMemo) ---------- */
     const pieData =
         data?.pie
-            ? Object.entries(data.pie).map(([name, value]) => ({
-                name,
-                value,
+            ? Object.values(data.pie).map((item: any) => ({
+                name: item.title,  // title رو برای نمایش tooltip و legend می‌گیریم
+                value: item.value, // عدد واقعی برای رسم PieChart
             }))
             : [];
+
 
     const barData:any = Array.isArray(data?.bar?.value)
         ? data!.bar
@@ -143,9 +145,11 @@ const ProfilePage = () => {
                                         data={pieData}
                                         dataKey="value"
                                         nameKey="name"
-                                        outerRadius={90}
+                                        cx="50%"
+                                        cy="50%"
+                                        outerRadius="100%"
                                     />
-                                    <Tooltip />
+                                    <Tooltip cursor={false} content={<PieTooltip />} />
                                 </PieChart>
                             </ResponsiveContainer>
                         </CardContent>
