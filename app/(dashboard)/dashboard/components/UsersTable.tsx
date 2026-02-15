@@ -130,7 +130,7 @@ export function UsersTable() {
         state: { sorting, columnFilters, columnVisibility, rowSelection },
         initialState: {
             pagination: {
-                pageSize: 100,
+                pageSize: 10,
             },
         },
     });
