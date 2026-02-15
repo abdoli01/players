@@ -151,7 +151,7 @@ export function ContinentsTable() {
         },
         initialState: {
             pagination: {
-                pageSize: 20,
+                pageSize: 10,
             },
         },
     });

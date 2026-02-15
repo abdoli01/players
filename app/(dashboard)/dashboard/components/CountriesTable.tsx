@@ -156,7 +156,7 @@ export function CountriesTable() {
         },
         initialState: {
             pagination: {
-                pageSize: 20,
+                pageSize: 10,
             },
         },
     });

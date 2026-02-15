@@ -143,7 +143,7 @@ export function TournamentSeasonsTable() {
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         initialState: {
-            pagination: { pageSize: 20 },
+            pagination: { pageSize: 10 },
         },
     });
 

@@ -129,7 +129,7 @@ export function SportsTable() {
         getPaginationRowModel: getPaginationRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         state: { sorting, columnFilters, columnVisibility, rowSelection },
-        initialState: { pagination: { pageSize: 20 } },
+        initialState: { pagination: { pageSize: 10 } },
     });
 
     React.useEffect(() => {

@@ -155,7 +155,7 @@ export function TeamSeasonToTournamentSeasonsTable() {
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         state: { sorting, columnFilters, columnVisibility, rowSelection },
-        initialState: { pagination: { pageSize: 20 } },
+        initialState: { pagination: { pageSize: 10 } },
     });
 
     React.useEffect(() => {

@@ -105,7 +105,7 @@ export function SettingsTable() {
         onRowSelectionChange: setRowSelection,
         initialState: {
             pagination: {
-                pageSize: 20,
+                pageSize: 10,
             },
         },
     });

@@ -156,7 +156,7 @@ export function ProvincesTable() {
         },
         initialState: {
             pagination: {
-                pageSize: 20,
+                pageSize: 10,
             },
         },
     });

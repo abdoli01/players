@@ -155,7 +155,7 @@ export function CitiesTable() {
         },
         initialState: {
             pagination: {
-                pageSize: 20,
+                pageSize: 10,
             },
         },
     });

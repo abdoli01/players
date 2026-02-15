@@ -157,7 +157,7 @@ export function PackagesTable() {
             columnVisibility,
             rowSelection,
         },
-        initialState: { pagination: { pageSize: 20 } },
+        initialState: { pagination: { pageSize: 10 } },
     });
 
     React.useEffect(() => {

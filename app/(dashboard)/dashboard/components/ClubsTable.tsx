@@ -170,7 +170,7 @@ export function ClubsTable() {
         },
         initialState: {
             pagination: {
-                pageSize: 20,
+                pageSize: 10,
             },
         },
     });
