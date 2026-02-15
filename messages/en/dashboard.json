@@ -132,8 +132,10 @@
     "passwordsNotMatch": "Passwords do not match",
     "passwordRequired": "Password is required",
     "passwordChangedSuccessfully": "Password changed successfully",
-    "passwordChangeFailed": "Failed to change password"
+    "passwordChangeFailed": "Failed to change password",
+    "date": "Date"
 
 
- }
+
+  }
 }

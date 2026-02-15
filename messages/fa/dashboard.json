@@ -136,7 +136,8 @@
   "passwordsNotMatch": "رمز عبور و تکرار آن یکسان نیست",
   "passwordRequired": "وارد کردن رمز عبور الزامی است",
   "passwordChangedSuccessfully": "رمز عبور با موفقیت تغییر یافت",
-  "passwordChangeFailed": "خطا در تغییر رمز عبور"
+  "passwordChangeFailed": "خطا در تغییر رمز عبور",
+    "date": "تاریخ"
 
 
 }

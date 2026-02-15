@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
-import { useLocale } from "next-intl";
+import {useLocale, useTranslations} from "next-intl";
 
 
 import {
@@ -37,6 +37,7 @@ import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
+import {Label} from "@/components/ui/label";
 
 
 type Props = {
@@ -51,7 +52,7 @@ const editUserSchema = z.object({
     lastName: z.string(),
     status: z.enum(["ACTIVE", "INACTIVE", "SUSPENDED"]),
     expireDate: z.date().nullable().optional(),
-    metricaPlayerId: z.string().optional(),
+    // metricaPlayerId: z.string().optional(),
 });
 
 type EditUserFormValues = z.infer<typeof editUserSchema>;
@@ -64,6 +65,8 @@ export function EditUserDialog({ user }: Props) {
     const [updateUser, { isLoading }] = useUpdateUserMutation();
     const locale = useLocale();
     const isRtl = locale === "fa";
+    const t = useTranslations("Dashboard");
+
 
     const form = useForm<EditUserFormValues>({
         resolver: zodResolver(editUserSchema),
@@ -73,7 +76,7 @@ export function EditUserDialog({ user }: Props) {
             lastName: user.lastName ?? "",
             status: user.status,
             expireDate: user.expireDate ? new Date(user.expireDate) : null,
-            metricaPlayerId: user.metricaPlayerId ?? "",
+            // metricaPlayerId: user.metricaPlayerId ?? "",
         },
     });
 
@@ -118,6 +121,7 @@ export function EditUserDialog({ user }: Props) {
                 <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-3">
                     {/* First Name */}
                     <div>
+                        <Label className="mb-2">{t("firstName")}</Label>
                         <Input {...form.register("firstName")} placeholder="نام" />
                         {form.formState.errors.firstName && (
                             <p className="text-sm text-red-500 mt-1">
@@ -128,6 +132,7 @@ export function EditUserDialog({ user }: Props) {
 
                     {/* Last Name */}
                     <div>
+                        <Label className="mb-2">{t("lastName")}</Label>
                         <Input {...form.register("lastName")} placeholder="نام خانوادگی" />
                         {form.formState.errors.lastName && (
                             <p className="text-sm text-red-500 mt-1">
@@ -138,6 +143,7 @@ export function EditUserDialog({ user }: Props) {
 
                     {/* Status - shadcn Select */}
                     <div>
+                        <Label className="mb-2">{t("status")}</Label>
                         <Select
                             value={form.watch("status")}
                             onValueChange={(value) =>
@@ -162,12 +168,13 @@ export function EditUserDialog({ user }: Props) {
                     </div>
 
                     {/* Metrica Player ID */}
-                    <div>
-                        <Input {...form.register("metricaPlayerId")} placeholder="Metrica Player ID" />
-                    </div>
+                    {/*<div>*/}
+                    {/*    <Input {...form.register("metricaPlayerId")} placeholder="Metrica Player ID" />*/}
+                    {/*</div>*/}
 
                     {/* Expire Date - شمسی */}
                     <div>
+                        <Label className="mb-2">{t("date")}</Label>
                         <DatePicker
                             plugins={[<TimePicker key="time-picker" position="bottom" hideSeconds />]}
                             calendar={persian}
