@@ -33,6 +33,7 @@ import {
 } from "chart.js";
 import { PolarArea } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { ChartBar, ChartPie } from "lucide-react";
 
 
 ChartJS.register(ArcElement, RadialLinearScale, ChartTooltip, Legend, ChartDataLabels);
@@ -42,6 +43,7 @@ const Page = () => {
     const seasonId = useAppSelector((s) => s.season.currentSeasonId) ?? undefined;
     const user = useAppSelector((s) => s.user.user);
     const playerId = user?.playerId ?? undefined;
+    const [chartType, setChartType] = useState<"polar" | "bar">("polar");
 
     /* ---------- LOCAL STATE ---------- */
     const [selectedKey, setSelectedKey] = useState<string | undefined>(undefined);
@@ -91,7 +93,7 @@ const Page = () => {
     return (
         <div className="py-4">
             {/* ---------- KEYWORDS ---------- */}
-            <div className="flex gap-2 mb-6 flex-wrap">
+            <div className="flex gap-2 mb-0 flex-wrap">
                 {keywords.map((item) => (
                     <Button
                         key={item.key}
@@ -106,7 +108,7 @@ const Page = () => {
             {/* ---------- GRID ---------- */}
             <div className="grid grid-cols-12 gap-4">
                 {/* ---------- LEFT CARDS ---------- */}
-                <div className="col-span-12 lg:col-span-3 space-y-1">
+                <div className="col-span-12 lg:col-span-3 space-y-1 mt-8">
                     {/* Positions */}
                     <Card className='py-4'>
                         <CardHeader className="flex flex-row items-center justify-between">
@@ -146,46 +148,27 @@ const Page = () => {
 
                 {/* ---------- RIGHT CHARTS ---------- */}
                 <div className="col-span-12 lg:col-span-6 space-y-4">
+                    <div className="flex items-center justify-between mb-1">
+                        <h2 className="text-lg font-semibold">
+                            {chartType === "polar" ? "Polar Chart" : barData.title}
+                        </h2>
+
+                        <button
+                            onClick={() =>
+                                setChartType(chartType === "polar" ? "bar" : "polar")
+                            }
+                            className="p-2 rounded-md hover:bg-muted transition"
+                        >
+                            {chartType === "polar" ? (
+                                <ChartBar size={20} />
+                            ) : (
+                                <ChartPie size={20} />
+                            )}
+                        </button>
+                    </div>
                     <Card className="h-[500px]">
-                        <CardHeader>
-                            <CardTitle>Polar Area Chart</CardTitle>
-                        </CardHeader>
-                        <CardContent className="flex justify-center items-center w-full h-full px-0">
-                            <div className="w-full h-full">
-                                {/*<PolarArea*/}
-                                {/*    data={polarData}*/}
-                                {/*    options={{*/}
-                                {/*        responsive: true,*/}
-                                {/*        maintainAspectRatio: false,*/}
-                                {/*        scales: {*/}
-                                {/*            r: {*/}
-                                {/*                grid: { display: false },     // خطوط شعاعی (دایره‌ها) مخفی شوند*/}
-                                {/*                ticks: { display: false },    // اعداد روی شعاع مخفی شوند*/}
-                                {/*            },*/}
-                                {/*        },*/}
-                                {/*        plugins: {*/}
-                                {/*            legend: { display: false },*/}
-                                {/*            datalabels: {*/}
-                                {/*                color: "#ddd",*/}
-                                {/*                anchor: "start",      // بیرون slice*/}
-                                {/*                align: "end",       // جهت label به بیرون*/}
-                                {/*                textAlign:"end",*/}
-                                {/*                rotation:5,*/}
-                                {/*                offset:180,*/}
-                                {/*                font: { size: 12 },*/}
-
-                                {/*                clip: false,*/}
-                                {/*                clamp: false,*/}
-
-                                {/*                formatter: (value, context) =>*/}
-                                {/*                    context.chart.data.labels?.[context.dataIndex] ?? "",*/}
-
-                                {/*            },*/}
-                                {/*        },*/}
-
-                                {/*    }}*/}
-                                {/*    style={{ width: "100%", height: "100%" }}*/}
-                                {/*/>*/}
+                        <CardContent className="h-full">
+                            {chartType === "polar" ? (
                                 <PolarArea
                                     data={polarData}
                                     options={{
@@ -193,52 +176,31 @@ const Page = () => {
                                         maintainAspectRatio: false,
                                         scales: {
                                             r: {
-                                                grid: { display: false },     // خطوط شعاعی (دایره‌ها) مخفی شوند
-                                                ticks: { display: false },    // اعداد روی شعاع مخفی شوند
+                                                grid: { display: true },
+                                                ticks: { display: true },
                                             },
                                         },
                                         plugins: {
-                                            legend: {
-                                                display: true,
-                                                position: "top",
-                                                labels: {
-                                                    color: "#ddd",
-                                                    usePointStyle: true,
-                                                    padding: 16,
-                                                },
-                                            },
-                                            datalabels: {
-                                                display: false, // جلوگیری از نمایش داخل slice
-                                            },
-                                        }
-
-
+                                            legend: { display: true, position: "top" },
+                                            datalabels: { display: false },
+                                        },
                                     }}
                                     style={{ width: "100%", height: "100%" }}
                                 />
-                            </div>
+                            ) : (
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={barData.value}>
+                                        <XAxis dataKey="title" />
+                                        <YAxis />
+                                        <Tooltip cursor={false} content={<CustomTooltip />} />
+                                        <Bar dataKey="value" fill="#65ff00" />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            )}
                         </CardContent>
                     </Card>
 
-                    {/* Bar Chart */}
-                    <Card className="h-[500px]">
-                        <CardHeader>
-                            <CardTitle>{barData.title}</CardTitle>
-                        </CardHeader>
-                        <CardContent className="h-full">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={barData.value}>
-                                    <XAxis dataKey="title" />
-                                    <YAxis />
-                                    <Tooltip
-                                        cursor={false}
-                                        content={<CustomTooltip />}
-                                    />
-                                    <Bar dataKey="value" fill="#65ff00"/>
-                                </BarChart>
-                            </ResponsiveContainer>
-                        </CardContent>
-                    </Card>
+
                 </div>
             </div>
 
