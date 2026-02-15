@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils"
 import { useLocale, useTranslations } from "next-intl"
 import Link from "next/link"
 import Image from "next/image"
-import { useSidebar } from "@/components/ui/sidebar"
+import {SidebarFooter, useSidebar} from "@/components/ui/sidebar"
 import { useEffect } from "react"
 
 
@@ -37,6 +37,7 @@ import {
     CollapsibleTrigger,
     CollapsibleContent,
 } from "@/components/ui/collapsible"
+import {SidebarProfile} from "@/components/SidebarProfile";
 
 // --------------------
 // Menu definitions
@@ -207,6 +208,9 @@ export function DashboardSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
+            <SidebarFooter className='p-0'>
+                <SidebarProfile/>
+            </SidebarFooter>
         </Sidebar>
     )
 }
