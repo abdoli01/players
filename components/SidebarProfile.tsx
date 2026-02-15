@@ -36,12 +36,14 @@ import { useLogout } from "@/hooks/useLogout";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
+import {useAppSelector} from "@/store/hooks";
 
 export function SidebarProfile() {
     const logout = useLogout();
     const [open, setOpen] = useState(false);
     const t = useTranslations('SideBar');
     const locale = useLocale();
+    const user = useAppSelector((s) => s.user.user);
 
     return (
         <>
@@ -94,10 +96,14 @@ export function SidebarProfile() {
                     </DropdownMenuItem>
 
                     {/* Dashboard */}
-                    <DropdownMenuItem className="flex items-center gap-2">
-                        <LayoutDashboard className="w-4 h-4 text-gray-500" />
-                        <Link href="/dashboard">{t('dashboard')}</Link>
-                    </DropdownMenuItem>
+                    {user.accountType === 'ADMIN' && (
+                        <DropdownMenuItem className="flex items-center gap-2">
+                            <LayoutDashboard className="w-4 h-4 text-gray-500" />
+                            <Link href="/dashboard">{t('dashboard')}</Link>
+                        </DropdownMenuItem>
+                    )}
+
+
 
                     {/* Logout */}
                     <DropdownMenuItem
