@@ -108,7 +108,7 @@ const Page = () => {
             {/* ---------- GRID ---------- */}
             <div className="grid grid-cols-12 gap-4">
                 {/* ---------- LEFT CARDS ---------- */}
-                <div className="col-span-12 lg:col-span-3 space-y-1 mt-8">
+                <div style={{marginTop:40}} className="col-span-12 lg:col-span-3 space-y-1">
                     {/* Positions */}
                     <Card className='py-4'>
                         <CardHeader className="flex flex-row items-center justify-between">
@@ -157,12 +157,12 @@ const Page = () => {
                             onClick={() =>
                                 setChartType(chartType === "polar" ? "bar" : "polar")
                             }
-                            className="p-2 rounded-md hover:bg-muted transition"
+                            className="p-1 rounded-md border-2 border-app-orange hover:bg-app-orange transition"
                         >
                             {chartType === "polar" ? (
-                                <ChartBar size={20} />
+                                <ChartBar size={16} />
                             ) : (
-                                <ChartPie size={20} />
+                                <ChartPie size={16} />
                             )}
                         </button>
                     </div>
