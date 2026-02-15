@@ -3,7 +3,7 @@
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem,
+    DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -68,6 +68,12 @@ export function SidebarProfile() {
                     className="w-auto mb-16"
                     style={{ direction: locale === 'fa' ? 'rtl' : 'ltr' }}
                 >
+                    {user.firstName && user.lastName && (
+                        <>
+                            <DropdownMenuLabel>{user.firstName + ' ' + user.lastName}</DropdownMenuLabel>
+                            <DropdownMenuSeparator /></>
+                    )}
+
 
                     {/* Language */}
                     <DropdownMenuItem
