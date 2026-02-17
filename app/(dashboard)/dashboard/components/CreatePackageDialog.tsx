@@ -4,7 +4,7 @@ import * as React from "react";
 import { useCreatePackageMutation } from "@/services/api/packagesApi";
 import { CreatePackageDto } from "@/types/package";
 
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
@@ -23,6 +23,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
+/* =========================
+   Helpers
+========================= */
+const formatNumber = (value: number | string) => {
+    if (value === "" || value === null || value === undefined) return "";
+    return Number(value).toLocaleString("en-US");
+};
+
+const parseNumber = (value: string) => {
+    return Number(value.replace(/,/g, ""));
+};
 
 /* =========================
    Zod Schema
@@ -106,7 +118,7 @@ export function CreatePackageDialog() {
                 >
                     {/* Title */}
                     <div>
-                        <Label className='mb-1.5'>{t("title")}</Label>
+                        <Label className="mb-1.5">{t("title")}</Label>
                         <Input {...form.register("title")} />
                         {form.formState.errors.title && (
                             <p className="text-red-500 text-sm mt-1">
@@ -117,31 +129,51 @@ export function CreatePackageDialog() {
 
                     {/* Description */}
                     <div className="col-span-2">
-                        <Label className='mb-1.5'>{t("description")}</Label>
+                        <Label className="mb-1.5">{t("description")}</Label>
                         <Input {...form.register("description")} />
                     </div>
 
                     {/* Original Price */}
                     <div>
-                        <Label className='mb-1.5'>{t("originalPrice")}</Label>
-                        <Input
-                            type="number"
-                            {...form.register("originalPrice", { valueAsNumber: true })}
+                        <Label className="mb-1.5">{t("originalPrice")}</Label>
+                        <Controller
+                            control={form.control}
+                            name="originalPrice"
+                            render={({ field }) => (
+                                <Input
+                                    inputMode="numeric"
+                                    value={formatNumber(field.value)}
+                                    onChange={(e) => {
+                                        const raw = parseNumber(e.target.value);
+                                        field.onChange(raw);
+                                    }}
+                                />
+                            )}
                         />
                     </div>
 
                     {/* Discount Price */}
                     <div>
-                        <Label className='mb-1.5'>{t("discountPrice")}</Label>
-                        <Input
-                            type="number"
-                            {...form.register("discountPrice", { valueAsNumber: true })}
+                        <Label className="mb-1.5">{t("discountPrice")}</Label>
+                        <Controller
+                            control={form.control}
+                            name="discountPrice"
+                            render={({ field }) => (
+                                <Input
+                                    inputMode="numeric"
+                                    value={formatNumber(field.value ?? "")}
+                                    onChange={(e) => {
+                                        const raw = parseNumber(e.target.value);
+                                        field.onChange(raw);
+                                    }}
+                                />
+                            )}
                         />
                     </div>
 
                     {/* Free Usage Days */}
                     <div>
-                        <Label className='mb-1.5'>{t("freeUsageDays")}</Label>
+                        <Label className="mb-1.5">{t("freeUsageDays")}</Label>
                         <Input
                             type="number"
                             {...form.register("freeUsageDays", { valueAsNumber: true })}
@@ -150,7 +182,7 @@ export function CreatePackageDialog() {
 
                     {/* Free Display Minutes */}
                     <div>
-                        <Label className='mb-1.5'>{t("freeDisplayMinutes")}</Label>
+                        <Label className="mb-1.5">{t("freeDisplayMinutes")}</Label>
                         <Input
                             type="number"
                             {...form.register("freeDisplayMinutes", { valueAsNumber: true })}
@@ -159,7 +191,7 @@ export function CreatePackageDialog() {
 
                     {/* Free Download Minutes */}
                     <div>
-                        <Label className='mb-1.5'>{t("freeDownloadMinutes")}</Label>
+                        <Label className="mb-1.5">{t("freeDownloadMinutes")}</Label>
                         <Input
                             type="number"
                             {...form.register("freeDownloadMinutes", { valueAsNumber: true })}
@@ -168,7 +200,7 @@ export function CreatePackageDialog() {
 
                     {/* Usage Days */}
                     <div>
-                        <Label className='mb-1.5'>{t("usageDays")}</Label>
+                        <Label className="mb-1.5">{t("usageDays")}</Label>
                         <Input
                             type="number"
                             {...form.register("usageDays", { valueAsNumber: true })}
@@ -177,7 +209,7 @@ export function CreatePackageDialog() {
 
                     {/* Display Minutes */}
                     <div>
-                        <Label className='mb-1.5'>{t("displayMinutes")}</Label>
+                        <Label className="mb-1.5">{t("displayMinutes")}</Label>
                         <Input
                             type="number"
                             {...form.register("displayMinutes", { valueAsNumber: true })}
@@ -186,7 +218,7 @@ export function CreatePackageDialog() {
 
                     {/* Download Minutes */}
                     <div>
-                        <Label className='mb-1.5'>{t("downloadMinutes")}</Label>
+                        <Label className="mb-1.5">{t("downloadMinutes")}</Label>
                         <Input
                             type="number"
                             {...form.register("downloadMinutes", { valueAsNumber: true })}
@@ -195,7 +227,10 @@ export function CreatePackageDialog() {
 
                     {/* Footer */}
                     <DialogFooter className="col-span-2 mt-4 flex justify-end gap-2">
-                        <DialogClose type="button" className="px-4 py-2 bg-muted rounded">
+                        <DialogClose
+                            type="button"
+                            className="px-4 py-2 bg-muted rounded"
+                        >
                             {t("cancel")}
                         </DialogClose>
                         <Button type="submit" disabled={isLoading}>

@@ -4,7 +4,7 @@ import * as React from "react";
 import { Package, UpdatePackageDto } from "@/types/package";
 import { useUpdatePackageMutation } from "@/services/api/packagesApi";
 
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
@@ -25,19 +25,29 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 /* =========================
+   Helper Functions
+========================= */
+const formatNumber = (value?: number | string) => {
+    if (value === null || value === undefined || value === "") return "";
+    return new Intl.NumberFormat("en-US").format(Number(value));
+};
+
+const parseNumber = (value: string) => value.replace(/,/g, "");
+
+/* =========================
    Zod Schema
 ========================= */
 const editPackageSchema = z.object({
     title: z.string().min(1, "عنوان پکیج الزامی است"),
     description: z.string().optional(),
-    originalPrice: z.number().min(0, "قیمت اصلی معتبر نیست").nullable(),
-    discountPrice: z.number().min(0).nullable().optional(),
-    freeUsageDays: z.number().min(0).nullable().optional(),
-    freeDisplayMinutes: z.number().min(0).nullable().optional(),
-    freeDownloadMinutes: z.number().min(0).nullable().optional(),
-    usageDays: z.number().min(0).nullable().optional(),
-    displayMinutes: z.number().min(0).nullable().optional(),
-    downloadMinutes: z.number().min(0).nullable().optional(),
+    originalPrice: z.number().min(0, "قیمت اصلی معتبر نیست"),
+    discountPrice: z.number().min(0, "قیمت تخفیف معتبر نیست"),
+    freeUsageDays: z.number().min(0).optional(),
+    freeDisplayMinutes: z.number().min(0).optional(),
+    freeDownloadMinutes: z.number().min(0).optional(),
+    usageDays: z.number().min(0).optional(),
+    displayMinutes: z.number().min(0).optional(),
+    downloadMinutes: z.number().min(0).optional(),
 });
 
 type EditPackageFormValues = z.infer<typeof editPackageSchema>;
@@ -63,40 +73,37 @@ export function EditPackageDialog({ packageData }: Props) {
         defaultValues: {
             title: packageData.title ?? "",
             description: packageData.description ?? "",
-            originalPrice: packageData.originalPrice ?? null,
-            discountPrice: packageData.discountPrice ?? null,
-            freeUsageDays: packageData.freeUsageDays ?? null,
-            freeDisplayMinutes: packageData.freeDisplayMinutes ?? null,
-            freeDownloadMinutes: packageData.freeDownloadMinutes ?? null,
-            usageDays: packageData.usageDays ?? null,
-            displayMinutes: packageData.displayMinutes ?? null,
-            downloadMinutes: packageData.downloadMinutes ?? null,
+            originalPrice: Number(packageData.originalPrice) ?? 0,
+            discountPrice: Number(packageData.discountPrice) ?? 0,
+            freeUsageDays: packageData.freeUsageDays ?? 0,
+            freeDisplayMinutes: packageData.freeDisplayMinutes ?? 0,
+            freeDownloadMinutes: packageData.freeDownloadMinutes ?? 0,
+            usageDays: packageData.usageDays ?? 0,
+            displayMinutes: packageData.displayMinutes ?? 0,
+            downloadMinutes: packageData.downloadMinutes ?? 0,
         },
     });
 
     /* =========================
-       Submit
+         Submit
     ========================== */
     const onSubmit = async (values: EditPackageFormValues) => {
+        // تبدیل مقادیر قیمت به number مطمئن
+        const payload: UpdatePackageDto = {
+            ...values,
+            originalPrice: Number(values.originalPrice),
+            discountPrice: Number(values.discountPrice),
+            freeUsageDays: values.freeUsageDays ?? undefined,
+            freeDisplayMinutes: values.freeDisplayMinutes ?? undefined,
+            freeDownloadMinutes: values.freeDownloadMinutes ?? undefined,
+            usageDays: values.usageDays ?? undefined,
+            displayMinutes: values.displayMinutes ?? undefined,
+            downloadMinutes: values.downloadMinutes ?? undefined,
+        };
+
+
         try {
-            const payload: UpdatePackageDto = {
-                ...values,
-                // تبدیل null به undefined
-                originalPrice: values.originalPrice ?? undefined,
-                discountPrice: values.discountPrice ?? undefined,
-                freeUsageDays: values.freeUsageDays ?? undefined,
-                freeDisplayMinutes: values.freeDisplayMinutes ?? undefined,
-                freeDownloadMinutes: values.freeDownloadMinutes ?? undefined,
-                usageDays: values.usageDays ?? undefined,
-                displayMinutes: values.displayMinutes ?? undefined,
-                downloadMinutes: values.downloadMinutes ?? undefined,
-            };
-
-            await updatePackage({
-                id: packageData.id,
-                body: payload,
-            }).unwrap();
-
+            await updatePackage({ id: packageData.id, body: payload }).unwrap();
             toast.success("اطلاعات پکیج با موفقیت ویرایش شد");
             setOpen(false);
         } catch (err: any) {
@@ -137,20 +144,38 @@ export function EditPackageDialog({ packageData }: Props) {
                     {/* Original Price */}
                     <div>
                         <Label className="mb-1">{t("originalPrice")}</Label>
-                        <Input
-                            type="number"
-                            defaultValue={packageData.originalPrice ?? ""}
-                            {...form.register("originalPrice", { valueAsNumber: true })}
+                        <Controller
+                            control={form.control}
+                            name="originalPrice"
+                            render={({ field }) => (
+                                <Input
+                                    inputMode="numeric"
+                                    value={formatNumber(field.value)}
+                                    onChange={(e) => {
+                                        const raw = parseNumber(e.target.value);
+                                        field.onChange(raw === "" ? 0 : Number(raw));
+                                    }}
+                                />
+                            )}
                         />
                     </div>
 
                     {/* Discount Price */}
                     <div>
                         <Label className="mb-1">{t("discountPrice")}</Label>
-                        <Input
-                            type="number"
-                            defaultValue={packageData.discountPrice ?? ""}
-                            {...form.register("discountPrice", { valueAsNumber: true })}
+                        <Controller
+                            control={form.control}
+                            name="discountPrice"
+                            render={({ field }) => (
+                                <Input
+                                    inputMode="numeric"
+                                    value={formatNumber(field.value)}
+                                    onChange={(e) => {
+                                        const raw = parseNumber(e.target.value);
+                                        field.onChange(raw === "" ? 0 : Number(raw));
+                                    }}
+                                />
+                            )}
                         />
                     </div>
 
@@ -159,7 +184,7 @@ export function EditPackageDialog({ packageData }: Props) {
                         <Label className="mb-1">{t("freeUsageDays")}</Label>
                         <Input
                             type="number"
-                            defaultValue={packageData.freeUsageDays ?? ""}
+                            defaultValue={packageData.freeUsageDays ?? 0}
                             {...form.register("freeUsageDays", { valueAsNumber: true })}
                         />
                     </div>
@@ -169,7 +194,7 @@ export function EditPackageDialog({ packageData }: Props) {
                         <Label className="mb-1">{t("freeDisplayMinutes")}</Label>
                         <Input
                             type="number"
-                            defaultValue={packageData.freeDisplayMinutes ?? ""}
+                            defaultValue={packageData.freeDisplayMinutes ?? 0}
                             {...form.register("freeDisplayMinutes", { valueAsNumber: true })}
                         />
                     </div>
@@ -179,7 +204,7 @@ export function EditPackageDialog({ packageData }: Props) {
                         <Label className="mb-1">{t("freeDownloadMinutes")}</Label>
                         <Input
                             type="number"
-                            defaultValue={packageData.freeDownloadMinutes ?? ""}
+                            defaultValue={packageData.freeDownloadMinutes ?? 0}
                             {...form.register("freeDownloadMinutes", { valueAsNumber: true })}
                         />
                     </div>
@@ -189,7 +214,7 @@ export function EditPackageDialog({ packageData }: Props) {
                         <Label className="mb-1">{t("usageDays")}</Label>
                         <Input
                             type="number"
-                            defaultValue={packageData.usageDays ?? ""}
+                            defaultValue={packageData.usageDays ?? 0}
                             {...form.register("usageDays", { valueAsNumber: true })}
                         />
                     </div>
@@ -199,7 +224,7 @@ export function EditPackageDialog({ packageData }: Props) {
                         <Label className="mb-1">{t("displayMinutes")}</Label>
                         <Input
                             type="number"
-                            defaultValue={packageData.displayMinutes ?? ""}
+                            defaultValue={packageData.displayMinutes ?? 0}
                             {...form.register("displayMinutes", { valueAsNumber: true })}
                         />
                     </div>
@@ -209,7 +234,7 @@ export function EditPackageDialog({ packageData }: Props) {
                         <Label className="mb-1">{t("downloadMinutes")}</Label>
                         <Input
                             type="number"
-                            defaultValue={packageData.downloadMinutes ?? ""}
+                            defaultValue={packageData.downloadMinutes ?? 0}
                             {...form.register("downloadMinutes", { valueAsNumber: true })}
                         />
                     </div>
