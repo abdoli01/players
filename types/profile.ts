@@ -21,13 +21,7 @@ export interface ProfilePieDto {
 export interface ProfileKeyDataDto {
     title: string;
     key: string;
-
-    positionsAndGrade: ProfileFieldDto;
-    minutesPlayed: ProfileFieldDto;
-    overallIndex: ProfileFieldDto;
-    attackIndex: ProfileFieldDto;
-    defenseIndex: ProfileFieldDto;
-
+    stats:any
     pie: ProfilePieDto;
     bar: ProfileFieldDto;
 }

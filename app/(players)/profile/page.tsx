@@ -113,10 +113,10 @@ const Page = () => {
                     <Card className='py-4'>
                         <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle className="text-sm font-medium">
-                                {data?.positionsAndGrade?.title}
+                                {data?.stats?.positionsAndGrade?.title ?? "-"}
                             </CardTitle>
                             <span className="text-sm font-semibold text-foreground">
-                                {data?.positionsAndGrade?.value ?? "-"}
+                                {data?.stats?.positionsAndGrade?.value?.[0]?.title ?? "-"}
                               </span>
                         </CardHeader>
                     </Card>
@@ -125,25 +125,49 @@ const Page = () => {
                     <Card className='py-4'>
                         <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle className="text-sm font-medium">
-                                {data?.minutesPlayed?.title}
+                                {data?.stats?.minutesPlayed?.title}
                             </CardTitle>
                             <span className="text-sm font-semibold text-foreground">
-                                {data?.minutesPlayed?.value ?? "-"}
+                                {data?.stats?.minutesPlayed?.value ?? "-"}
                               </span>
                         </CardHeader>
                     </Card>
 
                     {/* Overall Index */}
-                    <Card className='py-4'>
+                    {data?.stats?.overallIndex && (  <Card className='py-4'>
                         <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle className="text-sm font-medium">
-                                {data?.overallIndex?.title}
+                                {data?.stats?.overallIndex?.title}
                             </CardTitle>
                             <span className="text-sm font-bold text-green-500">
-                                {data?.overallIndex?.value ?? "-"}
+                                {data?.stats?.overallIndex?.value ?? "-"}
                               </span>
                         </CardHeader>
-                    </Card>
+                    </Card>)}
+
+                    {data?.stats?.defenseIndex && (  <Card className='py-4'>
+                        <CardHeader className="flex flex-row items-center justify-between">
+                            <CardTitle className="text-sm font-medium">
+                                {data?.stats?.defenseIndex?.title}
+                            </CardTitle>
+                            <span className="text-sm font-bold text-green-500">
+                                {data?.stats?.defenseIndex?.value ?? "-"}
+                              </span>
+                        </CardHeader>
+                    </Card>)}
+
+                    {data?.stats?.attackIndex && (  <Card className='py-4'>
+                        <CardHeader className="flex flex-row items-center justify-between">
+                            <CardTitle className="text-sm font-medium">
+                                {data?.stats?.attackIndex?.title}
+                            </CardTitle>
+                            <span className="text-sm font-bold text-green-500">
+                                {data?.stats?.attackIndex?.value ?? "-"}
+                              </span>
+                        </CardHeader>
+                    </Card>)}
+
+
                 </div>
 
                 {/* ---------- RIGHT CHARTS ---------- */}
