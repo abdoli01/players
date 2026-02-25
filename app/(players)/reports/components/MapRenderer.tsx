@@ -138,20 +138,37 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
                     />
 
                     {/* Heatmap grid */}
+                    {/* Heatmap grid */}
                     {map.value.map((cell, idx) => {
                         const row = Math.floor(idx / cols);
                         const col = idx % cols;
                         const intensity = cell.value / maxValue;
 
+                        const x = (col * pitchLength) / cols;
+                        const y = (row * pitchWidth) / rows;
+                        const cellWidth = pitchLength / cols;
+                        const cellHeight = pitchWidth / rows;
+
                         return (
-                            <rect
-                                key={idx}
-                                x={(col * pitchLength) / cols}
-                                y={(row * pitchWidth) / rows}
-                                width={pitchLength / cols}
-                                height={pitchWidth / rows}
-                                fill={`rgba(255,0,0,${0.15 + intensity * 0.65})`}
-                            />
+                            <g key={idx}>
+                                <rect
+                                    x={x}
+                                    y={y}
+                                    width={cellWidth}
+                                    height={cellHeight}
+                                    fill={`rgba(255,0,0,${0.15 + intensity * 0.65})`}
+                                />
+                                <text
+                                    x={x + cellWidth / 2}
+                                    y={y + cellHeight / 2}
+                                    textAnchor="middle"
+                                    dominantBaseline="middle"
+                                    fontSize={2.5} // می‌تونید سایز فونت رو تنظیم کنید
+                                    fill="#fff"
+                                >
+                                    {cell.value}
+                                </text>
+                            </g>
                         );
                     })}
                 </svg>
