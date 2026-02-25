@@ -14,6 +14,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import {Spinner} from "@/components/Spinner";
+import MapRenderer from "./components/MapRenderer";
 
 interface StatItem {
     title: string;
@@ -87,7 +88,7 @@ const Page = () => {
 
                 {/* ---------- RIGHT MAPS ---------- */}
                 <div className="col-span-12 lg:col-span-6 space-y-4">
-                    {data?.map ?? "---"}
+                    <MapRenderer map={data?.map} />
                 </div>
             </div>
 
