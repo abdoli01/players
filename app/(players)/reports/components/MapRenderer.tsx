@@ -118,24 +118,24 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
                     <circle cx={pitchLength - 11} cy={pitchWidth / 2} r={0.3} fill="#fff" />
 
                     {/* Penalty arcs */}
-                    <path
-                        d={`
-              M ${penaltyDepth},${(pitchWidth - 18.3) / 2}
-              A ${penaltyArcRadius} ${penaltyArcRadius} 0 0 1 ${penaltyDepth},${(pitchWidth + 18.3) / 2}
-            `}
-                        fill="none"
-                        stroke="#fff"
-                        strokeWidth={0.5}
-                    />
-                    <path
-                        d={`
-              M ${pitchLength - penaltyDepth},${(pitchWidth - 18.3) / 2}
-              A ${penaltyArcRadius} ${penaltyArcRadius} 0 0 0 ${pitchLength - penaltyDepth},${(pitchWidth + 18.3) / 2}
-            `}
-                        fill="none"
-                        stroke="#fff"
-                        strokeWidth={0.5}
-                    />
+            {/*        <path*/}
+            {/*            d={`*/}
+            {/*  M ${penaltyDepth},${(pitchWidth - 18.3) / 2}*/}
+            {/*  A ${penaltyArcRadius} ${penaltyArcRadius} 0 0 1 ${penaltyDepth},${(pitchWidth + 18.3) / 2}*/}
+            {/*`}*/}
+            {/*            fill="none"*/}
+            {/*            stroke="#fff"*/}
+            {/*            strokeWidth={0.5}*/}
+            {/*        />*/}
+            {/*        <path*/}
+            {/*            d={`*/}
+            {/*  M ${pitchLength - penaltyDepth},${(pitchWidth - 18.3) / 2}*/}
+            {/*  A ${penaltyArcRadius} ${penaltyArcRadius} 0 0 0 ${pitchLength - penaltyDepth},${(pitchWidth + 18.3) / 2}*/}
+            {/*`}*/}
+            {/*            fill="none"*/}
+            {/*            stroke="#fff"*/}
+            {/*            strokeWidth={0.5}*/}
+            {/*        />*/}
 
                     {/* Heatmap grid */}
                     {/* Heatmap grid */}
