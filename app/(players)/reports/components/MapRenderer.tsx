@@ -32,23 +32,15 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
     const goalWidth = 18.3;
     const centerCircleRadius = 9.15;
 
-    const cols = 6;
-    const rows = 5;
+    const cols = 6; // تعداد ستون‌ها در طول زمین
+    const rows = 5; // تعداد ردیف‌ها (عرض متفاوت)
 
-    // طول هر باکس proportional به زمین (همانند قبل)
-    const xBorders = [
-        0,
-        penaltyDepth,
-        penaltyDepth + goalDepth,
-        pitchLength / 2,
-        pitchLength - (penaltyDepth + goalDepth),
-        pitchLength - penaltyDepth,
-        pitchLength,
-    ];
+    // طول هر ستون ثابت و مساوی
+    const xStep = pitchLength / cols;
 
-    // عرض هر باکس proportional به مناطق واقعی
+    // عرض هر ردیف متناسب با مناطق واقعی زمین
     const yBorders = [
-        0,
+        0,                                     // خط بالایی زمین
         (pitchWidth - penaltyWidth) / 2,       // شروع محوطه جریمه
         (pitchWidth - goalWidth) / 2,          // شروع محوطه کوچک
         (pitchWidth + goalWidth) / 2,          // انتهای محوطه کوچک
@@ -144,15 +136,15 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
                     <circle cx={11} cy={pitchWidth / 2} r={0.3} fill="#fff" />
                     <circle cx={pitchLength - 11} cy={pitchWidth / 2} r={0.3} fill="#fff" />
 
-                    {/* Heatmap grid با عرض واقعی */}
+                    {/* Heatmap grid */}
                     {map.value.map((cell, idx) => {
                         const row = Math.floor(idx / cols);
                         const col = idx % cols;
 
-                        const x = xBorders[col];
-                        const y = yBorders[row];
-                        const cellWidth = xBorders[col + 1] - x;
-                        const cellHeight = yBorders[row + 1] - y;
+                        const x = col * xStep;           // طول ثابت
+                        const y = yBorders[row];         // عرض متناسب با منطقه
+                        const cellWidth = xStep;         // طول ثابت
+                        const cellHeight = yBorders[row + 1] - y; // عرض متناسب
 
                         const intensity = cell.value / maxValue;
 
