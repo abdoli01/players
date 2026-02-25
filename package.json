@@ -41,6 +41,7 @@
     "react-multi-date-picker": "^4.5.2",
     "react-player": "^3.4.0",
     "react-redux": "^9.2.0",
+    "react-soccer-lineup": "^1.0.0-beta.10",
     "react-toastify": "^11.0.5",
     "recharts": "^2.15.4",
     "tailwind-merge": "^3.4.0",
