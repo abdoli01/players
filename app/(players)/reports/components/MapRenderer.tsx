@@ -31,17 +31,36 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
     const goalDepth = 5.5;
     const goalWidth = 18.3;
     const centerCircleRadius = 9.15;
-    const penaltyArcRadius = 9.15;
 
-    const rows = 5;
     const cols = 6;
+    const rows = 5;
+
+    // طول هر باکس proportional به زمین (همانند قبل)
+    const xBorders = [
+        0,
+        penaltyDepth,
+        penaltyDepth + goalDepth,
+        pitchLength / 2,
+        pitchLength - (penaltyDepth + goalDepth),
+        pitchLength - penaltyDepth,
+        pitchLength,
+    ];
+
+    // عرض هر باکس proportional به مناطق واقعی
+    const yBorders = [
+        0,
+        (pitchWidth - penaltyWidth) / 2,       // شروع محوطه جریمه
+        (pitchWidth - goalWidth) / 2,          // شروع محوطه کوچک
+        (pitchWidth + goalWidth) / 2,          // انتهای محوطه کوچک
+        (pitchWidth + penaltyWidth) / 2,       // انتهای محوطه جریمه
+        pitchWidth                              // خط پایینی زمین
+    ];
 
     return (
         <div className="w-full space-y-3">
             <h3 className="text-lg font-semibold">{map.title}</h3>
 
             <div className="w-full" style={{ position: "relative", paddingTop: "61.9%" }}>
-                {/* نسبت pitchWidth/pitchLength = 68/105 ≈ 0.619 */}
                 <svg
                     viewBox={`0 0 ${pitchLength} ${pitchWidth}`}
                     style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
@@ -50,7 +69,15 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
                     <rect width={pitchLength} height={pitchWidth} fill="#2E7D32" />
 
                     {/* Outer boundary */}
-                    <rect x={0} y={0} width={pitchLength} height={pitchWidth} fill="none" stroke="#fff" strokeWidth={0.5} />
+                    <rect
+                        x={0}
+                        y={0}
+                        width={pitchLength}
+                        height={pitchWidth}
+                        fill="none"
+                        stroke="#fff"
+                        strokeWidth={0.5}
+                    />
 
                     {/* Halfway line */}
                     <line
@@ -117,37 +144,17 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
                     <circle cx={11} cy={pitchWidth / 2} r={0.3} fill="#fff" />
                     <circle cx={pitchLength - 11} cy={pitchWidth / 2} r={0.3} fill="#fff" />
 
-                    {/* Penalty arcs */}
-            {/*        <path*/}
-            {/*            d={`*/}
-            {/*  M ${penaltyDepth},${(pitchWidth - 18.3) / 2}*/}
-            {/*  A ${penaltyArcRadius} ${penaltyArcRadius} 0 0 1 ${penaltyDepth},${(pitchWidth + 18.3) / 2}*/}
-            {/*`}*/}
-            {/*            fill="none"*/}
-            {/*            stroke="#fff"*/}
-            {/*            strokeWidth={0.5}*/}
-            {/*        />*/}
-            {/*        <path*/}
-            {/*            d={`*/}
-            {/*  M ${pitchLength - penaltyDepth},${(pitchWidth - 18.3) / 2}*/}
-            {/*  A ${penaltyArcRadius} ${penaltyArcRadius} 0 0 0 ${pitchLength - penaltyDepth},${(pitchWidth + 18.3) / 2}*/}
-            {/*`}*/}
-            {/*            fill="none"*/}
-            {/*            stroke="#fff"*/}
-            {/*            strokeWidth={0.5}*/}
-            {/*        />*/}
-
-                    {/* Heatmap grid */}
-                    {/* Heatmap grid */}
+                    {/* Heatmap grid با عرض واقعی */}
                     {map.value.map((cell, idx) => {
                         const row = Math.floor(idx / cols);
                         const col = idx % cols;
-                        const intensity = cell.value / maxValue;
 
-                        const x = (col * pitchLength) / cols;
-                        const y = (row * pitchWidth) / rows;
-                        const cellWidth = pitchLength / cols;
-                        const cellHeight = pitchWidth / rows;
+                        const x = xBorders[col];
+                        const y = yBorders[row];
+                        const cellWidth = xBorders[col + 1] - x;
+                        const cellHeight = yBorders[row + 1] - y;
+
+                        const intensity = cell.value / maxValue;
 
                         return (
                             <g key={idx}>
@@ -163,7 +170,7 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
                                     y={y + cellHeight / 2}
                                     textAnchor="middle"
                                     dominantBaseline="middle"
-                                    fontSize={2.5} // می‌تونید سایز فونت رو تنظیم کنید
+                                    fontSize={2.5}
                                     fill="#fff"
                                 >
                                     {cell.value}
