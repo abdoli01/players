@@ -133,7 +133,24 @@
     "passwordRequired": "Password is required",
     "passwordChangedSuccessfully": "Password changed successfully",
     "passwordChangeFailed": "Failed to change password",
-    "date": "Date"
+    "date": "Date",
+
+    "colors": "Colors",
+    "createColor": "Create Color",
+    "editColor": "Edit Color",
+    "deleteColor": "Delete Color",
+    "defaultColor": "Default Color",
+    "confirm": "Confirm",
+    "areYouSure": "Are you sure?",
+    "deleteColorMessage": "This color will be deleted.",
+    "H1": "Primary Color 1",
+    "H2": "Primary Color 2",
+    "G1": "Gray 1",
+    "G2": "Gray 2",
+    "HG3": "Highlight 3",
+    "HG4": "Highlight 4",
+    "ACN1": "Accent 1",
+    "ACN2": "Accent 2"
 
 
 

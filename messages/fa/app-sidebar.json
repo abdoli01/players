@@ -36,6 +36,8 @@
     "logoutDescription": "آیا مطمئن هستید که می‌خواهید از حساب کاربری خود خارج شوید؟",
     "logoutCancel": "انصراف",
     "logoutConfirm": "خروج",
-    "baseInfo": "اطلاعات پایه"
+    "baseInfo": "اطلاعات پایه",
+    "colors": "رنگ‌ها"
+
   }
 }

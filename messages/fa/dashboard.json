@@ -137,7 +137,25 @@
   "passwordRequired": "وارد کردن رمز عبور الزامی است",
   "passwordChangedSuccessfully": "رمز عبور با موفقیت تغییر یافت",
   "passwordChangeFailed": "خطا در تغییر رمز عبور",
-    "date": "تاریخ"
+    "date": "تاریخ",
+
+
+    "colors": "رنگ‌ها",
+    "createColor": "ایجاد رنگ",
+    "editColor": "ویرایش رنگ",
+    "deleteColor": "حذف رنگ",
+    "defaultColor": "رنگ پیش‌فرض",
+    "confirm": "تأیید",
+    "areYouSure": "آیا مطمئن هستید؟",
+    "deleteColorMessage": "این رنگ حذف خواهد شد.",
+    "H1": "رنگ اصلی ۱",
+    "H2": "رنگ اصلی ۲",
+    "G1": "خاکستری ۱",
+    "G2": "خاکستری ۲",
+    "HG3": "هایلایت ۳",
+    "HG4": "هایلایت ۴",
+    "ACN1": "تاکیدی ۱",
+    "ACN2": "تاکیدی ۲"
 
 
 }

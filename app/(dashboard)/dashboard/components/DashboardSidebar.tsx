@@ -10,6 +10,7 @@ import {
     BookUser,
     Waves,
     ChevronDown,
+    Palette
 } from "lucide-react"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -56,6 +57,7 @@ const mainItems = [
 ]
 
 const baseInfoItems = [
+    { title: "colors", url: "/dashboard/colors", icon: Palette },
     { title: "players", url: "/dashboard/players", icon: ChessPawn },
     { title: "settings", url: "/dashboard/settings", icon: Waves },
     { title: "seasons", url: "/dashboard/seasons", icon: Dice4 },
