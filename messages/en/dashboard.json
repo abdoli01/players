@@ -61,7 +61,7 @@
     "deleting": "Deleting...",
     "deleteConfirm": "Are you sure you want to delete \"{title}\"?",
     "packageDeleted": "Package deleted successfully",
-    "deleteError": "Error deleting package",
+    "deleteError": "Error deleting",
     "createSeason": "Create Season",
     "seasonDeleted": "Season deleted successfully",
 
@@ -155,9 +155,11 @@
     "H1Required": "H1 field is required",
     "colorCreated": "Color created successfully",
     "invalidInput": "Invalid input data",
-    "unexpected": "An unexpected error occurred"
-
-
+    "unexpected": "An unexpected error occurred",
+    "colorDeleted": "Color deleted successfully",
+    "defaultColorCannotDelete": "Default color cannot be deleted",
+    "colorNotFound": "Color not found",
+    "deleteColorConfirm": "Are you sure you want to delete “{title}”?"
 
 
   }

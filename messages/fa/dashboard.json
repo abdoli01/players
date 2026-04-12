@@ -62,7 +62,7 @@
     "deleting": "در حال حذف...",
     "deleteConfirm": "آیا از حذف \"{title}\" مطمئن هستید؟",
     "packageDeleted": "پکیج با موفقیت حذف شد",
-    "deleteError": "خطا در حذف پکیج",
+    "deleteError": "خطا در حذف",
 
     "createSeason": "ایجاد فصل",
     "seasonDeleted": "فصل با موفقیت حذف شد",
@@ -160,7 +160,11 @@
     "H1Required": "فیلد H1 الزامی است",
     "colorCreated": "رنگ با موفقیت ایجاد شد",
     "invalidInput": "داده‌های ورودی نامعتبر است",
-    "unexpected": "خطای غیرمنتظره رخ داد"
+    "unexpected": "خطای غیرمنتظره رخ داد",
+    "colorDeleted": "رنگ با موفقیت حذف شد",
+    "defaultColorCannotDelete": "رنگ پیش‌فرض قابل حذف نیست",
+    "colorNotFound": "رنگ یافت نشد",
+    "deleteColorConfirm": "آیا از حذف «{title}» مطمئن هستید؟"
 
 
 }

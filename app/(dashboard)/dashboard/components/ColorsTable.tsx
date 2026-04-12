@@ -10,7 +10,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
 import { CreateColorDialog } from "../components/CreateColorDialog";
 // import { EditColorDialog } from "../components/EditColorDialog";
-// import { DeleteColorDialog } from "../components/DeleteColorDialog";
+import { DeleteColorDialog } from "../components/DeleteColorDialog";
 import { PageHeader } from "@/app/(dashboard)/dashboard/components/PageHeader";
 
 import {
@@ -159,9 +159,9 @@ export function ColorsTable() {
                             {/*    isDefault={isDefault}*/}
                             {/*/>*/}
 
-                            {/*{!isDefault && (*/}
-                            {/*    <DeleteColorDialog colorData={color} />*/}
-                            {/*)}*/}
+                            {!isDefault && (
+                                <DeleteColorDialog colorData={color} />
+                            )}
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );
