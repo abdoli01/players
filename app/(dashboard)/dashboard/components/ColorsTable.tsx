@@ -9,7 +9,7 @@ import { Color } from "@/types/color";
 import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
 import { CreateColorDialog } from "../components/CreateColorDialog";
-// import { EditColorDialog } from "../components/EditColorDialog";
+import { EditColorDialog } from "../components/EditColorDialog";
 import { DeleteColorDialog } from "../components/DeleteColorDialog";
 import { PageHeader } from "@/app/(dashboard)/dashboard/components/PageHeader";
 
@@ -154,10 +154,10 @@ export function ColorsTable() {
                             <DropdownMenuLabel>عملیات</DropdownMenuLabel>
                             <DropdownMenuSeparator />
 
-                            {/*<EditColorDialog*/}
-                            {/*    colorData={color}*/}
-                            {/*    isDefault={isDefault}*/}
-                            {/*/>*/}
+                            <EditColorDialog
+                                colorData={color}
+                                isDefault={isDefault}
+                            />
 
                             {!isDefault && (
                                 <DeleteColorDialog colorData={color} />

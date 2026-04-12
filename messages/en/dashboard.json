@@ -159,7 +159,10 @@
     "colorDeleted": "Color deleted successfully",
     "defaultColorCannotDelete": "Default color cannot be deleted",
     "colorNotFound": "Color not found",
-    "deleteColorConfirm": "Are you sure you want to delete “{title}”?"
+    "deleteColorConfirm": "Are you sure you want to delete “{title}”?",
+    "editDefaultColor": "Edit Default Color",
+    "colorUpdated": "Color updated successfully",
+    "updateError": "Failed to update color"
 
 
   }

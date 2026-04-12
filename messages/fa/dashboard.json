@@ -164,7 +164,10 @@
     "colorDeleted": "رنگ با موفقیت حذف شد",
     "defaultColorCannotDelete": "رنگ پیش‌فرض قابل حذف نیست",
     "colorNotFound": "رنگ یافت نشد",
-    "deleteColorConfirm": "آیا از حذف «{title}» مطمئن هستید؟"
+    "deleteColorConfirm": "آیا از حذف «{title}» مطمئن هستید؟",
+    "editDefaultColor": "ویرایش رنگ پیش‌فرض",
+    "colorUpdated": "رنگ با موفقیت ویرایش شد",
+    "updateError": "خطا در ویرایش رنگ"
 
 
 }
