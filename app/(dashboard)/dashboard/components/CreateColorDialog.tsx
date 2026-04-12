@@ -25,23 +25,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 /* =========================
-   Schema
-========================= */
-const createColorSchema = z.object({
-    title: z.string().min(1, "عنوان رنگ الزامی است"),
-    H1: z.string().min(1, "H1 الزامی است"),
-    H2: z.string().optional(),
-    G1: z.string().optional(),
-    G2: z.string().optional(),
-    HG3: z.string().optional(),
-    HG4: z.string().optional(),
-    ACN1: z.string().optional(),
-    ACN2: z.string().optional(),
-});
-
-type CreateColorFormValues = z.infer<typeof createColorSchema>;
-
-/* =========================
    Component
 ========================= */
 export function CreateColorDialog() {
@@ -51,6 +34,27 @@ export function CreateColorDialog() {
 
     const [open, setOpen] = React.useState(false);
     const [createColor, { isLoading }] = useCreateColorMutation();
+
+    /* =========================
+       Schema (Translated)
+    ========================== */
+    const createColorSchema = React.useMemo(
+        () =>
+            z.object({
+                title: z.string().min(1, t("colorTitleRequired")),
+                H1: z.string().min(1, t("H1Required")),
+                H2: z.string().optional(),
+                G1: z.string().optional(),
+                G2: z.string().optional(),
+                HG3: z.string().optional(),
+                HG4: z.string().optional(),
+                ACN1: z.string().optional(),
+                ACN2: z.string().optional(),
+            }),
+        [t]
+    );
+
+    type CreateColorFormValues = z.infer<typeof createColorSchema>;
 
     const form = useForm<CreateColorFormValues>({
         resolver: zodResolver(createColorSchema),
@@ -68,22 +72,25 @@ export function CreateColorDialog() {
         },
     });
 
+    /* =========================
+       Submit
+    ========================== */
     const onSubmit = async (values: CreateColorFormValues) => {
         try {
             const payload: CreateColorDto = { ...values };
 
             await createColor(payload).unwrap();
 
-            toast.success("رنگ با موفقیت ایجاد شد");
+            toast.success(t("colorCreated"));
             setOpen(false);
             form.reset();
         } catch (err: any) {
             const status = err?.status;
 
-            if (status === 400) toast.error("داده‌های ورودی نامعتبر است");
-            else if (status === 401) toast.error("نیاز به ورود مجدد");
-            else if (status === 403) toast.error("دسترسی فقط برای ادمین");
-            else toast.error("خطای غیرمنتظره رخ داد");
+            if (status === 400) toast.error(t("invalidInput"));
+            else if (status === 401) toast.error(t("loginRequired"));
+            else if (status === 403) toast.error(t("adminOnly"));
+            else toast.error(t("unexpected"));
         }
     };
 
@@ -116,7 +123,9 @@ export function CreateColorDialog() {
                     {/* Title */}
                     <div className="col-span-2">
                         <Label className="mb-1.5">{t("title")}</Label>
+
                         <Input {...form.register("title")} />
+
                         {form.formState.errors.title && (
                             <p className="text-red-500 text-sm mt-1">
                                 {form.formState.errors.title.message}
@@ -128,6 +137,7 @@ export function CreateColorDialog() {
                     {fields.map((field) => (
                         <div key={field}>
                             <Label className="mb-1.5">{t(field)}</Label>
+
                             <Input
                                 placeholder="oklch(0.6 0.15 250)"
                                 {...form.register(field)}

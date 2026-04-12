@@ -150,7 +150,13 @@
     "HG3": "Highlight 3",
     "HG4": "Highlight 4",
     "ACN1": "Accent 1",
-    "ACN2": "Accent 2"
+    "ACN2": "Accent 2",
+    "colorTitleRequired": "Color title is required",
+    "H1Required": "H1 field is required",
+    "colorCreated": "Color created successfully",
+    "invalidInput": "Invalid input data",
+    "unexpected": "An unexpected error occurred"
+
 
 
 
