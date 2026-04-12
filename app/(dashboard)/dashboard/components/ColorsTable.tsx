@@ -8,7 +8,7 @@ import {
 import { Color } from "@/types/color";
 import { useLocale, useTranslations } from "next-intl";
 import { Spinner } from "@/components/Spinner";
-// import { CreateColorDialog } from "../components/CreateColorDialog";
+import { CreateColorDialog } from "../components/CreateColorDialog";
 // import { EditColorDialog } from "../components/EditColorDialog";
 // import { DeleteColorDialog } from "../components/DeleteColorDialog";
 import { PageHeader } from "@/app/(dashboard)/dashboard/components/PageHeader";
@@ -217,9 +217,9 @@ export function ColorsTable() {
                     />
                 </div>
 
-                {/*<div className="flex items-center justify-end flex-1">*/}
-                {/*    <CreateColorDialog />*/}
-                {/*</div>*/}
+                <div className="flex items-center justify-end flex-1">
+                    <CreateColorDialog />
+                </div>
             </div>
 
             {/* Table */}
