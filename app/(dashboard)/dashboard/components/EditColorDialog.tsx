@@ -84,6 +84,22 @@ export function EditColorDialog({
         },
     });
 
+    React.useEffect(() => {
+        if (open) {
+            form.reset({
+                title: colorData.title ?? "",
+                H1: colorData.H1 ?? "",
+                H2: colorData.H2 ?? "",
+                G1: colorData.G1 ?? "",
+                G2: colorData.G2 ?? "",
+                HG3: colorData.HG3 ?? "",
+                HG4: colorData.HG4 ?? "",
+                ACN1: colorData.ACN1 ?? "",
+                ACN2: colorData.ACN2 ?? "",
+            });
+        }
+    }, [open, colorData, form]);
+
     const onSubmit = async (values: EditColorFormValues) => {
         try {
             const payload: UpdateColorDto = { ...values };

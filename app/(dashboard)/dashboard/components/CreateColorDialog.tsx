@@ -71,6 +71,21 @@ export function CreateColorDialog() {
             ACN2: "",
         },
     });
+    React.useEffect(() => {
+        if (!open) {
+            form.reset({
+                title: "",
+                H1: "",
+                H2: "",
+                G1: "",
+                G2: "",
+                HG3: "",
+                HG4: "",
+                ACN1: "",
+                ACN2: "",
+            });
+        }
+    }, [open, form]);
 
     /* =========================
        Submit

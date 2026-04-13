@@ -60,18 +60,34 @@ export function EditDefaultColorButton() {
 
     const form = useForm<FormValues>({
         resolver: zodResolver(schema),
-        values: {
-            title: data?.title ?? "",
-            H1: data?.H1 ?? "",
-            H2: data?.H2 ?? "",
-            G1: data?.G1 ?? "",
-            G2: data?.G2 ?? "",
-            HG3: data?.HG3 ?? "",
-            HG4: data?.HG4 ?? "",
-            ACN1: data?.ACN1 ?? "",
-            ACN2: data?.ACN2 ?? "",
+        defaultValues: {
+            title: "",
+            H1: "",
+            H2: "",
+            G1: "",
+            G2: "",
+            HG3: "",
+            HG4: "",
+            ACN1: "",
+            ACN2: "",
         },
     });
+
+    React.useEffect(() => {
+        if (open) {
+            form.reset({
+                title: data?.title ?? "",
+                H1: data?.H1 ?? "",
+                H2: data?.H2 ?? "",
+                G1: data?.G1 ?? "",
+                G2: data?.G2 ?? "",
+                HG3: data?.HG3 ?? "",
+                HG4: data?.HG4 ?? "",
+                ACN1: data?.ACN1 ?? "",
+                ACN2: data?.ACN2 ?? "",
+            });
+        }
+    }, [open, data, form]);
 
     const onSubmit = async (values: FormValues) => {
         try {
