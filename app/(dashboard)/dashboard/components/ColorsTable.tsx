@@ -12,7 +12,7 @@ import { CreateColorDialog } from "../components/CreateColorDialog";
 import { EditColorDialog } from "../components/EditColorDialog";
 import { DeleteColorDialog } from "../components/DeleteColorDialog";
 import { PageHeader } from "@/app/(dashboard)/dashboard/components/PageHeader";
-
+import { EditDefaultColorButton } from "../components/EditDefaultColorButton";
 import {
     useReactTable,
     ColumnDef,
@@ -217,7 +217,8 @@ export function ColorsTable() {
                     />
                 </div>
 
-                <div className="flex items-center justify-end flex-1">
+                <div className="flex flex-wrap items-center justify-end flex-1 gap-2">
+                    <EditDefaultColorButton />
                     <CreateColorDialog />
                 </div>
             </div>
