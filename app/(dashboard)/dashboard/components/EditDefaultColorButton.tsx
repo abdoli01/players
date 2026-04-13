@@ -126,13 +126,13 @@ export function EditDefaultColorButton() {
                         className="grid grid-cols-2 gap-4 py-4"
                     >
                         <div className="col-span-2">
-                            <Label>{t("title")}</Label>
+                            <Label className="mb-1.5">{t("title")}</Label>
                             <Input {...form.register("title")} />
                         </div>
 
                         {fields.map((field) => (
                             <div key={field}>
-                                <Label>{t(field)}</Label>
+                                <Label className="mb-1.5">{t(field)}</Label>
                                 <Input
                                     placeholder="oklch(0.6 0.15 250)"
                                     {...form.register(field)}
