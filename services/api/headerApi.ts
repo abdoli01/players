@@ -9,7 +9,7 @@ export const headerApi = baseApi.injectEndpoints({
             { playerId: string; seasonId: string }
         >({
             query: ({ playerId, seasonId }) => ({
-                url: "/header",
+                url: "/page-header",
                 params: {
                     keyword: "PLAYER",
                     playerId,

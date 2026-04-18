@@ -19,7 +19,7 @@ export const profileApi = baseApi.injectEndpoints({
             GetProfileKeywordsParams
         >({
             query: (params) => ({
-                url: "/profile/keyword",
+                url: "/page-profile/keyword",
                 params,
             }),
             providesTags: ["PROFILE"],
@@ -34,7 +34,7 @@ export const profileApi = baseApi.injectEndpoints({
             GetProfileParams
         >({
             query: (params) => ({
-                url: "/profile",
+                url: "/page-profile",
                 params,
             }),
             providesTags: ["PROFILE"],

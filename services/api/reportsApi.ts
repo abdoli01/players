@@ -19,7 +19,7 @@ export const reportsApi = baseApi.injectEndpoints({
             GetReportKeywordsParams
         >({
             query: (params) => ({
-                url: "/reports/keyword",
+                url: "/page-reports/keyword",
                 params,
             }),
             providesTags: ["REPORTS"],
@@ -34,7 +34,7 @@ export const reportsApi = baseApi.injectEndpoints({
             GetReportParams
         >({
             query: (params) => ({
-                url: "/reports",
+                url: "/page-reports",
                 params,
             }),
             providesTags: ["REPORTS"],
