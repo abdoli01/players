@@ -92,8 +92,12 @@ export function CreateColorDialog() {
     ========================== */
     const onSubmit = async (values: CreateColorFormValues) => {
         try {
-            const payload: CreateColorDto = { ...values };
-
+            const payload = Object.fromEntries(
+                Object.entries(values).map(([key, value]) => [
+                    key,
+                    value === "" ? null : value,
+                ])
+            ) as unknown as CreateColorDto;
             await createColor(payload).unwrap();
 
             toast.success(t("colorCreated"));

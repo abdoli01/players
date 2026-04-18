@@ -91,8 +91,17 @@ export function EditDefaultColorButton() {
 
     const onSubmit = async (values: FormValues) => {
         try {
-            const payload: UpdateColorDto = { ...values };
-
+            const payload: UpdateColorDto = {
+                title: values.title,
+                H1: values.H1,
+                H2: values.H2 === "" ? null : values.H2,
+                G1: values.G1 === "" ? null : values.G1,
+                G2: values.G2 === "" ? null : values.G2,
+                HG3: values.HG3 === "" ? null : values.HG3,
+                HG4: values.HG4 === "" ? null : values.HG4,
+                ACN1: values.ACN1 === "" ? null : values.ACN1,
+                ACN2: values.ACN2 === "" ? null : values.ACN2,
+            };
             await updateDefaultColor(payload).unwrap();
 
             toast.success(t("colorUpdated"));

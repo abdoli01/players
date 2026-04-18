@@ -4,13 +4,13 @@ export interface Color {
     id: string;
     title: string;
     H1: string;
-    H2: string;
-    G1: string;
-    G2: string;
-    HG3: string;
-    HG4: string;
-    ACN1: string;
-    ACN2: string;
+    H2: string | null;
+    G1: string | null;
+    G2: string | null;
+    HG3: string | null;
+    HG4: string | null;
+    ACN1: string | null;
+    ACN2: string | null;
     createdAt?: string;
     updatedAt?: string;
 }
@@ -18,23 +18,23 @@ export interface Color {
 export interface CreateColorDto {
     title: string;
     H1: string;
-    H2?: string;
-    G1?: string;
-    G2?: string;
-    HG3?: string;
-    HG4?: string;
-    ACN1?: string;
-    ACN2?: string;
+    H2?: string | null;
+    G1?: string | null;
+    G2?: string | null;
+    HG3?: string | null;
+    HG4?: string | null;
+    ACN1?: string | null;
+    ACN2?: string | null;
 }
 
 export interface UpdateColorDto {
     title?: string;
     H1?: string;
-    H2?: string;
-    G1?: string;
-    G2?: string;
-    HG3?: string;
-    HG4?: string;
-    ACN1?: string;
-    ACN2?: string;
+    H2?: string | null;
+    G1?: string | null;
+    G2?: string | null;
+    HG3?: string | null;
+    HG4?: string | null;
+    ACN1?: string | null;
+    ACN2?: string | null;
 }
