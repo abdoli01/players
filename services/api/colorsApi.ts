@@ -1,5 +1,3 @@
-// services/colorsApi.ts
-
 import { baseApi } from "./baseApi";
 import {
     Color,
@@ -10,63 +8,67 @@ import {
 export const colorsApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
 
-        // ایجاد رنگ جدید
+        // create
         createColor: builder.mutation<Color, CreateColorDto>({
             query: (body) => ({
-                url: "/colors",
+                url: "/color-palettes",
                 method: "POST",
                 body,
             }),
             invalidatesTags: ["COLORS"],
         }),
 
-        // دریافت لیست رنگ‌ها
+        // list
         getColors: builder.query<Color[], void>({
-            query: () => "/colors",
+            query: () => "/color-palettes",
             providesTags: ["COLORS"],
         }),
 
-        // دریافت رنگ پیش‌فرض
+        // get default
         getDefaultColor: builder.query<Color, void>({
-            query: () => "/colors/default",
+            query: () => "/color-palettes-default",
             providesTags: ["COLORS"],
         }),
 
-        // ویرایش رنگ پیش‌فرض
+        // update default
         updateDefaultColor: builder.mutation<Color, UpdateColorDto>({
             query: (body) => ({
-                url: "/colors/default",
+                url: "/color-palettes-default",
                 method: "PATCH",
                 body,
             }),
             invalidatesTags: ["COLORS"],
         }),
 
-        // دریافت یک رنگ با id
+        // get by id
         getColorById: builder.query<Color, string>({
-            query: (id) => `/colors/${id}`,
-            providesTags: (_result, _error, id) => [{ type: "COLORS", id }],
+            query: (id) => `/color-palettes/${id}`,
+            providesTags: (_result, _error, id) => [
+                { type: "COLORS", id },
+            ],
         }),
 
-        // ویرایش رنگ
-        updateColor: builder.mutation<Color, { id: string; body: UpdateColorDto }>({
+        // update
+        updateColor: builder.mutation<
+            Color,
+            { id: string; body: UpdateColorDto }
+        >({
             query: ({ id, body }) => ({
-                url: `/colors/${id}`,
+                url: `/color-palettes/${id}`,
                 method: "PATCH",
                 body,
             }),
             invalidatesTags: ["COLORS"],
         }),
 
-        // حذف رنگ
+        // delete
         deleteColor: builder.mutation<void, string>({
             query: (id) => ({
-                url: `/colors/${id}`,
+                url: `/color-palettes/${id}`,
                 method: "DELETE",
             }),
             invalidatesTags: ["COLORS"],
         }),
-
     }),
 });
 
