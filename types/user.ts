@@ -45,3 +45,10 @@ export interface AdminChangePasswordDto {
     newPassword: string;
     confirmPassword: string;
 }
+
+export type UserColorPaletteType = "DEFAULT" | "CUSTOM";
+
+export interface SetUserColorPaletteDto {
+    colorPaletteType: UserColorPaletteType;
+    colorPaletteId?: string;
+}

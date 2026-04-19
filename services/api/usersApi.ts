@@ -2,7 +2,7 @@
 // services/usersApi.ts
 import { baseApi } from "./baseApi";
 import { User } from "@/types/user";
-import { UserSearchParams,SetPlayerIdDto, AdminSetPlayerIdDto, ChangePasswordDto, UpdateProfileDto,AdminChangePasswordDto } from "@/types/user";
+import { UserSearchParams,SetPlayerIdDto, AdminSetPlayerIdDto, ChangePasswordDto, UpdateProfileDto,AdminChangePasswordDto,SetUserColorPaletteDto } from "@/types/user";
 
 export const usersApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -90,6 +90,31 @@ export const usersApi = baseApi.injectEndpoints({
             }),
         }),
 
+                    // ----------------------------
+            // GET /users/me/color-palette
+            // دریافت پالت رنگی کاربر جاری
+            // ----------------------------
+        getMyColorPalette: builder.query<any, void>({
+            query: () => "/users/me/color-palette",
+            providesTags: ["USERS"],
+        }),
+
+            // ----------------------------
+            // PATCH /users/{id}/color-palette
+            // تغییر پالت رنگی کاربر توسط ادمین
+            // ----------------------------
+        updateUserColorPalette: builder.mutation<
+            void,
+            { id: string; body: SetUserColorPaletteDto }
+        >({
+            query: ({ id, body }) => ({
+                url: `/users/${id}/color-palette`,
+                method: "PATCH",
+                body,
+            }),
+            invalidatesTags: ["USERS"],
+        }),
+
 
     }),
 });
@@ -101,5 +126,7 @@ export const {
     useAdminSetPlayerIdMutation,
     useEditProfileMutation,      // ← اضافه شد
     useChangePasswordMutation,   // ← اضافه شد
-    useAdminChangePasswordMutation
+    useAdminChangePasswordMutation,
+    useGetMyColorPaletteQuery,
+    useUpdateUserColorPaletteMutation,
 } = usersApi;

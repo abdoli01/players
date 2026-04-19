@@ -7,6 +7,8 @@ import AuthInitializer from "./AuthInitializer";
 // import PlayerInitializer from "./PlayerInitializer";
 import SeasonInitializer from "./SeasonInitializer";
 import PlayerHeaderInitializer from "./PlayerHeaderInitializer";
+import { UserColorProvider } from "@/components/UserColorProvider";
+
 
 export function ReduxProvider({ children }: { children: React.ReactNode }) {
     return (
@@ -14,7 +16,9 @@ export function ReduxProvider({ children }: { children: React.ReactNode }) {
             <AuthInitializer />
             <SeasonInitializer />
             <PlayerHeaderInitializer />
+            <UserColorProvider>
             {children}
+            </UserColorProvider>
         </Provider>
     );
 }

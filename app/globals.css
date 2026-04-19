@@ -44,6 +44,14 @@
 
 /*    custom*/
     --color-app-orange: var(--app-orange);
+    --color-acn1: var(--acn1);
+    --color-acn2: var(--acn2);
+    --color-h1: var(--h1);
+    --color-h2: var(--h2);
+    --color-g1: var(--g1);
+    --color-g2: var(--g2);
+    --color-hg3: var(--hg3);
+    --color-hg4: var(--hg4);
 
 }
 
@@ -117,10 +125,6 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
-
-
-/*    custom*/
-    --app-orange: oklch(75% 0.183 55.934);
 }
 
 @layer base {
