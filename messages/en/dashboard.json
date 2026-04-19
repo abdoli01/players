@@ -162,7 +162,28 @@
     "deleteColorConfirm": "Are you sure you want to delete “{title}”?",
     "editDefaultColor": "Edit Default Color",
     "colorUpdated": "Color updated successfully",
-    "updateError": "Failed to update color"
+    "updateError": "Failed to update color",
+
+
+    "group": "Group",
+    "groups": "Groups",
+    "createGroup": "Create Group",
+    "editGroup": "Edit Group",
+    "deleteGroup": "Delete Group",
+    "groupCreated": "Group created successfully",
+    "groupUpdated": "Group updated successfully",
+    "groupDeleted": "Group deleted successfully",
+    "groupNotFound": "Group not found",
+    "fullNameRequired": "Full name is required",
+    "deleteGroupConfirm": "Are you sure you want to delete this group?",
+    "referees": "Referees",
+    "rounds": "Rounds",
+    "stadiums": "Stadiums",
+    "countryId": "Country",
+    "provinceId": "Province",
+    "cityId": "City",
+    "capacity": "Capacity",
+    "stages": "Stages"
 
 
   }

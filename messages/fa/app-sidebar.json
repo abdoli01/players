@@ -37,7 +37,12 @@
     "logoutCancel": "انصراف",
     "logoutConfirm": "خروج",
     "baseInfo": "اطلاعات پایه",
-    "colors": "رنگ‌ها"
+    "colors": "رنگ‌ها",
+    "groups": "گروه‌ها",
+    "referees": "داوران",
+    "rounds": "راندها",
+    "stadiums": "ورزشگاه‌ها",
+    "stages": "مراحل"
 
   }
 }

@@ -37,7 +37,12 @@
     "logoutCancel": "Cancel",
     "logoutConfirm": "Logout",
     "baseInfo": "Base Information",
-    "colors": "Colors"
+    "colors": "Colors",
+    "groups": "Groups",
+    "referees": "Referees",
+    "rounds": "Rounds",
+    "stadiums": "Stadiums",
+    "stages": "Stages"
 
   }
 }

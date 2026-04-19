@@ -167,7 +167,27 @@
     "deleteColorConfirm": "آیا از حذف «{title}» مطمئن هستید؟",
     "editDefaultColor": "ویرایش رنگ پیش‌فرض",
     "colorUpdated": "رنگ با موفقیت ویرایش شد",
-    "updateError": "خطا در ویرایش رنگ"
+    "updateError": "خطا در ویرایش رنگ",
+
+    "group": "گروه",
+    "groups": "گروه‌ها",
+    "createGroup": "ایجاد گروه",
+    "editGroup": "ویرایش گروه",
+    "deleteGroup": "حذف گروه",
+    "groupCreated": "گروه با موفقیت ایجاد شد",
+    "groupUpdated": "گروه با موفقیت ویرایش شد",
+    "groupDeleted": "گروه با موفقیت حذف شد",
+    "groupNotFound": "گروه یافت نشد",
+    "fullNameRequired": "نام کامل الزامی است",
+    "deleteGroupConfirm": "آیا از حذف این گروه مطمئن هستید؟",
+    "referees": "داوران",
+    "rounds": "راندها",
+    "stadiums": "ورزشگاه‌ها",
+    "countryId": "کشور",
+    "provinceId": "استان",
+    "cityId": "شهر",
+    "capacity": "ظرفیت",
+    "stages": "مراحل"
 
 
 }

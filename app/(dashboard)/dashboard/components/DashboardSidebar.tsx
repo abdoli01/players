@@ -78,6 +78,12 @@ const baseInfoItems = [
         url: "/dashboard/team-season-to-tournament-seasons",
         icon: Waves,
     },
+    { title: "groups", url: "/dashboard/groups", icon: Waves },
+    { title: "referees", url: "/dashboard/referees", icon: Waves },
+    { title: "rounds", url: "/dashboard/rounds", icon: Waves },
+    { title: "stadiums", url: "/dashboard/stadiums", icon: Waves },
+    { title: "stages", url: "/dashboard/stages", icon: Waves },
+
 ]
 
 export function DashboardSidebar() {
