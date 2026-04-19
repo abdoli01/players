@@ -4,11 +4,7 @@ import * as React from "react";
 import { useGetMyColorPaletteQuery } from "@/services/api/usersApi";
 import { applyUserColors } from "@/utils/applyUserColors";
 
-export function UserColorProvider({
-                                      children,
-                                  }: {
-    children: React.ReactNode;
-}) {
+export function UserColorProvider() {
     const { data } = useGetMyColorPaletteQuery();
 
     React.useEffect(() => {
@@ -21,5 +17,5 @@ export function UserColorProvider({
         // applyUserColors(data.color)
     }, [data]);
 
-    return <>{children}</>;
+    return null;
 }

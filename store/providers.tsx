@@ -16,9 +16,8 @@ export function ReduxProvider({ children }: { children: React.ReactNode }) {
             <AuthInitializer />
             <SeasonInitializer />
             <PlayerHeaderInitializer />
-            <UserColorProvider>
+            <UserColorProvider/>
             {children}
-            </UserColorProvider>
         </Provider>
     );
 }
