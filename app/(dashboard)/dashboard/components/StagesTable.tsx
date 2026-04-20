@@ -1,8 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { useGetStagesQuery } from "@/services/api/stagesApi";
-import { Stage } from "@/types/stage";
+import {
+    useGetStagesQuery,
+    useSearchStagesQuery,
+} from "@/services/api/stagesApi";
+import { Stage, StageSearchParams } from "@/types/stage";
 
 import { useTranslations, useLocale } from "next-intl";
 import { Spinner } from "@/components/Spinner";
@@ -14,6 +17,7 @@ import {
     getCoreRowModel,
     getSortedRowModel,
     getPaginationRowModel,
+    getFilteredRowModel,
     flexRender,
     SortingState,
     ColumnFiltersState,
@@ -30,6 +34,8 @@ import {
 } from "@/components/ui/table";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 import {
     DropdownMenu,
@@ -48,6 +54,21 @@ export function StagesTable() {
     const locale = useLocale();
     const isRtl = locale === "fa";
 
+    // -----------------------
+    // Search state
+    // -----------------------
+    const [searchParams, setSearchParams] = React.useState<StageSearchParams>({
+        q: "",
+        fullName: "",
+        shortName: "",
+        fullNameEn: "",
+        shortNameEn: "",
+        type: "",
+    });
+
+    // -----------------------
+    // Table states
+    // -----------------------
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
@@ -55,29 +76,29 @@ export function StagesTable() {
         React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
 
-    const { data: stages = [], isLoading } = useGetStagesQuery();
+    // -----------------------
+    // Fetch data
+    // -----------------------
+    const { data: allStages = [], isLoading: isLoadingAll } =
+        useGetStagesQuery();
 
+    const { data: filteredStages = [], isLoading: isLoadingFiltered } =
+        useSearchStagesQuery(searchParams);
+
+    const hasFilters = Object.values(searchParams).some(Boolean);
+    const stages = hasFilters ? filteredStages : allStages;
+    const isLoading = hasFilters ? isLoadingFiltered : isLoadingAll;
+
+    // -----------------------
+    // Columns
+    // -----------------------
     const columns: ColumnDef<Stage>[] = [
-        {
-            accessorKey: "fullName",
-            header: t("fullName"),
-        },
-        {
-            accessorKey: "shortName",
-            header: t("shortName"),
-        },
-        {
-            accessorKey: "fullNameEn",
-            header: t("fullNameEn"),
-        },
-        {
-            accessorKey: "shortNameEn",
-            header: t("shortNameEn"),
-        },
-        {
-            accessorKey: "type",
-            header: t("type"),
-        },
+        { accessorKey: "fullName", header: t("fullName") },
+        { accessorKey: "shortName", header: t("shortName") },
+        { accessorKey: "fullNameEn", header: t("fullNameEn") },
+        { accessorKey: "shortNameEn", header: t("shortNameEn") },
+        { accessorKey: "type", header: t("type") },
+
         {
             id: "actions",
             header: t("actions"),
@@ -96,10 +117,7 @@ export function StagesTable() {
                             <DropdownMenuLabel>
                                 {t("actions")}
                             </DropdownMenuLabel>
-
                             <DropdownMenuSeparator />
-
-                            {/* later edit/delete */}
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );
@@ -107,6 +125,9 @@ export function StagesTable() {
         },
     ];
 
+    // -----------------------
+    // Table
+    // -----------------------
     const table = useReactTable<Stage>({
         data: stages,
         columns,
@@ -117,6 +138,7 @@ export function StagesTable() {
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
         state: {
             sorting,
             columnFilters,
@@ -124,11 +146,13 @@ export function StagesTable() {
             rowSelection,
         },
         initialState: {
-            pagination: {
-                pageSize: 10,
-            },
+            pagination: { pageSize: 10 },
         },
     });
+
+    React.useEffect(() => {
+        table.setPageIndex(0);
+    }, [searchParams]);
 
     if (isLoading) return <Spinner />;
 
@@ -136,13 +160,72 @@ export function StagesTable() {
         <div className="w-full">
             <PageHeader title={tp("SideBar.stages")} />
 
+            {/* Filters */}
+            <div className="flex flex-wrap gap-4 mb-4">
+                <div className="flex flex-col gap-1">
+                    <Label>{t("search")}</Label>
+                    <Input
+                        value={searchParams.q ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({
+                                ...prev,
+                                q: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                    <Label>{t("fullName")}</Label>
+                    <Input
+                        value={searchParams.fullName ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({
+                                ...prev,
+                                fullName: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                    <Label>{t("shortName")}</Label>
+                    <Input
+                        value={searchParams.shortName ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({
+                                ...prev,
+                                shortName: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                    <Label>{t("type")}</Label>
+                    <Input
+                        value={searchParams.type ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({
+                                ...prev,
+                                type: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
+            </div>
+
+            {/* Table */}
             <div className="overflow-hidden rounded-md border">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
-                                    <TableHead key={header.id} className="text-center">
+                                    <TableHead
+                                        key={header.id}
+                                        className="text-center"
+                                    >
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -160,7 +243,10 @@ export function StagesTable() {
                             table.getRowModel().rows.map((row) => (
                                 <TableRow key={row.id}>
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className="text-center">
+                                        <TableCell
+                                            key={cell.id}
+                                            className="text-center"
+                                        >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
@@ -183,32 +269,51 @@ export function StagesTable() {
                 </Table>
             </div>
 
+            {/* Pagination */}
             <div className="flex items-center justify-between px-2 py-4">
                 <div className="flex items-center gap-2">
-                    <Button variant="outline" size="sm" onClick={() => table.setPageIndex(0)}>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.setPageIndex(0)}
+                        disabled={!table.getCanPreviousPage()}
+                    >
                         {t("first")}
                     </Button>
 
-                    <Button variant="outline" size="sm" onClick={() => table.previousPage()}>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
                         {t("previous")}
                     </Button>
 
-                    <Button variant="outline" size="sm" onClick={() => table.nextPage()}>
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
                         {t("next")}
                     </Button>
 
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+                        onClick={() =>
+                            table.setPageIndex(table.getPageCount() - 1)
+                        }
+                        disabled={!table.getCanNextPage()}
                     >
                         {t("last")}
                     </Button>
                 </div>
 
                 <div className="text-sm text-muted-foreground">
-                    {t("page")} {table.getState().pagination.pageIndex + 1} {t("of")}{" "}
-                    {table.getPageCount()}
+                    {t("page")} {table.getState().pagination.pageIndex + 1}{" "}
+                    {t("of")} {table.getPageCount()}
                 </div>
             </div>
         </div>

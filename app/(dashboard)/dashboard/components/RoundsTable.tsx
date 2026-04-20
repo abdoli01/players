@@ -1,8 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { useGetRoundsQuery } from "@/services/api/roundsApi";
-import { Round } from "@/types/round";
+import {
+    useGetRoundsQuery,
+    useSearchRoundsQuery,
+} from "@/services/api/roundsApi";
+import { Round, RoundSearchParams } from "@/types/round";
 
 import { useTranslations, useLocale } from "next-intl";
 import { Spinner } from "@/components/Spinner";
@@ -14,6 +17,7 @@ import {
     getCoreRowModel,
     getSortedRowModel,
     getPaginationRowModel,
+    getFilteredRowModel,
     flexRender,
     SortingState,
     ColumnFiltersState,
@@ -30,6 +34,8 @@ import {
 } from "@/components/ui/table";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 import {
     DropdownMenu,
@@ -38,6 +44,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 
 import { MoreHorizontal } from "lucide-react";
 
@@ -48,9 +62,16 @@ export function RoundsTable() {
     const locale = useLocale();
     const isRtl = locale === "fa";
 
-    // -----------------------
+    // Search state
+    const [searchParams, setSearchParams] = React.useState<RoundSearchParams>({
+        q: "",
+        fullName: "",
+        shortName: "",
+        fullNameEn: "",
+        shortNameEn: "",
+    });
+
     // Table states
-    // -----------------------
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
@@ -58,31 +79,23 @@ export function RoundsTable() {
         React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
 
-    // -----------------------
     // Fetch data
-    // -----------------------
-    const { data: rounds = [], isLoading } = useGetRoundsQuery();
+    const { data: allRounds = [], isLoading: isLoadingAll } =
+        useGetRoundsQuery();
 
-    // -----------------------
+    const { data: filteredRounds = [], isLoading: isLoadingFiltered } =
+        useSearchRoundsQuery(searchParams);
+
+    const hasFilters = Object.values(searchParams).some(Boolean);
+    const rounds = hasFilters ? filteredRounds : allRounds;
+    const isLoading = hasFilters ? isLoadingFiltered : isLoadingAll;
+
     // Columns
-    // -----------------------
     const columns: ColumnDef<Round>[] = [
-        {
-            accessorKey: "fullName",
-            header: t("fullName"),
-        },
-        {
-            accessorKey: "shortName",
-            header: t("shortName"),
-        },
-        {
-            accessorKey: "fullNameEn",
-            header: t("fullNameEn"),
-        },
-        {
-            accessorKey: "shortNameEn",
-            header: t("shortNameEn"),
-        },
+        { accessorKey: "fullName", header: t("fullName") },
+        { accessorKey: "shortName", header: t("shortName") },
+        { accessorKey: "fullNameEn", header: t("fullNameEn") },
+        { accessorKey: "shortNameEn", header: t("shortNameEn") },
         {
             id: "actions",
             header: t("actions"),
@@ -101,11 +114,7 @@ export function RoundsTable() {
                             <DropdownMenuLabel>
                                 {t("actions")}
                             </DropdownMenuLabel>
-
                             <DropdownMenuSeparator />
-
-                            {/* <EditRoundDialog roundData={round} /> */}
-                            {/* <DeleteRoundDialog roundData={round} /> */}
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );
@@ -113,9 +122,7 @@ export function RoundsTable() {
         },
     ];
 
-    // -----------------------
     // Table
-    // -----------------------
     const table = useReactTable<Round>({
         data: rounds,
         columns,
@@ -126,6 +133,7 @@ export function RoundsTable() {
         getCoreRowModel: getCoreRowModel(),
         getSortedRowModel: getSortedRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
         state: {
             sorting,
             columnFilters,
@@ -133,32 +141,104 @@ export function RoundsTable() {
             rowSelection,
         },
         initialState: {
-            pagination: {
-                pageSize: 10,
-            },
+            pagination: { pageSize: 10 },
         },
     });
 
-    // -----------------------
-    // Render
-    // -----------------------
+    React.useEffect(() => {
+        table.setPageIndex(0);
+    }, [searchParams]);
+
     if (isLoading) return <Spinner />;
 
     return (
         <div className="w-full">
             <PageHeader title={tp("SideBar.rounds")} />
 
+            {/* Filters */}
+            <div className="flex flex-wrap gap-4 mb-4">
+                <div className="flex flex-col gap-1">
+                    <Label>{t("search")}</Label>
+                    <Input
+                        value={searchParams.q ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({
+                                ...prev,
+                                q: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                    <Label>{t("fullName")}</Label>
+                    <Input
+                        value={searchParams.fullName ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({
+                                ...prev,
+                                fullName: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                    <Label>{t("shortName")}</Label>
+                    <Input
+                        value={searchParams.shortName ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({
+                                ...prev,
+                                shortName: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                    <Label>{t("fullNameEn")}</Label>
+                    <Input
+                        value={searchParams.fullNameEn ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({
+                                ...prev,
+                                fullNameEn: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                    <Label>{t("shortNameEn")}</Label>
+                    <Input
+                        value={searchParams.shortNameEn ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({
+                                ...prev,
+                                shortNameEn: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
+            </div>
+
+            {/* Table */}
             <div className="overflow-hidden rounded-md border">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
-                                    <TableHead key={header.id} className="text-center">
+                                    <TableHead
+                                        key={header.id}
+                                        className="text-center"
+                                    >
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
-                                                header.column.columnDef.header,
+                                                header.column.columnDef
+                                                    .header,
                                                 header.getContext()
                                             )}
                                     </TableHead>
@@ -172,7 +252,10 @@ export function RoundsTable() {
                             table.getRowModel().rows.map((row) => (
                                 <TableRow key={row.id}>
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className="text-center">
+                                        <TableCell
+                                            key={cell.id}
+                                            className="text-center"
+                                        >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
@@ -195,7 +278,8 @@ export function RoundsTable() {
                 </Table>
             </div>
 
-            <div className="flex items-center justify-between px-2 py-4">
+            {/* Pagination */}
+            <div className="flex items-center justify-between px-2 py-4 flex-wrap gap-2">
                 <div className="flex items-center gap-2">
                     <Button
                         variant="outline"
@@ -234,10 +318,33 @@ export function RoundsTable() {
                     >
                         {t("last")}
                     </Button>
+
+                    <Select
+                        value={String(table.getState().pagination.pageSize)}
+                        onValueChange={(value) =>
+                            table.setPageSize(Number(value))
+                        }
+                    >
+                        <SelectTrigger className="w-auto">
+                            <SelectValue />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                            {[5, 10, 20, 50, 100].map((size) => (
+                                <SelectItem
+                                    key={size}
+                                    value={String(size)}
+                                >
+                                    {size} {t("row")}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
 
                 <div className="text-sm text-muted-foreground">
-                    {t("page")} {table.getState().pagination.pageIndex + 1}{" "}
+                    {t("page")}{" "}
+                    {table.getState().pagination.pageIndex + 1}{" "}
                     {t("of")} {table.getPageCount()}
                 </div>
             </div>

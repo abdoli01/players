@@ -1,8 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { useGetGroupsQuery } from "@/services/api/groupsApi";
-import { Group } from "@/types/group";
+import {
+    useGetGroupsQuery,
+    useSearchGroupsQuery,
+} from "@/services/api/groupsApi";
+import { Group, GroupSearchParams } from "@/types/group";
 
 import { useTranslations, useLocale } from "next-intl";
 import { Spinner } from "@/components/Spinner";
@@ -30,6 +33,8 @@ import {
 } from "@/components/ui/table";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 import {
     DropdownMenu,
@@ -49,6 +54,18 @@ export function GroupsTable() {
     const isRtl = locale === "fa";
 
     // -----------------------
+    // Search state
+    // -----------------------
+    const [searchParams, setSearchParams] =
+        React.useState<GroupSearchParams>({
+            q: "",
+            fullName: "",
+            shortName: "",
+            fullNameEn: "",
+            shortNameEn: "",
+        });
+
+    // -----------------------
     // Table states
     // -----------------------
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -61,7 +78,15 @@ export function GroupsTable() {
     // -----------------------
     // Fetch data
     // -----------------------
-    const { data: groups = [], isLoading } = useGetGroupsQuery();
+    const { data: allGroups = [], isLoading: isLoadingAll } =
+        useGetGroupsQuery();
+
+    const { data: filteredGroups = [], isLoading: isLoadingFiltered } =
+        useSearchGroupsQuery(searchParams);
+
+    const hasFilters = Object.values(searchParams).some(Boolean);
+    const groups = hasFilters ? filteredGroups : allGroups;
+    const isLoading = hasFilters ? isLoadingFiltered : isLoadingAll;
 
     // -----------------------
     // Columns
@@ -104,7 +129,6 @@ export function GroupsTable() {
 
                             <DropdownMenuSeparator />
 
-                            {/* بعداً اضافه می‌کنی */}
                             {/* <EditGroupDialog groupData={group} /> */}
                             {/* <DeleteGroupDialog groupData={group} /> */}
                         </DropdownMenuContent>
@@ -140,6 +164,10 @@ export function GroupsTable() {
         },
     });
 
+    React.useEffect(() => {
+        table.setPageIndex(0);
+    }, [searchParams]);
+
     // -----------------------
     // Render
     // -----------------------
@@ -149,6 +177,74 @@ export function GroupsTable() {
         <div className="w-full">
             <PageHeader title={tp("SideBar.groups")} />
 
+            {/* Filters */}
+            <div className="flex flex-wrap gap-4 mb-4">
+                <div className="flex flex-col gap-1">
+                    <Label>{t("search")}</Label>
+                    <Input
+                        value={searchParams.q ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({
+                                ...prev,
+                                q: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                    <Label>{t("fullName")}</Label>
+                    <Input
+                        value={searchParams.fullName ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({
+                                ...prev,
+                                fullName: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                    <Label>{t("shortName")}</Label>
+                    <Input
+                        value={searchParams.shortName ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({
+                                ...prev,
+                                shortName: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                    <Label>{t("fullNameEn")}</Label>
+                    <Input
+                        value={searchParams.fullNameEn ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({
+                                ...prev,
+                                fullNameEn: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
+
+                <div className="flex flex-col gap-1">
+                    <Label>{t("shortNameEn")}</Label>
+                    <Input
+                        value={searchParams.shortNameEn ?? ""}
+                        onChange={(e) =>
+                            setSearchParams((prev) => ({
+                                ...prev,
+                                shortNameEn: e.target.value,
+                            }))
+                        }
+                    />
+                </div>
+            </div>
+
             {/* Table */}
             <div className="overflow-hidden rounded-md border">
                 <Table>
@@ -156,7 +252,10 @@ export function GroupsTable() {
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
-                                    <TableHead key={header.id} className="text-center">
+                                    <TableHead
+                                        key={header.id}
+                                        className="text-center"
+                                    >
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -174,7 +273,10 @@ export function GroupsTable() {
                             table.getRowModel().rows.map((row) => (
                                 <TableRow key={row.id}>
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className="text-center">
+                                        <TableCell
+                                            key={cell.id}
+                                            className="text-center"
+                                        >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
