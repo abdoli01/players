@@ -3,11 +3,11 @@ import {
     Group,
     CreateGroupDto,
     UpdateGroupDto,
+    GroupSearchParams,
 } from "@/types/group";
 
 export const groupsApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-
         // ایجاد گروه
         createGroup: builder.mutation<Group, CreateGroupDto>({
             query: (body) => ({
@@ -21,6 +21,15 @@ export const groupsApi = baseApi.injectEndpoints({
         // دریافت لیست گروه‌ها
         getGroups: builder.query<Group[], void>({
             query: () => "/groups",
+            providesTags: ["GROUPS"],
+        }),
+
+        // جستجو گروه‌ها
+        searchGroups: builder.query<Group[], GroupSearchParams>({
+            query: (params) => ({
+                url: "/groups/search",
+                params,
+            }),
             providesTags: ["GROUPS"],
         }),
 
@@ -53,13 +62,13 @@ export const groupsApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["GROUPS"],
         }),
-
     }),
 });
 
 export const {
     useCreateGroupMutation,
     useGetGroupsQuery,
+    useSearchGroupsQuery,
     useGetGroupByIdQuery,
     useUpdateGroupMutation,
     useDeleteGroupMutation,

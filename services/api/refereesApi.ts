@@ -3,11 +3,11 @@ import {
     Referee,
     CreateRefereeDto,
     UpdateRefereeDto,
+    RefereeSearchParams,
 } from "@/types/referee";
 
 export const refereesApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-
         // ایجاد داور
         createReferee: builder.mutation<Referee, CreateRefereeDto>({
             query: (body) => ({
@@ -21,6 +21,15 @@ export const refereesApi = baseApi.injectEndpoints({
         // دریافت لیست داوران
         getReferees: builder.query<Referee[], void>({
             query: () => "/referees",
+            providesTags: ["REFEREES"],
+        }),
+
+        // جستجو داوران
+        searchReferees: builder.query<Referee[], RefereeSearchParams>({
+            query: (params) => ({
+                url: "/referees/search",
+                params,
+            }),
             providesTags: ["REFEREES"],
         }),
 
@@ -53,13 +62,13 @@ export const refereesApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["REFEREES"],
         }),
-
     }),
 });
 
 export const {
     useCreateRefereeMutation,
     useGetRefereesQuery,
+    useSearchRefereesQuery,
     useGetRefereeByIdQuery,
     useUpdateRefereeMutation,
     useDeleteRefereeMutation,

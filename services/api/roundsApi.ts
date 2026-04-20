@@ -3,11 +3,11 @@ import {
     Round,
     CreateRoundDto,
     UpdateRoundDto,
+    RoundSearchParams,
 } from "@/types/round";
 
 export const roundsApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-
         // ایجاد راند
         createRound: builder.mutation<Round, CreateRoundDto>({
             query: (body) => ({
@@ -21,6 +21,15 @@ export const roundsApi = baseApi.injectEndpoints({
         // دریافت لیست راندها
         getRounds: builder.query<Round[], void>({
             query: () => "/rounds",
+            providesTags: ["ROUNDS"],
+        }),
+
+        // جستجو راندها
+        searchRounds: builder.query<Round[], RoundSearchParams>({
+            query: (params) => ({
+                url: "/rounds/search",
+                params,
+            }),
             providesTags: ["ROUNDS"],
         }),
 
@@ -53,13 +62,13 @@ export const roundsApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["ROUNDS"],
         }),
-
     }),
 });
 
 export const {
     useCreateRoundMutation,
     useGetRoundsQuery,
+    useSearchRoundsQuery,
     useGetRoundByIdQuery,
     useUpdateRoundMutation,
     useDeleteRoundMutation,

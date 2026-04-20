@@ -21,3 +21,10 @@ export interface UpdateGroupDto {
     fullNameEn?: string | null;
     shortNameEn?: string | null;
 }
+export type GroupSearchParams = {
+    q?: string;
+    fullName?: string;
+    shortName?: string;
+    fullNameEn?: string;
+    shortNameEn?: string;
+};

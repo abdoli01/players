@@ -21,3 +21,10 @@ export interface UpdateRoundDto {
     fullNameEn?: string | null;
     shortNameEn?: string | null;
 }
+export type RoundSearchParams = {
+    q?: string;
+    fullName?: string;
+    shortName?: string;
+    fullNameEn?: string;
+    shortNameEn?: string;
+};
