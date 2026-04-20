@@ -3,9 +3,13 @@
 import * as React from "react";
 import { useGetMyColorPaletteQuery } from "@/services/api/usersApi";
 import { applyUserColors } from "@/utils/applyUserColors";
+import { useAppSelector } from "@/store/hooks";
+
 
 export function UserColorProvider() {
-    const { data } = useGetMyColorPaletteQuery();
+    const user = useAppSelector(s => s.user.user); // ✅ اضافه شد
+
+    const { data } = useGetMyColorPaletteQuery(undefined,{ skip: !user});
 
     React.useEffect(() => {
         if (!data) return;
