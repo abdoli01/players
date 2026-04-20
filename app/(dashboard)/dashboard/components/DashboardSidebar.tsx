@@ -83,6 +83,9 @@ const baseInfoItems = [
     { title: "rounds", url: "/dashboard/rounds", icon: Waves },
     { title: "stadiums", url: "/dashboard/stadiums", icon: Waves },
     { title: "stages", url: "/dashboard/stages", icon: Waves },
+    { title: "positions", url: "/dashboard/positions", icon: Waves },
+    { title: "matchPlayers", url: "/dashboard/match-players", icon: Waves },
+    { title: "matchTransactions", url: "/dashboard/match-transactions", icon: Waves },
 
 ]
 

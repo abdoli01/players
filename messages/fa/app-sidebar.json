@@ -42,7 +42,9 @@
     "referees": "داوران",
     "rounds": "راندها",
     "stadiums": "ورزشگاه‌ها",
-    "stages": "مراحل"
-
+    "stages": "مراحل",
+    "positions": "پست‌ها",
+    "matchPlayers": "بازیکنان مسابقه",
+    "matchTransactions": "تراکنش‌های مسابقه"
   }
 }

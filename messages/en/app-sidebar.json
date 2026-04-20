@@ -42,7 +42,9 @@
     "referees": "Referees",
     "rounds": "Rounds",
     "stadiums": "Stadiums",
-    "stages": "Stages"
-
+    "stages": "Stages",
+    "positions": "Positions",
+    "matchPlayers": "Match Players",
+    "matchTransactions": "Match Transactions"
   }
 }

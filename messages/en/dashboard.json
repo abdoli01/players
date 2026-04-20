@@ -183,8 +183,14 @@
     "provinceId": "Province",
     "cityId": "City",
     "capacity": "Capacity",
-    "stages": "Stages"
+    "stages": "Stages",
 
-
+    "positions": "Positions",
+    "matchPlayers": "Match Players",
+    "matchId": "Match ID",
+    "teamSeasonToTournamentSeasonId": "Team-Season to Tournament-Season ID",
+    "positionId": "Position ID",
+    "matchTransactions": "Match Transactions",
+    "transactionId": "Transaction ID"
   }
 }
