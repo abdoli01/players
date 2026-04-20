@@ -39,6 +39,14 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+
 import { MoreHorizontal } from "lucide-react";
 
 export function StadiumsTable() {
@@ -48,9 +56,6 @@ export function StadiumsTable() {
     const locale = useLocale();
     const isRtl = locale === "fa";
 
-    // -----------------------
-    // Table states
-    // -----------------------
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
         React.useState<ColumnFiltersState>([]);
@@ -58,47 +63,17 @@ export function StadiumsTable() {
         React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
 
-    // -----------------------
-    // Fetch data
-    // -----------------------
     const { data: stadiums = [], isLoading } = useGetStadiumsQuery();
 
-    // -----------------------
-    // Columns
-    // -----------------------
     const columns: ColumnDef<Stadium>[] = [
-        {
-            accessorKey: "fullName",
-            header: t("fullName"),
-        },
-        {
-            accessorKey: "shortName",
-            header: t("shortName"),
-        },
-        {
-            accessorKey: "fullNameEn",
-            header: t("fullNameEn"),
-        },
-        {
-            accessorKey: "shortNameEn",
-            header: t("shortNameEn"),
-        },
-        {
-            accessorKey: "countryId",
-            header: t("countryId"),
-        },
-        {
-            accessorKey: "provinceId",
-            header: t("provinceId"),
-        },
-        {
-            accessorKey: "cityId",
-            header: t("cityId"),
-        },
-        {
-            accessorKey: "capacity",
-            header: t("capacity"),
-        },
+        { accessorKey: "fullName", header: t("fullName") },
+        { accessorKey: "shortName", header: t("shortName") },
+        { accessorKey: "fullNameEn", header: t("fullNameEn") },
+        { accessorKey: "shortNameEn", header: t("shortNameEn") },
+        { accessorKey: "countryId", header: t("countryId") },
+        { accessorKey: "provinceId", header: t("provinceId") },
+        { accessorKey: "cityId", header: t("cityId") },
+        { accessorKey: "capacity", header: t("capacity") },
         {
             id: "actions",
             header: t("actions"),
@@ -119,10 +94,6 @@ export function StadiumsTable() {
                             </DropdownMenuLabel>
 
                             <DropdownMenuSeparator />
-
-                            {/* بعداً */}
-                            {/* <EditStadiumDialog stadiumData={stadium} /> */}
-                            {/* <DeleteStadiumDialog stadiumData={stadium} /> */}
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );
@@ -130,9 +101,6 @@ export function StadiumsTable() {
         },
     ];
 
-    // -----------------------
-    // Table
-    // -----------------------
     const table = useReactTable<Stadium>({
         data: stadiums,
         columns,
@@ -166,7 +134,10 @@ export function StadiumsTable() {
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
-                                    <TableHead key={header.id} className="text-center">
+                                    <TableHead
+                                        key={header.id}
+                                        className="text-center"
+                                    >
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -184,7 +155,10 @@ export function StadiumsTable() {
                             table.getRowModel().rows.map((row) => (
                                 <TableRow key={row.id}>
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className="text-center">
+                                        <TableCell
+                                            key={cell.id}
+                                            className="text-center"
+                                        >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()
@@ -207,7 +181,8 @@ export function StadiumsTable() {
                 </Table>
             </div>
 
-            <div className="flex items-center justify-between px-2 py-4">
+            {/* Pagination */}
+            <div className="flex items-center justify-between px-2 py-4 flex-wrap gap-2">
                 <div className="flex items-center gap-2">
                     <Button
                         variant="outline"
@@ -246,6 +221,26 @@ export function StadiumsTable() {
                     >
                         {t("last")}
                     </Button>
+
+                    {/* pageSize */}
+                    <Select
+                        value={String(table.getState().pagination.pageSize)}
+                        onValueChange={(value) =>
+                            table.setPageSize(Number(value))
+                        }
+                    >
+                        <SelectTrigger className="w-auto">
+                            <SelectValue />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                            {[5, 10, 20, 50, 100].map((size) => (
+                                <SelectItem key={size} value={String(size)}>
+                                    {size} {t("row")}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
 
                 <div className="text-sm text-muted-foreground">

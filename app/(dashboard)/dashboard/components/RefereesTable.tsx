@@ -43,6 +43,8 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+
 
 import { MoreHorizontal } from "lucide-react";
 
@@ -348,7 +350,7 @@ export function RefereesTable() {
             </div>
 
             {/* Pagination */}
-            <div className="flex items-center justify-between px-2 py-4">
+            <div className="flex items-center justify-between px-2 py-4 flex-wrap gap-2">
                 <div className="flex items-center gap-2">
                     <Button
                         variant="outline"
@@ -387,6 +389,26 @@ export function RefereesTable() {
                     >
                         {t("last")}
                     </Button>
+
+                    {/* pageSize select */}
+                    <Select
+                        value={String(table.getState().pagination.pageSize)}
+                        onValueChange={(value) =>
+                            table.setPageSize(Number(value))
+                        }
+                    >
+                        <SelectTrigger className="w-auto">
+                            <SelectValue />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                            {[5, 10, 20, 50, 100].map((size) => (
+                                <SelectItem key={size} value={String(size)}>
+                                    {size} {t("row")}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
 
                 <div className="text-sm text-muted-foreground">
