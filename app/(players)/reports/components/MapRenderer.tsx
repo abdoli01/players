@@ -5,7 +5,7 @@ import React from "react";
 interface MapRow {
     row: number;
     value: number;
-    grade: number;
+    grade: string;
 }
 
 interface MapData {
@@ -47,6 +47,20 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
         (pitchWidth + penaltyWidth) / 2,       // انتهای محوطه جریمه
         pitchWidth                              // خط پایینی زمین
     ];
+    const getGradeClass = (grade: string) => {
+        switch (grade) {
+            case "A":
+                return "fill-h1";
+            case "B":
+                return "fill-h2";
+            case "C":
+                return "fill-hg3";
+            case "D":
+                return "fill-hg4";
+            default:
+                return "fill-transparent";
+        }
+    };
 
     return (
         <div className="w-full space-y-3">
@@ -146,7 +160,6 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
                         const cellWidth = xStep;         // طول ثابت
                         const cellHeight = yBorders[row + 1] - y; // عرض متناسب
 
-                        const intensity = cell.value / maxValue;
 
                         return (
                             <g key={idx}>
@@ -155,7 +168,8 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
                                     y={y}
                                     width={cellWidth}
                                     height={cellHeight}
-                                    fill={`rgba(255,0,0,${0.15 + intensity * 0.65})`}
+                                    className={getGradeClass(cell.grade)}
+                                    opacity={0.5}
                                 />
                                 <text
                                     x={x + cellWidth / 2}
