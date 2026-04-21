@@ -45,6 +45,9 @@
     "stages": "مراحل",
     "positions": "پست‌ها",
     "matchPlayers": "بازیکنان مسابقه",
-    "matchTransactions": "تراکنش‌های مسابقه"
+    "matchTransactions": "تراکنش‌های مسابقه",
+    "words": "واژه‌ها",
+    "languages": "زبان‌ها",
+    "wordToLanguages": "ترجمه واژه‌ها"
   }
 }

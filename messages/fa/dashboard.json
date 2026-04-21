@@ -44,7 +44,7 @@
     "editPlayer": "ویرایش بازیکن",
     "edit": "ویرایش",
 
-    "title": "عنوان پکیج",
+    "title": "عنوان",
     "description": "توضیحات",
     "originalPrice": "قیمت اصلی (ریال)",
     "discountPrice": "قیمت تخفیف (ریال)",
@@ -195,7 +195,13 @@
     "teamSeasonToTournamentSeasonId": "شناسه تیم-فصل به تورنمنت-فصل",
     "positionId": "شناسه پست",
     "matchTransactions": "تراکنش‌های مسابقه",
-    "transactionId": "شناسه تراکنش"
+    "transactionId": "شناسه تراکنش",
+    "words": "واژه‌ها",
+    "wordId": "شناسه واژه",
+    "languageId": "شناسه زبان",
+    "wordToLanguages": "ترجمه واژه‌ها",
+    "languages": "زبان‌ها",
+    "languageCode": "کد زبان"
 
 
 

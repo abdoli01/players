@@ -43,7 +43,7 @@
     "editPlayer": "Edit Player",
     "edit": "Edit",
 
-    "title": "Package Title",
+    "title": "Package",
     "description": "Description",
     "originalPrice": "Original Price (IRR)",
     "discountPrice": "Discount Price (IRR)",
@@ -191,6 +191,12 @@
     "teamSeasonToTournamentSeasonId": "Team-Season to Tournament-Season ID",
     "positionId": "Position ID",
     "matchTransactions": "Match Transactions",
-    "transactionId": "Transaction ID"
+    "transactionId": "Transaction ID",
+    "words": "Words",
+    "wordId": "Word ID",
+    "languageId": "Language ID",
+    "wordToLanguages": "Word Translations",
+    "languages": "Languages",
+    "languageCode": "Language Code"
   }
 }

@@ -45,6 +45,9 @@
     "stages": "Stages",
     "positions": "Positions",
     "matchPlayers": "Match Players",
-    "matchTransactions": "Match Transactions"
+    "matchTransactions": "Match Transactions",
+    "words": "Words",
+    "languages": "Languages",
+    "wordToLanguages": "Word Translations"
   }
 }
