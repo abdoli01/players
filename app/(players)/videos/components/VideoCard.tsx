@@ -36,7 +36,7 @@ export function VideoCard({
                     variant="ghost"
                     size="icon"
                     onClick={onRemove}
-                    className="w-8 h-8 hover:bg-app-orange transition-transform duration-200 hover:scale-110 cursor-pointer"
+                    className="w-8 h-8 hover:bg-acn1 transition-transform duration-200 hover:scale-110 cursor-pointer"
                 >
                     <Minus size={20} className="text-foreground fill-white" />
                 </Button>
@@ -46,7 +46,7 @@ export function VideoCard({
                     variant="ghost"
                     size="icon"
                     onClick={onPlay}
-                    className="w-8 h-8 hover:bg-app-orange transition-transform duration-200 hover:scale-110 cursor-pointer"
+                    className="w-8 h-8 hover:bg-acn1 transition-transform duration-200 hover:scale-110 cursor-pointer"
                 >
                     <Video size={20} className="text-foreground fill-white" />
                 </Button>
@@ -56,12 +56,12 @@ export function VideoCard({
                     variant="ghost"
                     size="icon"
                     onClick={onCheck} // ✅ استفاده ازرززبزز prop
-                    className={`w-8 h-8 flex items-center justify-center hover:bg-app-orange transition-transform duration-200 hover:scale-110 cursor-pointer
-                    ${checked ? "border-2 border-app-orange rounded-full" : ""}`} // ✅ تغییر استایل بر اساس checked
+                    className={`w-8 h-8 flex items-center justify-center hover:bg-acn1 transition-transform duration-200 hover:scale-110 cursor-pointer
+                    ${checked ? "border-2 border-acn1 rounded-full" : ""}`} // ✅ تغییر استایل بر اساس checked
                 >
                     <SquareCheck
                         size={20}
-                        className={`text-foreground ${checked ? "stroke-app-orange" : ""}`} // ✅ تغییر رنگ آیکون
+                        className={`text-foreground ${checked ? "stroke-acn1" : ""}`} // ✅ تغییر رنگ آیکون
                     />
                 </Button>
 

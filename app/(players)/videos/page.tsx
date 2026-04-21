@@ -70,7 +70,7 @@ const Page = () => {
         <div className="py-4">
             {/*items*/}
                 <div className="flex flex-wrap gap-2 mb-4">
-                    <Button onClick={toggleList} className="bg-background flex items-center gap-2 p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer">
+                    <Button onClick={toggleList} className="bg-background flex items-center gap-2 p-1 rounded-md transition border-2 border-acn1 hover:bg-acn1 cursor-pointer">
                         {showFirstList ? <List className="text-foreground" size={16} /> : <Grid className="text-foreground" size={16} />}
                     </Button>
                     {currentItems.map((item, index) => (
@@ -89,18 +89,18 @@ const Page = () => {
                 <div className="col-span-12 lg:col-span-3 flex flex-col h-[400px] order-2 lg:order-1">
                     <div className="flex items-center gap-1 justify-end mb-1">
                         <button
-                            className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer"
+                            className="p-1 rounded-md transition border-2 border-acn1 hover:bg-acn1 cursor-pointer"
                         >
                             <FileArchive size={16} className="text-foreground" />
                         </button>
                         <button
-                            className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer"
+                            className="p-1 rounded-md transition border-2 border-acn1 hover:bg-acn1 cursor-pointer"
                         >
                             <Download size={16} className="text-foreground" />
                         </button>
                         <button
-                            className={`p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer
-                            ${selectedVideos.length === videos.length ? 'bg-app-orange' : ''}`}
+                            className={`p-1 rounded-md transition border-2 border-acn1 hover:bg-acn1 cursor-pointer
+                            ${selectedVideos.length === videos.length ? 'bg-acn1' : ''}`}
                             onClick={toggleSelectAll}
                         >
                             <Square size={16} className="text-foreground" />
@@ -130,31 +130,31 @@ const Page = () => {
                                 <div>
                                     {showFirstList ? (   <button
                                         onClick={handleMonitorClick}
-                                        className={`p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer
-                                          ${monitorActive ? 'bg-app-orange' : ''}
+                                        className={`p-1 rounded-md transition border-2 border-acn1 hover:bg-acn1 cursor-pointer
+                                          ${monitorActive ? 'bg-acn1' : ''}
                                                `}
                                     >
                                         <Monitor size={16} className="text-foreground" />
                                     </button>) : (<div className='flex items-center gap-1'>
                                         <button
-                                            className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer"
+                                            className="p-1 rounded-md transition border-2 border-acn1 hover:bg-acn1 cursor-pointer"
                                         >
                                             <SquarePen size={16} className="text-foreground" />
                                         </button>
                                         <button
-                                            className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer"
+                                            className="p-1 rounded-md transition border-2 border-acn1 hover:bg-acn1 cursor-pointer"
                                         >
                                             <ArrowDown size={16} className="text-foreground" />
                                         </button>
                                         <button
-                                            className="p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer"
+                                            className="p-1 rounded-md transition border-2 border-acn1 hover:bg-acn1 cursor-pointer"
                                         >
                                             <ArrowUp size={16} className="text-foreground" />
                                         </button>
                                         <button
                                             onClick={handleMonitorClick}
-                                            className={`p-1 rounded-md transition border-2 border-app-orange hover:bg-app-orange cursor-pointer
-                                          ${monitorActive ? 'bg-app-orange' : ''}
+                                            className={`p-1 rounded-md transition border-2 border-acn1 hover:bg-acn1 cursor-pointer
+                                          ${monitorActive ? 'bg-acn1' : ''}
                                                `}
                                         >
                                             <Monitor size={16} className="text-foreground" />

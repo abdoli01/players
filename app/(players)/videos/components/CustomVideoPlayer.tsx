@@ -104,28 +104,28 @@ const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext
 
                     <button
                         onClick={handlePrev}
-                        className="p-4 border-2 border-app-orange rounded-xl hover:bg-app-orange transition cursor-pointer"
+                        className="p-4 border-2 border-acn1 rounded-xl hover:bg-acn1 transition cursor-pointer"
                     >
                         <SkipBack size={40} color="white" />
                     </button>
 
                     <button
                         onClick={handleRepeat}
-                        className="p-4 border-2 border-app-orange rounded-xl hover:bg-app-orange transition cursor-pointer"
+                        className="p-4 border-2 border-acn1 rounded-xl hover:bg-acn1 transition cursor-pointer"
                     >
                         <RotateCcw size={40} color="white" />
                     </button>
 
                     <button
                         onClick={handlePlayContinue}
-                        className="p-4 border-2 border-app-orange rounded-xl hover:bg-app-orange transition cursor-pointer"
+                        className="p-4 border-2 border-acn1 rounded-xl hover:bg-acn1 transition cursor-pointer"
                     >
                         <Play size={40} color="white" />
                     </button>
 
                     <button
                         onClick={handleNext}
-                        className="p-4 border-2 border-app-orange rounded-xl hover:bg-app-orange transition cursor-pointer"
+                        className="p-4 border-2 border-acn1 rounded-xl hover:bg-acn1 transition cursor-pointer"
                     >
                         <SkipForward size={40} color="white" />
                     </button>

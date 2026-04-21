@@ -287,7 +287,7 @@ export default function RegisterStep({
                 <div className="mt-2">
                     {t('wrongPhone')}{" "}
                     <span
-                        className="font-bold text-app-orange cursor-pointer"
+                        className="font-bold text-acn1 cursor-pointer"
                         onClick={() => {
                             form.reset();
                             setStep('phone');
@@ -306,7 +306,7 @@ export default function RegisterStep({
                         <button
                             type="button"
                             onClick={sendSms}
-                            className="text-app-orange cursor-pointer"
+                            className="text-acn1 cursor-pointer"
                             disabled={loadingSms}
                         >
                             {t('resendSms')}

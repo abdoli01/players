@@ -240,7 +240,7 @@ export default function ResetPasswordStep({
                         <button
                             type="button"
                             onClick={sendSms}
-                            className="text-app-orange cursor-pointer text-sm"
+                            className="text-acn1 cursor-pointer text-sm"
                             disabled={loadingSms}
                         >
                             {t('resetResendSms')}

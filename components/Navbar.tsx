@@ -69,15 +69,15 @@ export default function Navbar({children}: { children: ReactNode }) {
                 className={
 
                 `${    isActive(url)
-                    ? "text-app-orange"
-                    : "text-gray-300 hover:text-app-orange transition"} px-8`
+                    ? "text-acn1"
+                    : "text-gray-300 hover:text-acn1 transition"} px-8`
                 }
             >
                 {t(title)}
             </span>
 
                         {isActive(url) && (
-                            <div className="absolute left-0 -bottom-2.5 w-full h-[2px] bg-app-orange rounded-full" />
+                            <div className="absolute left-0 -bottom-2.5 w-full h-[2px] bg-acn1 rounded-full" />
                         )}
                     </Link>
                 ))}

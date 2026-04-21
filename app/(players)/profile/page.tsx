@@ -181,7 +181,7 @@ const Page = () => {
                             onClick={() =>
                                 setChartType(chartType === "polar" ? "bar" : "polar")
                             }
-                            className="p-1 rounded-md border-2 border-app-orange hover:bg-app-orange transition"
+                            className="p-1 rounded-md border-2 border-acn1 hover:bg-acn1 transition"
                         >
                             {chartType === "polar" ? (
                                 <ChartBar size={16} />

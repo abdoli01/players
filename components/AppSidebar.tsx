@@ -91,7 +91,7 @@ export function AppSidebar() {
                                             href={item.url}
                                             className={cn(
                                                 "flex flex-col items-center justify-center gap-2 px-3 py-2 transition-colors h-[65px] text-foreground rounded-[0px]",
-                                                isActive ? "bg-app-orange" : "hover:bg-app-orange"
+                                                isActive ? "bg-acn1" : "hover:bg-acn1"
                                             )}
                                         >
                                             <item.icon className="w-4 h-4" />
