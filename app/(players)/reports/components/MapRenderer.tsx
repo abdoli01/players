@@ -138,8 +138,8 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
 
                     {/* Heatmap grid */}
                     {map.value.map((cell, idx) => {
-                        const row = Math.floor(idx / cols);
-                        const col = idx % cols;
+                        const col = Math.floor(idx / rows);
+                        const row = idx % rows;
 
                         const x = col * xStep;           // طول ثابت
                         const y = yBorders[row];         // عرض متناسب با منطقه
