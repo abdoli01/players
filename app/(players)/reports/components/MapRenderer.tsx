@@ -27,6 +27,7 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
     const pitchLength = 105;
     const pitchWidth = 68;
     const penaltyDepth = 16.5;
+    // const penaltyDepth = 17.5;
     const penaltyWidth = 40.3;
     const goalDepth = 5.5;
     const goalWidth = 18.3;
