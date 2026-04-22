@@ -39,6 +39,7 @@ import {
     CollapsibleContent,
 } from "@/components/ui/collapsible"
 import {SidebarProfile} from "@/components/SidebarProfile";
+import { Separator } from "@/components/ui/separator"
 
 // --------------------
 // Menu definitions
@@ -123,7 +124,7 @@ export function DashboardSidebar() {
                                 <SidebarMenuButton asChild className="rounded-none">
                                     <Link
                                         href="/"
-                                        className="flex flex-col items-center justify-center h-[65px]"
+                                        className="flex items-center h-[65px]"
                                     >
                                         <Image
                                             src="/images/logo-new.png"
@@ -131,9 +132,15 @@ export function DashboardSidebar() {
                                             width={47}
                                             height={56}
                                         />
+                                      <div className="flex flex-col items-start">
+                                          <div className="font-bold">{t('metrica')}</div>
+                                          <div className="font-bold">{t('management-panel')}</div>
+                                      </div>
                                     </Link>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>
+                            <Separator />
+
 
                             {/* Main items */}
                             {mainItems.map((item) => {
@@ -144,7 +151,7 @@ export function DashboardSidebar() {
                                             <Link
                                                 href={item.url}
                                                 className={cn(
-                                                    "flex flex-col items-center justify-center gap-2 px-3 py-2 h-[65px] transition-colors",
+                                                    "flex items-center gap-2 px-3 py-2 h-[65px] transition-colors",
                                                     isActive
                                                         ? "bg-gray-700 text-white"
                                                         : "text-gray-700 hover:bg-gray-200"
@@ -167,7 +174,7 @@ export function DashboardSidebar() {
                                     <CollapsibleTrigger asChild>
                                         <SidebarMenuButton
                                             className={cn(
-                                                "flex flex-col items-center justify-center gap-1 h-[65px] transition-colors rounded-none",
+                                                "flex items-center gap-1 h-[65px] transition-colors rounded-none",
                                                 isBaseInfoActive
                                                     ? "bg-gray-700 text-white"
                                                     : "text-gray-700"

@@ -12,7 +12,7 @@ const LayoutDashboard = ({children}:{children:React.ReactNode}) => {
         <SidebarProvider  style={
             {
                 // "--sidebar-width": "75px",
-                "--sidebar-width": "200px",
+                "--sidebar-width": "220px",
             } as React.CSSProperties
         }>
             <DashboardSidebar />

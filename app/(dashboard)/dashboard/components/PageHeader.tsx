@@ -1,5 +1,4 @@
 import { useLocale, useTranslations } from "next-intl";
-
 interface PageHeaderProps {
     title: string;
     description?: string;
@@ -16,7 +15,7 @@ export function PageHeader({ title, description, action }: PageHeaderProps) {
             : `${title} ${t('Dashboard.management')}`; // انگلیسی: Users Management
 
     return (
-        <div className="flex items-center justify-between mb-6 md:mt-2">
+        <div className="flex items-center justify-between mb-6 md:mt-2 border-b border-border md:pt-4 pb-4">
             <div>
                 <h1 className="text-xl font-semibold">{headerText}</h1>
                 {description && (
