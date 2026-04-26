@@ -201,7 +201,10 @@
     "languageId": "شناسه زبان",
     "wordToLanguages": "ترجمه واژه‌ها",
     "languages": "زبان‌ها",
-    "languageCode": "کد زبان"
+    "languageCode": "کد زبان",
+    "coachId": "شناسه مربی",
+    "createdAt": "تاریخ ایجاد",
+    "updatedAt": "تاریخ بروزرسانی"
 
 
 

@@ -91,6 +91,7 @@ const baseInfoItems = [
     { title: "languages", url: "/dashboard/languages", icon: Waves },
     { title: "wordToLanguages", url: "/dashboard/word-to-languages", icon: Waves },
     { title: "coaches", url: "/dashboard/coaches", icon: Waves },
+    { title: "coachTeams", url: "/dashboard/coach-teams", icon: Waves },
 
 ]
 

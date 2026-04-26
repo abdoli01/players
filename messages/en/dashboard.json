@@ -197,6 +197,9 @@
     "languageId": "Language ID",
     "wordToLanguages": "Word Translations",
     "languages": "Languages",
-    "languageCode": "Language Code"
+    "languageCode": "Language Code",
+    "coachId": "Coach ID",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At"
   }
 }
