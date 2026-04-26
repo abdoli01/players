@@ -64,10 +64,12 @@ export default function PlayerHeaderInitializer() {
     const storedHeader = useAppSelector((s) => s.playerHeader.header);
 
     const playerId = user?.playerId;
-    const isPlayer = user?.accountType === "PLAYER";
+    // const isPlayer = user?.accountType === "PLAYER";
+    const isPlayer = user?.accountType;
+
 
     const { data, isSuccess, isError } = useGetPlayerHeaderQuery(
-        { playerId: playerId!, seasonId: seasonId! },
+        { playerId: playerId!, seasonId: seasonId!, keyword: user?.accountType },
         {
             skip: !playerId || !seasonId || !isPlayer,
         }

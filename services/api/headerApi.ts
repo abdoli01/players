@@ -6,12 +6,12 @@ export const headerApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getPlayerHeader: builder.query<
             HeaderPlayerResponseDto,
-            { playerId: string; seasonId: string }
+            { playerId: string; seasonId: string; keyword: string }
         >({
-            query: ({ playerId, seasonId }) => ({
+            query: ({ playerId, seasonId, keyword }) => ({
                 url: "/page-header",
                 params: {
-                    keyword: "PLAYER",
+                    keyword,
                     playerId,
                     seasonId,
                 },

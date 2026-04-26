@@ -37,12 +37,12 @@ const Page = () => {
     const [selectedKey, setSelectedKey] = useState<string | undefined>(undefined);
 
     /* ---------- KEYWORDS ---------- */
-    const { data: keywords = [] } = useGetReportKeywordsQuery({ keyword: "PLAYER" });
+    const { data: keywords = [] } = useGetReportKeywordsQuery({ keyword: user?.accountType });
     const activeKey = selectedKey ?? keywords[0]?.key;
 
     /* ---------- PROFILE DATA ---------- */
     const { data: reportData, isFetching } = useGetReportQuery(
-        { keyword: "PLAYER", key: activeKey, playerId, seasonId },
+        { keyword: user?.accountType, key: activeKey, playerId, seasonId },
         { skip: !activeKey || !playerId || !seasonId }
     );
 
