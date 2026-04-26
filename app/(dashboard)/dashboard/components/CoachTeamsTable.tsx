@@ -214,19 +214,66 @@ export function CoachTeamsTable() {
             </div>
 
             {/* Pagination */}
-            <div className="flex justify-between mt-4">
-                <div className="flex gap-2">
-                    <Button onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+            <div className="flex items-center justify-between px-2 py-4 flex-wrap gap-2">
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.setPageIndex(0)}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        {t("first")}
+                    </Button>
+
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
                         {t("previous")}
                     </Button>
-                    <Button onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
                         {t("next")}
                     </Button>
+
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
+                            table.setPageIndex(table.getPageCount() - 1)
+                        }
+                        disabled={!table.getCanNextPage()}
+                    >
+                        {t("last")}
+                    </Button>
+
+                    <Select
+                        value={String(table.getState().pagination.pageSize)}
+                        onValueChange={(value) => table.setPageSize(Number(value))}
+                    >
+                        <SelectTrigger className="w-auto">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {[5, 10, 20, 50, 100].map(size => (
+                                <SelectItem key={size} value={String(size)}>
+                                    {size} {t("row")}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
 
-                <div>
-                    {t("page")} {table.getState().pagination.pageIndex + 1} {t("of")}{" "}
-                    {table.getPageCount()}
+                <div className="text-sm text-muted-foreground">
+                    {t("page")} {table.getState().pagination.pageIndex + 1}{" "}
+                    {t("of")} {table.getPageCount()}
                 </div>
             </div>
         </div>
