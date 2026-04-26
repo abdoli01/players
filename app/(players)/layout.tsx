@@ -3,7 +3,8 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/AppSidebar"
 import Navbar from "@/components/Navbar";
 import AuthGate from "@/components/AuthGate";
-
+import RoleGate from "@/components/RoleGate";
+import { ROLES } from "@/constants/roles";
 export default function PlayersLayout({
     children,
 }: {
@@ -11,6 +12,15 @@ export default function PlayersLayout({
 }) {
     return (
         <AuthGate>
+            <RoleGate
+                allowedRoles={[
+                    ROLES.PLAYER,
+                    ROLES.OUTFIELD,
+                    ROLES.GOALKEEPER,
+                ]}
+                loginRedirect="/login"
+                unauthorizedRedirect="/dashboard/users"
+            >
             <SidebarProvider
                 style={
                     {
@@ -26,6 +36,7 @@ export default function PlayersLayout({
                     {children}
                 </main>
             </SidebarProvider>
+            </RoleGate>
         </AuthGate>
     );
 }
