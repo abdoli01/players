@@ -5,6 +5,13 @@ import { VideoCard } from "@/app/(players)/videos/components/VideoCard";
 import CustomVideoPlayer from "@/app/(players)/videos/components/CustomVideoPlayer";
 import { Button } from "@/components/ui/button";
 import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import {
     Monitor,
     List,
     Grid,
@@ -32,6 +39,7 @@ const Page = () => {
     const [showFirstList, setShowFirstList] = useState(true);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [selectedKey, setSelectedKey] = useState<string | null>(null);
+    const [selectedItemsPath, setSelectedItemsPath] = useState<string[]>([]);
     const [selectedVideos, setSelectedVideos] = useState<number[]>([]);
 
     const user = useAppSelector((s) => s.user.user);
@@ -56,16 +64,40 @@ const Page = () => {
                 skip: !activeKey,
             }
         );
-    console.log('444',itemsData)
+    const itemsTree = itemsData?.data?.items ?? [];
 
     // موقتی (بعداً از API میاد)
     const videos: any[] = [];
 
     const currentVideo = videos[index];
 
+    React.useEffect(() => {
+        setSelectedItemsPath([]);
+    }, [activeKey]);
+
     // -----------------------
     // Handlers
     // -----------------------
+    const getChildren = (level: number) => {
+        if (level === 0) return itemsTree;
+
+        let current = itemsTree;
+
+        for (let i = 0; i < level; i++) {
+            const key = selectedItemsPath[i];
+            const found = current.find((item) => item.key === key);
+
+            if (!found || !found.items) return [];
+            current = found.items;
+        }
+
+        return current;
+    };
+    const handleSelect = (level: number, value: string) => {
+        const newPath = [...selectedItemsPath.slice(0, level), value];
+        setSelectedItemsPath(newPath);
+    };
+
     const goNext = () => {
         if (index < videos.length - 1) {
             setIndex(index + 1);
@@ -143,6 +175,34 @@ const Page = () => {
                     ))
                 )}
             </div>
+            <div className="flex flex-col gap-2 mb-4">
+                {Array.from({ length: selectedItemsPath.length + 1 }).map((_, level) => {
+                    const options = getChildren(level);
+
+                    if (!options.length) return null;
+
+                    return (
+                        <Select
+                            key={level}
+                            value={selectedItemsPath[level] || undefined}
+                            onValueChange={(value) => handleSelect(level, value)}
+                        >
+                            <SelectTrigger className="w-full">
+                                <SelectValue placeholder={t("select")} />
+                            </SelectTrigger>
+
+                            <SelectContent>
+                                {options.map((item) => (
+                                    <SelectItem key={item.key} value={item.key}>
+                                        {item.title}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    );
+                })}
+            </div>
+
 
             {/* ================== MAIN ================== */}
             <div className="grid grid-cols-12 gap-4">

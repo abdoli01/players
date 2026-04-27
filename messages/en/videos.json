@@ -1,6 +1,7 @@
 {
   "Videos": {
     "noVideoSelected": "No video has been selected",
-    "loading": "loading"
+    "loading": "loading",
+    "select": "Select"
   }
 }
