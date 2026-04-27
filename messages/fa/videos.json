@@ -1,5 +1,7 @@
 {
   "Videos": {
-    "noVideoSelected": "ویدیویی انتخاب نشده است"
+    "noVideoSelected": "ویدیویی انتخاب نشده است",
+    "loading": "در حال بارگذاری"
+
   }
 }
