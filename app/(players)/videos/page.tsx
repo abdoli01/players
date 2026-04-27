@@ -44,6 +44,7 @@ const Page = () => {
         useGetVideoKeywordsQuery({
             keyword: user?.accountType,
         });
+    const activeKey = selectedKey ?? videoKeywords[0]?.key;
 
     // موقتی (بعداً از API میاد)
     const videos: any[] = [];
@@ -119,7 +120,7 @@ const Page = () => {
                     videoKeywords.map((item, i) => (
                         <Button
                             key={item.key}
-                            variant={selectedIndex === i ? "default" : "outline"}
+                            variant={activeKey === item.key ? "default" : "outline"}
                             onClick={() => {
                                 setSelectedIndex(i);
                                 setSelectedKey(item.key);

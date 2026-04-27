@@ -4,7 +4,6 @@ export function applyUserColors(color: Color) {
     if (!color) return;
 
     const root = document.documentElement;
-    console.log("color",color)
 
     const map: Record<string, string | undefined | null> = {
         h1: color.H1,
