@@ -16,7 +16,7 @@ import {
     Square,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useGetVideoKeywordsQuery } from "@/services/api/videosApi";
+import { useGetVideoKeywordsQuery,useGetVideoItemsQuery } from "@/services/api/videosApi";
 import { useAppSelector } from "@/store/hooks";
 
 
@@ -45,6 +45,18 @@ const Page = () => {
             keyword: user?.accountType,
         });
     const activeKey = selectedKey ?? videoKeywords[0]?.key;
+
+    const { data: itemsData, isLoading: isLoadingItems } =
+        useGetVideoItemsQuery(
+            {
+                keyword: user?.accountType,
+                key: activeKey,
+            },
+            {
+                skip: !activeKey,
+            }
+        );
+    console.log('444',itemsData)
 
     // موقتی (بعداً از API میاد)
     const videos: any[] = [];
