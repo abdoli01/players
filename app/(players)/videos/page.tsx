@@ -22,13 +22,15 @@ import {
     Download,
     Square,
 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import {useLocale, useTranslations} from "next-intl";
 import { useGetVideoKeywordsQuery,useGetVideoItemsQuery } from "@/services/api/videosApi";
 import { useAppSelector } from "@/store/hooks";
 
 
 const Page = () => {
     const t = useTranslations("Videos");
+    const locale = useLocale();
+    const isRtl = locale === "fa";
     // -----------------------
     // States
     // -----------------------
@@ -175,32 +177,35 @@ const Page = () => {
                     ))
                 )}
             </div>
-            <div className="flex flex-col gap-2 mb-4">
-                {Array.from({ length: selectedItemsPath.length + 1 }).map((_, level) => {
-                    const options = getChildren(level);
+            <div className="grid grid-cols-12 mb-4">
+                <div className="col-span-12 lg:col-span-3 flex flex-col gap-2">
+                    {Array.from({ length: selectedItemsPath.length + 1 }).map((_, level) => {
+                        const options = getChildren(level);
 
-                    if (!options.length) return null;
+                        if (!options.length) return null;
 
-                    return (
-                        <Select
-                            key={level}
-                            value={selectedItemsPath[level] || undefined}
-                            onValueChange={(value) => handleSelect(level, value)}
-                        >
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder={t("select")} />
-                            </SelectTrigger>
+                        return (
+                            <Select
 
-                            <SelectContent>
-                                {options.map((item) => (
-                                    <SelectItem key={item.key} value={item.key}>
-                                        {item.title}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    );
-                })}
+                                key={level}
+                                value={selectedItemsPath[level] || undefined}
+                                onValueChange={(value) => handleSelect(level, value)}
+                            >
+                                <SelectTrigger className={isRtl ? "flex-row-reverse w-full" : "w-full"}>
+                                    <SelectValue  placeholder={t("select")} />
+                                </SelectTrigger>
+
+                                <SelectContent>
+                                    {options.map((item) => (
+                                        <SelectItem key={item.key} value={item.key}>
+                                            {item.title}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        );
+                    })}
+                </div>
             </div>
 
 
