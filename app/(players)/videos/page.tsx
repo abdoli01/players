@@ -188,7 +188,7 @@ const Page = () => {
                             <Select
 
                                 key={level}
-                                value={selectedItemsPath[level] || undefined}
+                                value={selectedItemsPath[level] ?? ""}
                                 onValueChange={(value) => handleSelect(level, value)}
                             >
                                 <SelectTrigger className={isRtl ? "flex-row-reverse w-full" : "w-full"}>
