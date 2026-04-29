@@ -200,6 +200,10 @@
     "languageCode": "Language Code",
     "coachId": "Coach ID",
     "createdAt": "Created At",
-    "updatedAt": "Updated At"
+    "updatedAt": "Updated At",
+    "update": "update",
+    "seasonUpdatedSuccess": "Current season updated successfully",
+    "seasonUpdatedError": "Failed to update current season"
+
   }
 }

@@ -95,7 +95,7 @@ const baseInfoItems = [
 
 ]
 const settingsItems = [
-    { title: "currentSeason", url: "/dashboard/settings/season", icon: Waves },
+    { title: "currentSeason", url: "/dashboard/settings/current-season-id", icon: Waves },
     { title: "visibleAccountTypes", url: "/dashboard/settings/account-types", icon: Waves },
     { title: "darkMode", url: "/dashboard/settings/dark-mode", icon: Waves },
     { title: "language", url: "/dashboard/settings/language", icon: Waves },

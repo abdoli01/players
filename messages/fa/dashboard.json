@@ -204,7 +204,11 @@
     "languageCode": "کد زبان",
     "coachId": "شناسه مربی",
     "createdAt": "تاریخ ایجاد",
-    "updatedAt": "تاریخ بروزرسانی"
+    "updatedAt": "تاریخ بروزرسانی",
+    "update": "بروزرسانی",
+    "seasonUpdatedSuccess": "فصل جاری با موفقیت به‌روزرسانی شد",
+    "seasonUpdatedError": "خطا در به‌روزرسانی فصل جاری"
+
 
 
 

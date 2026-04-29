@@ -1,7 +1,10 @@
 // =======================
 // SEASON
 // =======================
-export type CurrentSeasonId = string;
+// export type CurrentSeasonId = string;
+export interface CurrentSeasonId {
+    currentSeasonId: string;
+}
 
 export interface UpdateSeasonDto {
     currentSeasonId: string;
