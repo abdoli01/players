@@ -19,15 +19,15 @@ import {
 export const settingsApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
 
-        // =======================
-        // SEASON
-        // =======================
-        getCurrentSeasonId: builder.query<CurrentSeasonId, void>({
+        // ==================================================
+        // SEASON SETTINGS
+        // ==================================================
+        getSettingsCurrentSeasonId: builder.query<CurrentSeasonId, void>({
             query: () => "/settings/current-season-id",
             providesTags: ["SETTINGS"],
         }),
 
-        updateSeason: builder.mutation<void, UpdateSeasonDto>({
+        updateSettingsSeason: builder.mutation<void, UpdateSeasonDto>({
             query: (body) => ({
                 url: "/settings/season",
                 method: "PATCH",
@@ -36,15 +36,15 @@ export const settingsApi = baseApi.injectEndpoints({
             invalidatesTags: ["SETTINGS"],
         }),
 
-        // =======================
-        // ACCOUNT TYPES
-        // =======================
-        getVisibleAccountTypes: builder.query<VisibleAccountType[], void>({
+        // ==================================================
+        // ACCOUNT TYPES SETTINGS
+        // ==================================================
+        getSettingsVisibleAccountTypes: builder.query<VisibleAccountType[], void>({
             query: () => "/settings/visible-account-types",
             providesTags: ["SETTINGS"],
         }),
 
-        getVisibleAccountTypesManagement: builder.query<
+        getSettingsVisibleAccountTypesManagement: builder.query<
             VisibleAccountTypeManagement[],
             void
         >({
@@ -52,7 +52,7 @@ export const settingsApi = baseApi.injectEndpoints({
             providesTags: ["SETTINGS"],
         }),
 
-        updateVisibleAccountTypes: builder.mutation<
+        updateSettingsVisibleAccountTypes: builder.mutation<
             VisibleAccountTypeManagement[],
             UpdateVisibleAccountTypesDto
         >({
@@ -64,15 +64,15 @@ export const settingsApi = baseApi.injectEndpoints({
             invalidatesTags: ["SETTINGS"],
         }),
 
-        // =======================
-        // DARK MODE
-        // =======================
-        getDarkMode: builder.query<DarkModeResponse, void>({
+        // ==================================================
+        // DARK MODE SETTINGS
+        // ==================================================
+        getSettingsDarkMode: builder.query<DarkModeResponse, void>({
             query: () => "/settings/dark-mode",
             providesTags: ["SETTINGS"],
         }),
 
-        updateDarkMode: builder.mutation<void, UpdateDarkModeDto>({
+        updateSettingsDarkMode: builder.mutation<void, UpdateDarkModeDto>({
             query: (body) => ({
                 url: "/settings/dark-mode",
                 method: "PATCH",
@@ -81,15 +81,15 @@ export const settingsApi = baseApi.injectEndpoints({
             invalidatesTags: ["SETTINGS"],
         }),
 
-        // =======================
-        // LANGUAGE
-        // =======================
-        getLanguage: builder.query<LanguageResponse, void>({
+        // ==================================================
+        // LANGUAGE SETTINGS
+        // ==================================================
+        getSettingsLanguage: builder.query<LanguageResponse, void>({
             query: () => "/settings/language",
             providesTags: ["SETTINGS"],
         }),
 
-        updateLanguage: builder.mutation<void, UpdateLanguageDto>({
+        updateSettingsLanguage: builder.mutation<void, UpdateLanguageDto>({
             query: (body) => ({
                 url: "/settings/language",
                 method: "PATCH",
@@ -98,15 +98,15 @@ export const settingsApi = baseApi.injectEndpoints({
             invalidatesTags: ["SETTINGS"],
         }),
 
-        // =======================
-        // LANGUAGES LIST
-        // =======================
-        getVisibleLanguages: builder.query<VisibleLanguage[], void>({
+        // ==================================================
+        // VISIBLE LANGUAGES
+        // ==================================================
+        getSettingsVisibleLanguages: builder.query<VisibleLanguage[], void>({
             query: () => "/settings/visible-languages",
             providesTags: ["SETTINGS"],
         }),
 
-        getVisibleLanguagesManagement: builder.query<
+        getSettingsVisibleLanguagesManagement: builder.query<
             VisibleLanguageManagement[],
             void
         >({
@@ -114,7 +114,7 @@ export const settingsApi = baseApi.injectEndpoints({
             providesTags: ["SETTINGS"],
         }),
 
-        updateVisibleLanguages: builder.mutation<
+        updateSettingsVisibleLanguages: builder.mutation<
             VisibleLanguageManagement[],
             UpdateVisibleLanguagesDto
         >({
@@ -126,43 +126,42 @@ export const settingsApi = baseApi.injectEndpoints({
             invalidatesTags: ["SETTINGS"],
         }),
 
-        // =======================
+        // ==================================================
         // WORD TO LANGUAGES
-        // =======================
-        getWordToLanguagesVersion: builder.query<WordToLanguagesVersion, void>({
+        // ==================================================
+        getSettingsWordToLanguagesVersion: builder.query<WordToLanguagesVersion, void>({
             query: () => "/settings/word-to-languages/version",
             providesTags: ["SETTINGS"],
         }),
 
-        getWordToLanguagesList: builder.query<
+        getSettingsWordToLanguagesList: builder.query<
             WordToLanguagesListResponse,
             void
         >({
             query: () => "/settings/word-to-languages/list",
             providesTags: ["SETTINGS"],
         }),
-
     }),
 });
 
 export const {
-    useGetCurrentSeasonIdQuery,
-    useUpdateSeasonMutation,
+    useGetSettingsCurrentSeasonIdQuery,
+    useUpdateSettingsSeasonMutation,
 
-    useGetVisibleAccountTypesQuery,
-    useGetVisibleAccountTypesManagementQuery,
-    useUpdateVisibleAccountTypesMutation,
+    useGetSettingsVisibleAccountTypesQuery,
+    useGetSettingsVisibleAccountTypesManagementQuery,
+    useUpdateSettingsVisibleAccountTypesMutation,
 
-    useGetDarkModeQuery,
-    useUpdateDarkModeMutation,
+    useGetSettingsDarkModeQuery,
+    useUpdateSettingsDarkModeMutation,
 
-    useGetLanguageQuery,
-    useUpdateLanguageMutation,
+    useGetSettingsLanguageQuery,
+    useUpdateSettingsLanguageMutation,
 
-    useGetVisibleLanguagesQuery,
-    useGetVisibleLanguagesManagementQuery,
-    useUpdateVisibleLanguagesMutation,
+    useGetSettingsVisibleLanguagesQuery,
+    useGetSettingsVisibleLanguagesManagementQuery,
+    useUpdateSettingsVisibleLanguagesMutation,
 
-    useGetWordToLanguagesVersionQuery,
-    useGetWordToLanguagesListQuery,
+    useGetSettingsWordToLanguagesVersionQuery,
+    useGetSettingsWordToLanguagesListQuery,
 } = settingsApi;

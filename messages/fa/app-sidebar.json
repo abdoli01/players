@@ -52,7 +52,11 @@
     "metrica": "متریکا",
     "management-panel": "پنل مدیریت",
     "coaches": "مربیان",
-    "coachTeams": "مربی-تیم"
+    "coachTeams": "مربی-تیم",
+    "currentSeason": "فصل جاری",
+    "visibleAccountTypes": "انواع حساب قابل نمایش",
+    "darkMode": "حالت تاریک",
+    "visibleLanguages": "زبان‌های قابل نمایش"
 
   }
 }

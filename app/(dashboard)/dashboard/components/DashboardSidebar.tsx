@@ -94,6 +94,14 @@ const baseInfoItems = [
     { title: "coachTeams", url: "/dashboard/coach-teams", icon: Waves },
 
 ]
+const settingsItems = [
+    { title: "currentSeason", url: "/dashboard/settings/season", icon: Waves },
+    { title: "visibleAccountTypes", url: "/dashboard/settings/account-types", icon: Waves },
+    { title: "darkMode", url: "/dashboard/settings/dark-mode", icon: Waves },
+    { title: "language", url: "/dashboard/settings/language", icon: Waves },
+    { title: "visibleLanguages", url: "/dashboard/settings/visible-languages", icon: Waves },
+    { title: "wordToLanguages", url: "/dashboard/settings/word-to-languages", icon: Waves },
+];
 
 export function DashboardSidebar() {
     const pathname = usePathname()
@@ -109,6 +117,9 @@ export function DashboardSidebar() {
     const isBaseInfoActive = baseInfoItems.some(
         (item) => pathname === item.url
     )
+    const isSettingsActive = settingsItems.some(
+        (item) => pathname === item.url
+    );
     useEffect(() => {
         if (isMobile) setOpenMobile(false)
     }, [pathname])
@@ -222,6 +233,60 @@ export function DashboardSidebar() {
                                                         </SidebarMenuButton>
                                                     </SidebarMenuSubItem>
                                                 )
+                                            })}
+                                        </SidebarMenuSub>
+                                    </CollapsibleContent>
+                                </SidebarMenuItem>
+                            </Collapsible>
+                            {/* Settings (Collapsible) */}
+                            <Collapsible
+                                defaultOpen={isSettingsActive}
+                                className="group/collapsible"
+                            >
+                                <SidebarMenuItem>
+                                    <CollapsibleTrigger asChild>
+                                        <SidebarMenuButton
+                                            className={cn(
+                                                "flex items-center gap-1 h-[65px] transition-colors rounded-none",
+                                                isSettingsActive
+                                                    ? "bg-gray-700 text-white"
+                                                    : "text-gray-700"
+                                            )}
+                                        >
+                                            <Waves className="w-4 h-4" />
+                                            <span>{t("settings")}</span>
+                                            <ChevronDown
+                                                className="
+                        w-4 h-4 transition-transform
+                        group-data-[state=open]/collapsible:rotate-180
+                    "
+                                            />
+                                        </SidebarMenuButton>
+                                    </CollapsibleTrigger>
+
+                                    <CollapsibleContent>
+                                        <SidebarMenuSub className={isRtl ? 'border-r border-l-0' : ''}>
+                                            {settingsItems.map((item) => {
+                                                const isActive = pathname === item.url;
+
+                                                return (
+                                                    <SidebarMenuSubItem key={item.title}>
+                                                        <SidebarMenuButton asChild>
+                                                            <Link
+                                                                href={item.url}
+                                                                className={cn(
+                                                                    "flex items-center gap-2 px-3 py-2 transition-colors",
+                                                                    isActive
+                                                                        ? "bg-gray-700 text-white"
+                                                                        : "text-gray-700 hover:bg-gray-200"
+                                                                )}
+                                                            >
+                                                                <item.icon className="w-4 h-4" />
+                                                                <span>{t(item.title)}</span>
+                                                            </Link>
+                                                        </SidebarMenuButton>
+                                                    </SidebarMenuSubItem>
+                                                );
                                             })}
                                         </SidebarMenuSub>
                                     </CollapsibleContent>

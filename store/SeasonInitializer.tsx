@@ -3,22 +3,27 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { setCurrentSeasonId } from "@/store/slices/seasonSlice";
-import { useGetCurrentSeasonIdQuery } from "@/services/api/settingsApi";
+import { useGetSettingsCurrentSeasonIdQuery } from "@/services/api/settingsApi";
 
 export default function SeasonInitializer() {
     const dispatch = useAppDispatch();
-    const storedSeasonId = useAppSelector(s => s.season.currentSeasonId);
-    const user = useAppSelector(s => s.user.user); // ✅ اضافه شد
 
-    const { data: seasonId } = useGetCurrentSeasonIdQuery(undefined, {
-        skip: !user || !!storedSeasonId, // ⚡ اگر user نیست یا seasonId داریم، skip
-    });
+    const storedSeasonId = useAppSelector(
+        (s) => s.season.currentSeasonId
+    );
+
+    const user = useAppSelector((s) => s.user.user);
+
+    const { data: currentSeasonId } =
+        useGetSettingsCurrentSeasonIdQuery(undefined, {
+            skip: !user || !!storedSeasonId,
+        });
 
     useEffect(() => {
-        if (seasonId && !storedSeasonId) {
-            dispatch(setCurrentSeasonId(seasonId.currentSeasonId));
+        if (!storedSeasonId && currentSeasonId) {
+            dispatch(setCurrentSeasonId(currentSeasonId));
         }
-    }, [seasonId, storedSeasonId, dispatch]);
+    }, [currentSeasonId, storedSeasonId, dispatch]);
 
     return null;
 }

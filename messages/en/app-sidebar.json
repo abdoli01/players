@@ -52,7 +52,11 @@
     "metrica": "metrica",
     "management-panel": "management panel",
     "coaches": "Coaches",
-    "coachTeams": "Coach Teams"
+    "coachTeams": "Coach Teams",
+    "currentSeason": "Current Season",
+    "visibleAccountTypes": "Visible Account Types",
+    "darkMode": "Dark Mode",
+    "visibleLanguages": "Visible Languages"
 
   }
 }
