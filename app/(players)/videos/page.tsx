@@ -23,7 +23,7 @@ import {
     Square,
 } from "lucide-react";
 import {useLocale, useTranslations} from "next-intl";
-import { useGetVideoKeywordsQuery,useGetVideoItemsQuery } from "@/services/api/videosApi";
+import { useGetVideoKeywordsQuery,useGetVideoItemsQuery,useLazyGetVideosQuery  } from "@/services/api/videosApi";
 import { useAppSelector } from "@/store/hooks";
 
 
@@ -68,8 +68,10 @@ const Page = () => {
         );
     const itemsTree = itemsData?.data?.items ?? [];
 
-    // موقتی (بعداً از API میاد)
-    const videos: any[] = [];
+    const [fetchVideos, { data: videosData, isFetching: isLoadingVideos }] =
+        useLazyGetVideosQuery();
+
+    const videos = videosData?.data?.items ?? [];
 
     const currentVideo = videos[index];
 
@@ -207,6 +209,25 @@ const Page = () => {
                     })}
                 </div>
             </div>
+            <div className="mt-2">
+                <Button
+                    onClick={() => {
+                        if (!activeKey || !selectedItemsPath.length) return;
+
+                        fetchVideos({
+                            keyword: user?.accountType,
+                            key: activeKey,
+                            playerId: user?.playerId,
+                            sessionId: "sessionId", // اگر داری
+                            page: 1,
+                            limit: 10,
+                            items: selectedItemsPath,
+                        });
+                    }}
+                >
+                    {t("getVideos")}
+                </Button>
+            </div>
 
 
             {/* ================== MAIN ================== */}
@@ -234,74 +255,74 @@ const Page = () => {
                         </button>
                     </div>
 
-                    <div className="overflow-y-scroll">
-                        {videos.map((video, i) => (
-                            <VideoCard
-                                key={i}
-                                title={video?.event_type}
-                                code={`${video?.minute}-${video?.teams}`}
-                                onPlay={() => handlePlayVideo(i)}
-                                checked={selectedVideos.includes(i)}
-                                onCheck={() => toggleVideoSelection(i)}
-                            />
-                        ))}
-                    </div>
+                    {/*<div className="overflow-y-scroll">*/}
+                    {/*    {videos.map((video, i) => (*/}
+                    {/*        <VideoCard*/}
+                    {/*            key={i}*/}
+                    {/*            title={video?.event_type}*/}
+                    {/*            code={`${video?.minute}-${video?.teams}`}*/}
+                    {/*            onPlay={() => handlePlayVideo(i)}*/}
+                    {/*            checked={selectedVideos.includes(i)}*/}
+                    {/*            onCheck={() => toggleVideoSelection(i)}*/}
+                    {/*        />*/}
+                    {/*    ))}*/}
+                    {/*</div>*/}
                 </div>
 
                 {/* ================== PLAYER ================== */}
-                <div className="col-span-12 lg:col-span-9 order-1 lg:order-2">
-                    {currentVideo ? (
-                        <>
-                            <div className="flex items-center justify-between mb-1">
-                                <div className="text-sm">
-                                    {currentVideo.title}
-                                </div>
+                {/*<div className="col-span-12 lg:col-span-9 order-1 lg:order-2">*/}
+                {/*    {currentVideo ? (*/}
+                {/*        <>*/}
+                {/*            <div className="flex items-center justify-between mb-1">*/}
+                {/*                <div className="text-sm">*/}
+                {/*                    {currentVideo.title}*/}
+                {/*                </div>*/}
 
-                                <button
-                                    onClick={handleMonitorClick}
-                                    className={`p-1 border-2 border-acn1 rounded-md ${
-                                        monitorActive ? "bg-acn1" : ""
-                                    }`}
-                                >
-                                    <Monitor size={16} />
-                                </button>
-                            </div>
+                {/*                <button*/}
+                {/*                    onClick={handleMonitorClick}*/}
+                {/*                    className={`p-1 border-2 border-acn1 rounded-md ${*/}
+                {/*                        monitorActive ? "bg-acn1" : ""*/}
+                {/*                    }`}*/}
+                {/*                >*/}
+                {/*                    <Monitor size={16} />*/}
+                {/*                </button>*/}
+                {/*            </div>*/}
 
-                            <CustomVideoPlayer
-                                url={
-                                    monitorActive
-                                        ? currentVideo.broadcast.url
-                                        : currentVideo.technical.url
-                                }
-                                start={
-                                    monitorActive
-                                        ? parseFloat(
-                                            currentVideo.broadcast.time_start
-                                        )
-                                        : parseFloat(
-                                            currentVideo.technical.time_start
-                                        )
-                                }
-                                end={
-                                    monitorActive
-                                        ? parseFloat(
-                                            currentVideo.broadcast.time_end
-                                        )
-                                        : parseFloat(
-                                            currentVideo.technical.time_end
-                                        )
-                                }
-                                resetTrigger={forcePlay}
-                                onNext={goNext}
-                                onPrev={goPrevious}
-                            />
-                        </>
-                    ) : (
-                        <div className="text-center">
-                            {t("noVideoSelected")}
-                        </div>
-                    )}
-                </div>
+                {/*            <CustomVideoPlayer*/}
+                {/*                url={*/}
+                {/*                    monitorActive*/}
+                {/*                        ? currentVideo.broadcast.url*/}
+                {/*                        : currentVideo.technical.url*/}
+                {/*                }*/}
+                {/*                start={*/}
+                {/*                    monitorActive*/}
+                {/*                        ? parseFloat(*/}
+                {/*                            currentVideo.broadcast.time_start*/}
+                {/*                        )*/}
+                {/*                        : parseFloat(*/}
+                {/*                            currentVideo.technical.time_start*/}
+                {/*                        )*/}
+                {/*                }*/}
+                {/*                end={*/}
+                {/*                    monitorActive*/}
+                {/*                        ? parseFloat(*/}
+                {/*                            currentVideo.broadcast.time_end*/}
+                {/*                        )*/}
+                {/*                        : parseFloat(*/}
+                {/*                            currentVideo.technical.time_end*/}
+                {/*                        )*/}
+                {/*                }*/}
+                {/*                resetTrigger={forcePlay}*/}
+                {/*                onNext={goNext}*/}
+                {/*                onPrev={goPrevious}*/}
+                {/*            />*/}
+                {/*        </>*/}
+                {/*    ) : (*/}
+                {/*        <div className="text-center">*/}
+                {/*            {t("noVideoSelected")}*/}
+                {/*        </div>*/}
+                {/*    )}*/}
+                {/*</div>*/}
             </div>
         </div>
     );
