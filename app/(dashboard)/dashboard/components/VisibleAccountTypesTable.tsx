@@ -30,7 +30,6 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
-import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 
 export function VisibleAccountTypesTable() {
@@ -42,15 +41,14 @@ export function VisibleAccountTypesTable() {
     const { data, isLoading } =
         useGetSettingsVisibleAccountTypesManagementQuery();
 
-    const [updateVisibleTypes, { isLoading: isUpdating }] =
+    const [updateVisibleTypes] =
         useUpdateSettingsVisibleAccountTypesMutation();
 
     // -----------------------
-    // local state
+    // state
     // -----------------------
     const [items, setItems] = React.useState<VisibleAccountTypeManagement[]>([]);
 
-    // sync API -> state
     React.useEffect(() => {
         if (data?.items) {
             setItems(data.items);
@@ -58,24 +56,21 @@ export function VisibleAccountTypesTable() {
     }, [data]);
 
     // -----------------------
-    // toggle switch
+    // toggle + auto update
     // -----------------------
-    const handleToggle = (key: string) => {
-        setItems((prev) =>
-            prev.map((item) =>
-                item.key === key
-                    ? { ...item, visible: !item.visible }
-                    : item
-            )
-        );
-    };
+    const handleToggle = async (key: string) => {
+        const prev = items;
 
-    // -----------------------
-    // save
-    // -----------------------
-    const handleSave = async () => {
+        const updated = items.map((item) =>
+            item.key === key
+                ? { ...item, visible: !item.visible }
+                : item
+        );
+
+        setItems(updated);
+
         try {
-            const visibleAccountTypes = items
+            const visibleAccountTypes = updated
                 .filter((i) => i.visible)
                 .map((i) => i.key);
 
@@ -84,11 +79,12 @@ export function VisibleAccountTypesTable() {
             }).unwrap();
 
             toast.success(t("updateSuccess"));
+
         } catch (error) {
+            setItems(prev);
             toast.error(t("updateError"));
         }
     };
-
     // -----------------------
     // columns
     // -----------------------
@@ -119,9 +115,6 @@ export function VisibleAccountTypesTable() {
         },
     ];
 
-    // -----------------------
-    // table
-    // -----------------------
     const table = useReactTable({
         data: items,
         columns,
@@ -140,7 +133,6 @@ export function VisibleAccountTypesTable() {
         <div className="w-full space-y-6">
             <PageHeader title={t("visibleAccountTypes")} />
 
-            {/* TABLE */}
             <div className="overflow-hidden rounded-md border">
                 <Table>
                     <TableHeader>
@@ -192,16 +184,6 @@ export function VisibleAccountTypesTable() {
                         )}
                     </TableBody>
                 </Table>
-            </div>
-
-            {/* SAVE */}
-            <div className="flex justify-end">
-                <Button
-                    onClick={handleSave}
-                    disabled={isUpdating}
-                >
-                    {t("saveChanges")}
-                </Button>
             </div>
         </div>
     );

@@ -43,7 +43,7 @@
     "editPlayer": "Edit Player",
     "edit": "Edit",
 
-    "title": "Package",
+    "title": "title",
     "description": "Description",
     "originalPrice": "Original Price (IRR)",
     "discountPrice": "Discount Price (IRR)",
@@ -162,7 +162,7 @@
     "deleteColorConfirm": "Are you sure you want to delete “{title}”?",
     "editDefaultColor": "Edit Default Color",
     "colorUpdated": "Color updated successfully",
-    "updateError": "Failed to update color",
+    "updateError": "Failed to update",
 
 
     "group": "Group",

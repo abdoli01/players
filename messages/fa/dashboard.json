@@ -167,7 +167,7 @@
     "deleteColorConfirm": "آیا از حذف «{title}» مطمئن هستید؟",
     "editDefaultColor": "ویرایش رنگ پیش‌فرض",
     "colorUpdated": "رنگ با موفقیت ویرایش شد",
-    "updateError": "خطا در ویرایش رنگ",
+    "updateError": "خطا در ویرایش",
 
     "group": "گروه",
     "groups": "گروه‌ها",
