@@ -213,9 +213,16 @@
     "darkMode": "Dark Mode",
     "darkModeDescription": "Enable or disable system default dark mode",
     "languageSettings": "Language Settings",
-    "selectLanguage": "Select Language"
-
-
-
+    "selectLanguage": "Select Language",
+    "changeColorPalette": "Change Color Palette",
+    "default": "Default",
+    "admin": "Admin",
+    "paletteId": "Palette ID",
+    "selectMode": "Select palette type",
+    "custom": "Custom",
+    "selectColor": "Select color palette",
+    "paletteType": "Palette type",
+    "defaultWillBeUsed": "System default palette will be used",
+    "selectColorPalette": "Select color palette"
   }
 }

@@ -7,7 +7,7 @@ import {useLocale, useTranslations} from "next-intl";
 import {Spinner} from "@/components/Spinner";
 import { EditUserDialog } from "../components/EditUserDialog";
 import { AdminChangePasswordDialog } from "../components/AdminChangePasswordDialog";
-
+import { ChangeUserColorPaletteDialog } from "../components/ChangeUserColorPaletteDialog";
 
 
 import {
@@ -106,6 +106,7 @@ export function UsersTable() {
                             <EditUserDialog user={user} />
                             <AssignPlayerDialog userId={user.id} currentPlayerId={user.playerId} />
                             <AdminChangePasswordDialog userId={user.id} />
+                            <ChangeUserColorPaletteDialog userId={user.id} />
                         </DropdownMenuContent>
                     </DropdownMenu>
                 );

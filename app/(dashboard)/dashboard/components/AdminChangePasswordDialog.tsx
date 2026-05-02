@@ -65,9 +65,9 @@ export function AdminChangePasswordDialog({ userId }: Props) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="ghost" className="w-full justify-start">
+                <div className="cursor-pointer px-2 py-1 text-sm">
                     {t("changePassword")}
-                </Button>
+                </div>
             </DialogTrigger>
 
             <DialogContent>

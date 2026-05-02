@@ -217,10 +217,17 @@
     "darkMode": "حالت تاریک",
     "darkModeDescription": "فعال یا غیرفعال کردن حالت تاریک پیش‌فرض سیستم",
     "languageSettings": "تنظیمات زبان",
-    "selectLanguage": "انتخاب زبان"
+    "selectLanguage": "انتخاب زبان",
+    "changeColorPalette": "تغییر پالت رنگی",
+    "default": "پیش‌فرض",
+    "admin": "ادمین",
+    "paletteId": "شناسه پالت",
+    "selectMode": "انتخاب نوع پالت",
+    "custom": "سفارشی",
+    "selectColor": "انتخاب پالت رنگی",
+    "paletteType": "نوع پالت",
+    "defaultWillBeUsed": "از پالت پیش‌فرض سیستم استفاده خواهد شد",
+    "selectColorPalette": "انتخاب پالت رنگی"
 
-
-
-
-}
+  }
 }
