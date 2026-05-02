@@ -208,7 +208,12 @@
     "key": "Key",
     "visible": "Visible",
     "saveChanges": "Save Changes",
-    "updateSuccess": "Updated successfully"
+    "updateSuccess": "Updated successfully",
+    "darkModeSettings": "Dark Mode Settings",
+    "darkMode": "Dark Mode",
+    "darkModeDescription": "Enable or disable system default dark mode"
+
+
 
   }
 }

@@ -212,7 +212,10 @@
     "key": "کلید",
     "visible": "نمایش",
     "saveChanges": "ذخیره تغییرات",
-    "updateSuccess": "با موفقیت بروزرسانی شد"
+    "updateSuccess": "با موفقیت بروزرسانی شد",
+    "darkModeSettings": "تنظیمات حالت تاریک",
+    "darkMode": "حالت تاریک",
+    "darkModeDescription": "فعال یا غیرفعال کردن حالت تاریک پیش‌فرض سیستم"
 
 
 
