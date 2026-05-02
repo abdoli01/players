@@ -207,7 +207,12 @@
     "updatedAt": "تاریخ بروزرسانی",
     "update": "بروزرسانی",
     "seasonUpdatedSuccess": "فصل جاری با موفقیت به‌روزرسانی شد",
-    "seasonUpdatedError": "خطا در به‌روزرسانی فصل جاری"
+    "seasonUpdatedError": "خطا در به‌روزرسانی فصل جاری",
+    "visibleAccountTypes": "نوع حساب‌های قابل نمایش",
+    "key": "کلید",
+    "visible": "نمایش",
+    "saveChanges": "ذخیره تغییرات",
+    "updateSuccess": "با موفقیت بروزرسانی شد"
 
 
 

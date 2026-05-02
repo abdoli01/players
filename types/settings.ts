@@ -25,6 +25,9 @@ export interface VisibleAccountTypeManagement extends VisibleAccountType {
 export interface UpdateVisibleAccountTypesDto {
     visibleAccountTypes: string[];
 }
+export interface VisibleAccountTypesManagementResponse {
+    items: VisibleAccountTypeManagement[];
+}
 
 // =======================
 // DARK MODE

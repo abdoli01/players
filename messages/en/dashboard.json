@@ -203,7 +203,12 @@
     "updatedAt": "Updated At",
     "update": "update",
     "seasonUpdatedSuccess": "Current season updated successfully",
-    "seasonUpdatedError": "Failed to update current season"
+    "seasonUpdatedError": "Failed to update current season",
+    "visibleAccountTypes": "Visible Account Types",
+    "key": "Key",
+    "visible": "Visible",
+    "saveChanges": "Save Changes",
+    "updateSuccess": "Updated successfully"
 
   }
 }
