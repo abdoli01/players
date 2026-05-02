@@ -215,7 +215,9 @@
     "updateSuccess": "با موفقیت بروزرسانی شد",
     "darkModeSettings": "تنظیمات حالت تاریک",
     "darkMode": "حالت تاریک",
-    "darkModeDescription": "فعال یا غیرفعال کردن حالت تاریک پیش‌فرض سیستم"
+    "darkModeDescription": "فعال یا غیرفعال کردن حالت تاریک پیش‌فرض سیستم",
+    "languageSettings": "تنظیمات زبان",
+    "selectLanguage": "انتخاب زبان"
 
 
 

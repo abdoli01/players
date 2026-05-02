@@ -211,7 +211,9 @@
     "updateSuccess": "Updated successfully",
     "darkModeSettings": "Dark Mode Settings",
     "darkMode": "Dark Mode",
-    "darkModeDescription": "Enable or disable system default dark mode"
+    "darkModeDescription": "Enable or disable system default dark mode",
+    "languageSettings": "Language Settings",
+    "selectLanguage": "Select Language"
 
 
 
