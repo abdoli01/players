@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { VideoCard } from "@/app/(players)/videos/components/VideoCard";
 import CustomVideoPlayer from "@/app/(players)/videos/components/CustomVideoPlayer";
 import { Button } from "@/components/ui/button";
+import { VideoReportItem } from "@/types/video";
 import {
     Select,
     SelectContent,
@@ -73,7 +74,7 @@ const Page = () => {
 
     const videos = videosData?.data?.items ?? [];
 
-    const currentVideo = videos[index];
+    const currentVideo :VideoReportItem = videos[index];
 
     React.useEffect(() => {
         setSelectedItemsPath([]);
@@ -255,74 +256,75 @@ const Page = () => {
                         </button>
                     </div>
 
-                    {/*<div className="overflow-y-scroll">*/}
-                    {/*    {videos.map((video, i) => (*/}
-                    {/*        <VideoCard*/}
-                    {/*            key={i}*/}
-                    {/*            title={video?.event_type}*/}
-                    {/*            code={`${video?.minute}-${video?.teams}`}*/}
-                    {/*            onPlay={() => handlePlayVideo(i)}*/}
-                    {/*            checked={selectedVideos.includes(i)}*/}
-                    {/*            onCheck={() => toggleVideoSelection(i)}*/}
-                    {/*        />*/}
-                    {/*    ))}*/}
-                    {/*</div>*/}
+                    <div className="overflow-y-scroll">
+                        {videos.map((video, i) => (
+                            // code={`${video?.minute}-${video?.teams}`}
+                            <VideoCard
+                                key={i}
+                                title={video?.videoTitle}
+
+                                onPlay={() => handlePlayVideo(i)}
+                                checked={selectedVideos.includes(i)}
+                                onCheck={() => toggleVideoSelection(i)}
+                            />
+                        ))}
+                    </div>
                 </div>
 
                 {/* ================== PLAYER ================== */}
-                {/*<div className="col-span-12 lg:col-span-9 order-1 lg:order-2">*/}
-                {/*    {currentVideo ? (*/}
-                {/*        <>*/}
-                {/*            <div className="flex items-center justify-between mb-1">*/}
-                {/*                <div className="text-sm">*/}
-                {/*                    {currentVideo.title}*/}
-                {/*                </div>*/}
+                <div className="col-span-12 lg:col-span-9 order-1 lg:order-2">
+                    {currentVideo ? (
+                        <>
+                            <div className="flex items-center justify-between mb-1">
+                                <div className="text-sm">
+                                    {currentVideo?.videoTitle}
+                                </div>
 
-                {/*                <button*/}
-                {/*                    onClick={handleMonitorClick}*/}
-                {/*                    className={`p-1 border-2 border-acn1 rounded-md ${*/}
-                {/*                        monitorActive ? "bg-acn1" : ""*/}
-                {/*                    }`}*/}
-                {/*                >*/}
-                {/*                    <Monitor size={16} />*/}
-                {/*                </button>*/}
-                {/*            </div>*/}
+                                <button
+                                    onClick={handleMonitorClick}
+                                    className={`p-1 border-2 border-acn1 rounded-md ${
+                                        monitorActive ? "bg-acn1" : ""
+                                    }`}
+                                >
+                                    <Monitor size={16} />
+                                </button>
+                            </div>
 
-                {/*            <CustomVideoPlayer*/}
-                {/*                url={*/}
-                {/*                    monitorActive*/}
-                {/*                        ? currentVideo.broadcast.url*/}
-                {/*                        : currentVideo.technical.url*/}
-                {/*                }*/}
-                {/*                start={*/}
-                {/*                    monitorActive*/}
-                {/*                        ? parseFloat(*/}
-                {/*                            currentVideo.broadcast.time_start*/}
-                {/*                        )*/}
-                {/*                        : parseFloat(*/}
-                {/*                            currentVideo.technical.time_start*/}
-                {/*                        )*/}
-                {/*                }*/}
-                {/*                end={*/}
-                {/*                    monitorActive*/}
-                {/*                        ? parseFloat(*/}
-                {/*                            currentVideo.broadcast.time_end*/}
-                {/*                        )*/}
-                {/*                        : parseFloat(*/}
-                {/*                            currentVideo.technical.time_end*/}
-                {/*                        )*/}
-                {/*                }*/}
-                {/*                resetTrigger={forcePlay}*/}
-                {/*                onNext={goNext}*/}
-                {/*                onPrev={goPrevious}*/}
-                {/*            />*/}
-                {/*        </>*/}
-                {/*    ) : (*/}
-                {/*        <div className="text-center">*/}
-                {/*            {t("noVideoSelected")}*/}
-                {/*        </div>*/}
-                {/*    )}*/}
-                {/*</div>*/}
+                            <CustomVideoPlayer
+                                url={
+                                    monitorActive
+                                        ? currentVideo.videoSource
+                                        : currentVideo.videoSource
+                                }
+                                start={
+                                    monitorActive
+                                        ? parseFloat(
+                                            currentVideo?.startTimeCode
+                                        )
+                                        : parseFloat(
+                                            currentVideo?.startTimeCode
+                                        )
+                                }
+                                end={
+                                    monitorActive
+                                        ? parseFloat(
+                                            currentVideo?.endTimeCode
+                                        )
+                                        : parseFloat(
+                                            currentVideo?.endTimeCode
+                                        )
+                                }
+                                resetTrigger={forcePlay}
+                                onNext={goNext}
+                                onPrev={goPrevious}
+                            />
+                        </>
+                    ) : (
+                        <div className="text-center">
+                            {t("noVideoSelected")}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

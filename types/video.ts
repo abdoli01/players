@@ -41,6 +41,8 @@ export interface VideoReportItem {
     timeCode: string;
     videoSource: string;
     downloadEnabled: boolean;
+    endTimeCode: string;
+    startTimeCode: string;
 
     xT: number | null;
     matchId: string | null;
