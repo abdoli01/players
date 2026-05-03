@@ -23,15 +23,14 @@ import {
 } from "@/components/ui/select";
 
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 export function LanguageSettings() {
     const t = useTranslations("Dashboard");
     const locale = useLocale();
     const isFa = locale === "fa";
 
-    // -----------------------
     // APIs
-    // -----------------------
     const { data: currentLanguage, isLoading: isLoadingCurrent } =
         useGetSettingsLanguageQuery();
 
@@ -41,22 +40,17 @@ export function LanguageSettings() {
     const [updateLanguage, { isLoading: isUpdating }] =
         useUpdateSettingsLanguageMutation();
 
-    // -----------------------
     // state
-    // -----------------------
     const [selectedLanguageId, setSelectedLanguageId] =
         React.useState<string>("");
 
-    // sync default language
+    // sync default
     React.useEffect(() => {
         if (currentLanguage?.defaultLanguageId) {
             setSelectedLanguageId(currentLanguage.defaultLanguageId);
         }
     }, [currentLanguage]);
 
-    // -----------------------
-    // update (manual)
-    // -----------------------
     const handleSave = async () => {
         if (!selectedLanguageId) return;
 
@@ -66,51 +60,50 @@ export function LanguageSettings() {
             }).unwrap();
 
             toast.success(t("updateSuccess"));
-        } catch (err) {
+        } catch {
             toast.error(t("updateError"));
         }
     };
 
-    // -----------------------
-    // loading
-    // -----------------------
     if (isLoadingCurrent || isLoadingLanguages) {
         return <Spinner />;
     }
 
-    // -----------------------
-    // render
-    // -----------------------
     return (
         <div className="w-full space-y-6">
             <PageHeader title={t("languageSettings")} />
 
-            <div className="max-w-md space-y-4 flex items-start gap-2">
-                <Select
-                    value={selectedLanguageId || ""}
-                    onValueChange={setSelectedLanguageId}
-                >
-                    <SelectTrigger>
-                        <SelectValue placeholder={t("selectLanguage")} />
-                    </SelectTrigger>
+            <div className="max-w-md space-y-2">
+                {/* LABEL */}
+                <Label>{t("selectLanguage")}</Label>
 
-                    <SelectContent>
-                        {languages.map((lang) => (
-                            <SelectItem key={lang.id} value={lang.id}>
-                                {isFa
-                                    ? lang.fullName
-                                    : lang.fullNameEn || lang.fullName}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
+                <div className="flex gap-2">
+                    <Select
+                        value={selectedLanguageId || ""}
+                        onValueChange={setSelectedLanguageId}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder={t("selectLanguage")} />
+                        </SelectTrigger>
 
-                <Button
-                    onClick={handleSave}
-                    disabled={isUpdating || !selectedLanguageId}
-                >
-                    {t("save")}
-                </Button>
+                        <SelectContent>
+                            {languages.map((lang) => (
+                                <SelectItem key={lang.id} value={lang.id}>
+                                    {isFa
+                                        ? lang.fullName
+                                        : lang.fullNameEn || lang.fullName}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+
+                    <Button
+                        onClick={handleSave}
+                        disabled={isUpdating || !selectedLanguageId}
+                    >
+                        {t("update")}
+                    </Button>
+                </div>
             </div>
         </div>
     );
