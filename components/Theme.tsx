@@ -19,13 +19,14 @@ export function ModeToggle() {
         const nextTheme = isDark ? "light" : "dark"
 
         // optimistic UI
-        setTheme(nextTheme)
 
         try {
             await updateDarkMode({
                 darkMode: nextTheme === "dark",
                 useSystemDarkMode: false,
             }).unwrap()
+            setTheme(nextTheme)
+
         } catch (err) {
             // rollback
             setTheme(currentTheme)
