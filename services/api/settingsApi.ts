@@ -108,7 +108,7 @@ export const settingsApi = baseApi.injectEndpoints({
         }),
 
         getSettingsVisibleLanguagesManagement: builder.query<
-            VisibleLanguageManagement[],
+            { items: VisibleLanguageManagement[] },
             void
         >({
             query: () => "/settings/visible-languages/management",

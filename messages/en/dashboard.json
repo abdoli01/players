@@ -223,6 +223,9 @@
     "selectColor": "Select color palette",
     "paletteType": "Palette type",
     "defaultWillBeUsed": "System default palette will be used",
-    "selectColorPalette": "Select color palette"
+    "selectColorPalette": "Select color palette",
+    "visibleLanguages": "Visible Languages",
+    "language": "Language",
+    "code": "Code"
   }
 }

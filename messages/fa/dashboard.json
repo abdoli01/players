@@ -227,7 +227,10 @@
     "selectColor": "انتخاب پالت رنگی",
     "paletteType": "نوع پالت",
     "defaultWillBeUsed": "از پالت پیش‌فرض سیستم استفاده خواهد شد",
-    "selectColorPalette": "انتخاب پالت رنگی"
+    "selectColorPalette": "انتخاب پالت رنگی",
+    "visibleLanguages": "زبان‌های قابل مشاهده",
+    "language": "زبان",
+    "code": "کد"
 
   }
 }
