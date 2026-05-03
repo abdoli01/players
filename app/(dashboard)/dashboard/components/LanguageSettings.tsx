@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { toast } from "react-toastify";
 
 import { Spinner } from "@/components/Spinner";
@@ -12,11 +12,8 @@ import {
     useUpdateSettingsLanguageMutation,
 } from "@/services/api/settingsApi";
 
-import {
-    useGetSettingsVisibleLanguagesQuery,
-} from "@/services/api/settingsApi";
+import { useGetLanguagesQuery } from "@/services/api/languagesApi";
 
-import { Button } from "@/components/ui/button";
 import {
     Select,
     SelectContent,
@@ -25,8 +22,12 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 
+import { Button } from "@/components/ui/button";
+
 export function LanguageSettings() {
     const t = useTranslations("Dashboard");
+    const locale = useLocale();
+    const isFa = locale === "fa";
 
     // -----------------------
     // APIs
@@ -35,7 +36,7 @@ export function LanguageSettings() {
         useGetSettingsLanguageQuery();
 
     const { data: languages = [], isLoading: isLoadingLanguages } =
-        useGetSettingsVisibleLanguagesQuery();
+        useGetLanguagesQuery();
 
     const [updateLanguage, { isLoading: isUpdating }] =
         useUpdateSettingsLanguageMutation();
@@ -46,7 +47,7 @@ export function LanguageSettings() {
     const [selectedLanguageId, setSelectedLanguageId] =
         React.useState<string>("");
 
-    // sync current value
+    // sync default language
     React.useEffect(() => {
         if (currentLanguage?.defaultLanguageId) {
             setSelectedLanguageId(currentLanguage.defaultLanguageId);
@@ -54,27 +55,20 @@ export function LanguageSettings() {
     }, [currentLanguage]);
 
     // -----------------------
-    // update
+    // update (manual)
     // -----------------------
-    const handleUpdate = async (value?: string) => {
-        const langId = value ?? selectedLanguageId;
-        if (!langId) return;
+    const handleSave = async () => {
+        if (!selectedLanguageId) return;
 
         try {
             await updateLanguage({
-                defaultLanguageId: langId,
+                defaultLanguageId: selectedLanguageId,
             }).unwrap();
 
             toast.success(t("updateSuccess"));
         } catch (err) {
             toast.error(t("updateError"));
         }
-    };
-
-    // auto update on change (optional)
-    const handleChange = (value: string) => {
-        setSelectedLanguageId(value);
-        handleUpdate(value);
     };
 
     // -----------------------
@@ -91,10 +85,10 @@ export function LanguageSettings() {
         <div className="w-full space-y-6">
             <PageHeader title={t("languageSettings")} />
 
-            <div className="flex flex-col gap-4 max-w-md">
+            <div className="max-w-md space-y-4 flex items-start gap-2">
                 <Select
-                    value={selectedLanguageId}
-                    onValueChange={handleChange}
+                    value={selectedLanguageId || ""}
+                    onValueChange={setSelectedLanguageId}
                 >
                     <SelectTrigger>
                         <SelectValue placeholder={t("selectLanguage")} />
@@ -103,15 +97,16 @@ export function LanguageSettings() {
                     <SelectContent>
                         {languages.map((lang) => (
                             <SelectItem key={lang.id} value={lang.id}>
-                                {lang.fullName}
+                                {isFa
+                                    ? lang.fullName
+                                    : lang.fullNameEn || lang.fullName}
                             </SelectItem>
                         ))}
                     </SelectContent>
                 </Select>
 
-                {/* optional button (if you DON'T want auto save, keep it) */}
                 <Button
-                    onClick={() => handleUpdate()}
+                    onClick={handleSave}
                     disabled={isUpdating || !selectedLanguageId}
                 >
                     {t("save")}
