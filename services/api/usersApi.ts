@@ -115,6 +115,34 @@ export const usersApi = baseApi.injectEndpoints({
             invalidatesTags: ["USERS"],
         }),
 
+        // ----------------------------
+        // GET /users/me/dark-mode
+        // دریافت dark mode کاربر (با fallback از settings)
+        // ----------------------------
+        getMyDarkMode: builder.query<
+            { darkMode: boolean },
+            void
+        >({
+            query: () => "/users/me/dark-mode",
+            providesTags: ["USERS"],
+        }),
+
+        // ----------------------------
+        // PATCH /users/me/dark-mode
+        // به‌روزرسانی dark mode کاربر
+        // ----------------------------
+        updateMyDarkMode: builder.mutation<
+            { darkMode: boolean },
+            { darkMode: boolean; useSystemDarkMode: boolean }
+        >({
+            query: (body) => ({
+                url: "/users/me/dark-mode",
+                method: "PATCH",
+                body,
+            }),
+            invalidatesTags: ["USERS"],
+        }),
+
 
     }),
 });
@@ -129,4 +157,6 @@ export const {
     useAdminChangePasswordMutation,
     useGetMyColorPaletteQuery,
     useUpdateUserColorPaletteMutation,
+    useGetMyDarkModeQuery,
+    useUpdateMyDarkModeMutation,
 } = usersApi;

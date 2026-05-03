@@ -9,7 +9,6 @@ import SeasonInitializer from "./SeasonInitializer";
 import PlayerHeaderInitializer from "./PlayerHeaderInitializer";
 import { UserColorProvider } from "@/components/UserColorProvider";
 
-
 export function ReduxProvider({ children }: { children: React.ReactNode }) {
     return (
         <Provider store={store}>

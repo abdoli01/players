@@ -8,6 +8,7 @@ import React from "react";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getLocale } from 'next-intl/server';
 import { ToastContainer } from 'react-toastify'
+import {ThemeSyncProvider} from "@/components/ThemeSyncProvider";
 
 export const metadata: Metadata = {
   title: "Metrica",
@@ -35,11 +36,13 @@ export default async  function RootLayout({
           <ToastContainer position="top-right" autoClose={5000} pauseOnHover  hideProgressBar={false} rtl={locale === 'fa'} />
           <ThemeProvider
               attribute="class"
-              defaultTheme="dark"
-              enableSystem={false}
+              defaultTheme="dark"   // 🔥 مهم
+              enableSystem={false}   // ❌ حذف system
               disableTransitionOnChange
           >
-          {children}
+              <ThemeSyncProvider/>
+
+              {children}
           </ThemeProvider>
       </ReduxProvider>
       </NextIntlClientProvider>
