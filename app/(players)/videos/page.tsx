@@ -142,10 +142,59 @@ const Page = () => {
             </div>
 
             {/* ================== MAIN GRID ================== */}
-            <div className="grid grid-cols-12 gap-4">
+            <div className="flex flex-col lg:flex-row gap-4">
+
+
+
+                {/* ================== PLAYER ================== */}
+                <div className="order-1 lg:order-2 lg:flex-1">
+                    {currentVideo ? (
+                        <>
+                            <div className="flex justify-between items-center mb-2">
+                                <div className="text-sm">
+                                    {currentVideo?.videoTitle}
+                                </div>
+
+                                <button
+                                    onClick={() =>
+                                        setMonitorActive((prev) => !prev)
+                                    }
+                                    className={`p-1 border-2 border-acn1 rounded-md ${
+                                        monitorActive ? "bg-acn1" : ""
+                                    }`}
+                                >
+                                    <Monitor size={16} />
+                                </button>
+                            </div>
+
+                            <CustomVideoPlayer
+                                url={
+                                    monitorActive
+                                        ? currentVideo.broadcastVideoSource
+                                        : currentVideo.tacticalVideoSource
+                                }
+                                start={parseFloat(
+                                    monitorActive
+                                        ? currentVideo.broadcastStartTimeCode
+                                        : currentVideo.tacticalStartTimeCode
+                                )}
+                                end={parseFloat(
+                                    monitorActive
+                                        ? currentVideo.broadcastEndTimeCode
+                                        : currentVideo.tacticalEndTimeCode
+                                )}
+                                resetTrigger={forcePlay}
+                            />
+                        </>
+                    ) : (
+                        <div className="text-center text-sm mt-10">
+                            {t("noVideoSelected")}
+                        </div>
+                    )}
+                </div>
 
                 {/* ================== LIST ================== */}
-                <div className="col-span-12 lg:col-span-3 flex flex-col h-[400px]">
+                <div className="order-2 lg:order-1 flex flex-col lg:w-1/4 h-[400px]">
 
                     {/* TOP ACTIONS */}
                     <div className="flex items-center gap-1 justify-end mb-2">
@@ -205,53 +254,6 @@ const Page = () => {
                             </div>
                         )}
                     </div>
-                </div>
-
-                {/* ================== PLAYER ================== */}
-                <div className="col-span-12 lg:col-span-9">
-                    {currentVideo ? (
-                        <>
-                            <div className="flex justify-between items-center mb-2">
-                                <div className="text-sm">
-                                    {currentVideo?.videoTitle}
-                                </div>
-
-                                <button
-                                    onClick={() =>
-                                        setMonitorActive((prev) => !prev)
-                                    }
-                                    className={`p-1 border-2 border-acn1 rounded-md ${
-                                        monitorActive ? "bg-acn1" : ""
-                                    }`}
-                                >
-                                    <Monitor size={16} />
-                                </button>
-                            </div>
-
-                            <CustomVideoPlayer
-                                url={
-                                    monitorActive
-                                        ? currentVideo.broadcastVideoSource
-                                        : currentVideo.tacticalVideoSource
-                                }
-                                start={parseFloat(
-                                    monitorActive
-                                        ? currentVideo.broadcastStartTimeCode
-                                        : currentVideo.tacticalStartTimeCode
-                                )}
-                                end={parseFloat(
-                                    monitorActive
-                                        ? currentVideo.broadcastEndTimeCode
-                                        : currentVideo.tacticalEndTimeCode
-                                )}
-                                resetTrigger={forcePlay}
-                            />
-                        </>
-                    ) : (
-                        <div className="text-center text-sm mt-10">
-                            {t("noVideoSelected")}
-                        </div>
-                    )}
                 </div>
             </div>
         </div>
