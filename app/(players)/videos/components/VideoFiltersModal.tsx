@@ -42,6 +42,7 @@ export function VideoFiltersModal({
     const t = useTranslations("Videos");
     const locale = useLocale();
     const isRtl = locale === "fa";
+    const needsFilter = selectedItemsPath.length === 0;
 
     // -----------------------
     // helpers
@@ -73,8 +74,19 @@ export function VideoFiltersModal({
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogTrigger asChild>
-                <button className="p-1 border-2 border-acn1 hover:bg-acn1 rounded-md">
+                <button
+                    className={`
+            relative p-1 border-2 border-acn1 rounded-md
+            hover:bg-acn1 transition
+            ${needsFilter ? "animate-pulse" : ""}
+        `}
+                >
                     <Filter size={16} />
+
+                    {/* dot indicator */}
+                    {needsFilter && (
+                        <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-red-500 animate-bounce" />
+                    )}
                 </button>
             </DialogTrigger>
             <DialogContent className="w-[90vw] max-w-sm sm:max-w-md">
