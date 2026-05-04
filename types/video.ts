@@ -38,11 +38,19 @@ export interface VideosReportItemsResponse {
 export interface VideoReportItem {
     actionName: string;
     videoTitle: string;
-    timeCode: string;
-    videoSource: string;
     downloadEnabled: boolean;
     endTimeCode: string;
     startTimeCode: string;
+    broadcastVideoSource: string;
+    broadcastStartTimeCode: string;
+    broadcastEndTimeCode: string;
+    tacticalVideoSource: string;
+    tacticalStartTimeCode: string;
+    tacticalEndTimeCode: string;
+    isHaveBroadcastVideo: boolean;
+    isHaveTacticalVideo: boolean;
+
+
 
     xT: number | null;
     matchId: string | null;

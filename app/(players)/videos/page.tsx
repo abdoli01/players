@@ -293,25 +293,25 @@ const Page = () => {
                             <CustomVideoPlayer
                                 url={
                                     monitorActive
-                                        ? currentVideo.videoSource
-                                        : currentVideo.videoSource
+                                        ? currentVideo.broadcastVideoSource
+                                        : currentVideo.tacticalVideoSource
                                 }
                                 start={
                                     monitorActive
                                         ? parseFloat(
-                                            currentVideo?.startTimeCode
+                                            currentVideo?.broadcastStartTimeCode
                                         )
                                         : parseFloat(
-                                            currentVideo?.startTimeCode
+                                            currentVideo?.tacticalStartTimeCode
                                         )
                                 }
                                 end={
                                     monitorActive
                                         ? parseFloat(
-                                            currentVideo?.endTimeCode
+                                            currentVideo?.broadcastEndTimeCode
                                         )
                                         : parseFloat(
-                                            currentVideo?.endTimeCode
+                                            currentVideo?.tacticalEndTimeCode
                                         )
                                 }
                                 resetTrigger={forcePlay}
