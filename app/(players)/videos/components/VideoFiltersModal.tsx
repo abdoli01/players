@@ -85,7 +85,7 @@ export function VideoFiltersModal({
 
                     {/* dot indicator */}
                     {needsFilter && (
-                        <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-red-500 animate-bounce" />
+                        <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-acn1 animate-bounce" />
                     )}
                 </button>
             </DialogTrigger>
