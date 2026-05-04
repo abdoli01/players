@@ -3,6 +3,8 @@
     "noVideoSelected": "No video has been selected",
     "loading": "loading",
     "select": "Select",
-    "getVideos": "Get Videos"
+    "getVideos": "Get Videos",
+    "filters": "filters",
+    "noResults": "No results found"
   }
 }

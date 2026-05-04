@@ -4,129 +4,91 @@ import React, { useState } from "react";
 import { VideoCard } from "@/app/(players)/videos/components/VideoCard";
 import CustomVideoPlayer from "@/app/(players)/videos/components/CustomVideoPlayer";
 import { Button } from "@/components/ui/button";
-import { VideoReportItem } from "@/types/video";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+
 import {
     Monitor,
-    List,
-    Grid,
-    ArrowUp,
-    ArrowDown,
-    SquarePen,
     FileArchive,
     Download,
     Square,
 } from "lucide-react";
-import {useLocale, useTranslations} from "next-intl";
-import { useGetVideoKeywordsQuery,useGetVideoItemsQuery,useLazyGetVideosQuery  } from "@/services/api/videosApi";
+
+import { useLocale, useTranslations } from "next-intl";
+
+import {
+    useGetVideoKeywordsQuery,
+    useGetVideoItemsQuery,
+    useLazyGetVideosQuery,
+} from "@/services/api/videosApi";
+
 import { useAppSelector } from "@/store/hooks";
 
+import { VideoFiltersModal } from "./components/VideoFiltersModal";
 
 const Page = () => {
     const t = useTranslations("Videos");
     const locale = useLocale();
     const isRtl = locale === "fa";
-    // -----------------------
-    // States
-    // -----------------------
+
+    const user = useAppSelector((s) => s.user.user);
+
+    // ========================
+    // STATE
+    // ========================
     const [index, setIndex] = useState(-1);
     const [monitorActive, setMonitorActive] = useState(false);
     const [forcePlay, setForcePlay] = useState(0);
 
-    const [showFirstList, setShowFirstList] = useState(true);
-    const [selectedIndex, setSelectedIndex] = useState(-1);
     const [selectedKey, setSelectedKey] = useState<string | null>(null);
     const [selectedItemsPath, setSelectedItemsPath] = useState<string[]>([]);
     const [selectedVideos, setSelectedVideos] = useState<number[]>([]);
 
-    const user = useAppSelector((s) => s.user.user);
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-
-    // -----------------------
+    // ========================
     // API
-    // -----------------------
+    // ========================
     const { data: videoKeywords = [], isLoading: isLoadingKeywords } =
         useGetVideoKeywordsQuery({
             keyword: user?.accountType,
         });
+
     const activeKey = selectedKey ?? videoKeywords[0]?.key;
 
-    const { data: itemsData, isLoading: isLoadingItems } =
+    const { data: itemsData } =
         useGetVideoItemsQuery(
             {
                 keyword: user?.accountType,
                 key: activeKey,
             },
-            {
-                skip: !activeKey,
-            }
+            { skip: !activeKey }
         );
+
     const itemsTree = itemsData?.data?.items ?? [];
 
-    const [fetchVideos, { data: videosData, isFetching: isLoadingVideos }] =
+    const [fetchVideos, { data: videosData, isFetching }] =
         useLazyGetVideosQuery();
 
     const videos = videosData?.data?.items ?? [];
 
-    const currentVideo :VideoReportItem = videos[index];
+    const currentVideo = videos[index];
 
-    React.useEffect(() => {
-        setSelectedItemsPath([]);
-    }, [activeKey]);
+    // ========================
+    // HANDLERS
+    // ========================
+    const handleGetVideos = () => {
+        if (!activeKey || !selectedItemsPath.length) return;
 
-    // -----------------------
-    // Handlers
-    // -----------------------
-    const getChildren = (level: number) => {
-        if (level === 0) return itemsTree;
+        fetchVideos({
+            keyword: user?.accountType,
+            key: activeKey,
+            playerId: user?.playerId,
+            sessionId: "sessionId",
+            page: 1,
+            limit: 10,
+            items: selectedItemsPath,
+        });
 
-        let current = itemsTree;
-
-        for (let i = 0; i < level; i++) {
-            const key = selectedItemsPath[i];
-            const found = current.find((item) => item.key === key);
-
-            if (!found || !found.items) return [];
-            current = found.items;
-        }
-
-        return current;
-    };
-    const handleSelect = (level: number, value: string) => {
-        const newPath = [...selectedItemsPath.slice(0, level), value];
-        setSelectedItemsPath(newPath);
-    };
-
-    const goNext = () => {
-        if (index < videos.length - 1) {
-            setIndex(index + 1);
-        }
-    };
-
-    const goPrevious = () => {
-        if (index > 0) setIndex(index - 1);
-    };
-
-    const handleMonitorClick = () => {
-        setMonitorActive((prev) => !prev);
-        setForcePlay((prev) => prev + 1);
-    };
-
-    const handlePlayVideo = (i: number) => {
-        setIndex(i);
-        setForcePlay((prev) => prev + 1);
-    };
-
-    const toggleList = () => {
-        setShowFirstList(!showFirstList);
-        setSelectedIndex(-1);
-        setSelectedKey(null);
+        setIsFilterOpen(false);
     };
 
     const toggleVideoSelection = (i: number) => {
@@ -145,34 +107,33 @@ const Page = () => {
         }
     };
 
-    // -----------------------
-    // Render
-    // -----------------------
-    return (
-        <div className="py-4">
-            {/* ================== KEYWORDS ================== */}
-            <div className="flex flex-wrap gap-2 mb-4">
-                <Button
-                    onClick={toggleList}
-                    className="bg-background flex items-center gap-2 p-1 rounded-md border-2 border-acn1 hover:bg-acn1"
-                >
-                    {showFirstList ? (
-                        <List size={16} />
-                    ) : (
-                        <Grid size={16} />
-                    )}
-                </Button>
+    const handlePlayVideo = (i: number) => {
+        setIndex(i);
+        setForcePlay((prev) => prev + 1);
+    };
 
+    // ========================
+    // RENDER
+    // ========================
+    return (
+        <div className="py-4 space-y-4">
+
+            {/* ================== KEYWORDS ================== */}
+            <div className="flex flex-wrap gap-2">
                 {isLoadingKeywords ? (
                     <div className="text-sm">{t("loading")}</div>
                 ) : (
-                    videoKeywords.map((item, i) => (
+                    videoKeywords.map((item) => (
                         <Button
                             key={item.key}
-                            variant={activeKey === item.key ? "default" : "outline"}
+                            variant={
+                                activeKey === item.key
+                                    ? "default"
+                                    : "outline"
+                            }
                             onClick={() => {
-                                setSelectedIndex(i);
                                 setSelectedKey(item.key);
+                                setSelectedItemsPath([]);
                             }}
                         >
                             {item.title}
@@ -180,62 +141,26 @@ const Page = () => {
                     ))
                 )}
             </div>
-            <div className="grid grid-cols-12 mb-4">
-                <div className="col-span-12 lg:col-span-3 flex flex-col gap-2">
-                    {Array.from({ length: selectedItemsPath.length + 1 }).map((_, level) => {
-                        const options = getChildren(level);
 
-                        if (!options.length) return null;
-
-                        return (
-                            <Select
-
-                                key={level}
-                                value={selectedItemsPath[level] ?? ""}
-                                onValueChange={(value) => handleSelect(level, value)}
-                            >
-                                <SelectTrigger className={isRtl ? "flex-row-reverse w-full" : "w-full"}>
-                                    <SelectValue  placeholder={t("select")} />
-                                </SelectTrigger>
-
-                                <SelectContent>
-                                    {options.map((item) => (
-                                        <SelectItem key={item.key} value={item.key}>
-                                            {item.title}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        );
-                    })}
-                </div>
-            </div>
-            <div className="mt-2">
-                <Button
-                    onClick={() => {
-                        if (!activeKey || !selectedItemsPath.length) return;
-
-                        fetchVideos({
-                            keyword: user?.accountType,
-                            key: activeKey,
-                            playerId: user?.playerId,
-                            sessionId: "sessionId", // اگر داری
-                            page: 1,
-                            limit: 10,
-                            items: selectedItemsPath,
-                        });
-                    }}
-                >
-                    {t("getVideos")}
-                </Button>
-            </div>
-
-
-            {/* ================== MAIN ================== */}
+            {/* ================== MAIN GRID ================== */}
             <div className="grid grid-cols-12 gap-4">
+
                 {/* ================== LIST ================== */}
-                <div className="col-span-12 lg:col-span-3 flex flex-col h-[400px] order-2 lg:order-1">
-                    <div className="flex items-center gap-1 justify-end mb-1">
+                <div className="col-span-12 lg:col-span-3 flex flex-col h-[400px]">
+
+                    {/* TOP ACTIONS */}
+                    <div className="flex items-center gap-1 justify-end mb-2">
+
+                        {/* FILTER MODAL */}
+                        <VideoFiltersModal
+                            open={isFilterOpen}
+                            onOpenChange={setIsFilterOpen}
+                            itemsTree={itemsTree}
+                            selectedItemsPath={selectedItemsPath}
+                            setSelectedItemsPath={setSelectedItemsPath}
+                            onSubmit={handleGetVideos}
+                        />
+
                         <button className="p-1 border-2 border-acn1 hover:bg-acn1 rounded-md">
                             <FileArchive size={16} />
                         </button>
@@ -246,7 +171,8 @@ const Page = () => {
 
                         <button
                             className={`p-1 border-2 border-acn1 hover:bg-acn1 rounded-md ${
-                                selectedVideos.length === videos.length
+                                selectedVideos.length === videos.length &&
+                                videos.length > 0
                                     ? "bg-acn1"
                                     : ""
                             }`}
@@ -256,32 +182,45 @@ const Page = () => {
                         </button>
                     </div>
 
-                    <div className="overflow-y-scroll">
-                        {videos.map((video, i) => (
-                            // code={`${video?.minute}-${video?.teams}`}
-                            <VideoCard
-                                key={i}
-                                title={video?.videoTitle}
-
-                                onPlay={() => handlePlayVideo(i)}
-                                checked={selectedVideos.includes(i)}
-                                onCheck={() => toggleVideoSelection(i)}
-                            />
-                        ))}
+                    {/* LIST */}
+                    <div className="overflow-y-auto flex-1 space-y-1">
+                        {isFetching ? (
+                            <div className="text-center text-sm">
+                                {t("loading")}
+                            </div>
+                        ) : videos.length ? (
+                            videos.map((video, i) => (
+                                <VideoCard
+                                    key={i}
+                                    title={video?.videoTitle}
+                                    onPlay={() => handlePlayVideo(i)}
+                                    checked={selectedVideos.includes(i)}
+                                    onCheck={() =>
+                                        toggleVideoSelection(i)
+                                    }
+                                />
+                            ))
+                        ) : (
+                            <div className="text-center text-sm">
+                                {t("noResults")}
+                            </div>
+                        )}
                     </div>
                 </div>
 
                 {/* ================== PLAYER ================== */}
-                <div className="col-span-12 lg:col-span-9 order-1 lg:order-2">
+                <div className="col-span-12 lg:col-span-9">
                     {currentVideo ? (
                         <>
-                            <div className="flex items-center justify-between mb-1">
+                            <div className="flex justify-between items-center mb-2">
                                 <div className="text-sm">
                                     {currentVideo?.videoTitle}
                                 </div>
 
                                 <button
-                                    onClick={handleMonitorClick}
+                                    onClick={() =>
+                                        setMonitorActive((prev) => !prev)
+                                    }
                                     className={`p-1 border-2 border-acn1 rounded-md ${
                                         monitorActive ? "bg-acn1" : ""
                                     }`}
@@ -296,31 +235,21 @@ const Page = () => {
                                         ? currentVideo.broadcastVideoSource
                                         : currentVideo.tacticalVideoSource
                                 }
-                                start={
+                                start={parseFloat(
                                     monitorActive
-                                        ? parseFloat(
-                                            currentVideo?.broadcastStartTimeCode
-                                        )
-                                        : parseFloat(
-                                            currentVideo?.tacticalStartTimeCode
-                                        )
-                                }
-                                end={
+                                        ? currentVideo.broadcastStartTimeCode
+                                        : currentVideo.tacticalStartTimeCode
+                                )}
+                                end={parseFloat(
                                     monitorActive
-                                        ? parseFloat(
-                                            currentVideo?.broadcastEndTimeCode
-                                        )
-                                        : parseFloat(
-                                            currentVideo?.tacticalEndTimeCode
-                                        )
-                                }
+                                        ? currentVideo.broadcastEndTimeCode
+                                        : currentVideo.tacticalEndTimeCode
+                                )}
                                 resetTrigger={forcePlay}
-                                onNext={goNext}
-                                onPrev={goPrevious}
                             />
                         </>
                     ) : (
-                        <div className="text-center">
+                        <div className="text-center text-sm mt-10">
                             {t("noVideoSelected")}
                         </div>
                     )}
