@@ -160,15 +160,16 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
                         const y = yBorders[row];         // عرض متناسب با منطقه
                         const cellWidth = xStep;         // طول ثابت
                         const cellHeight = yBorders[row + 1] - y; // عرض متناسب
+                        const gap = 0.7;
 
 
                         return (
                             <g key={idx}>
                                 <rect
-                                    x={x}
-                                    y={y}
-                                    width={cellWidth}
-                                    height={cellHeight}
+                                    x={x + gap / 2}
+                                    y={y + gap / 2}
+                                    width={cellWidth - gap}
+                                    height={cellHeight - gap}
                                     className={getGradeClass(cell.grade)}
                                     opacity={0.5}
                                 />
