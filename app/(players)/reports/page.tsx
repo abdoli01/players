@@ -53,9 +53,10 @@ const Page = () => {
     return (
         <div className="py-4">
             {/* ---------- KEYWORDS ---------- */}
-            <div className="flex gap-2 mb-0 flex-wrap">
+            <div className="flex gap-2 mb-0 overflow-x-auto whitespace-nowrap pb-2 pr-6">
                 {keywords.map((item) => (
                     <Button
+                        className="shrink-0"
                         key={item.key}
                         variant={activeKey === item.key ? "default" : "outline"}
                         onClick={() => setSelectedKey(item.key)}
