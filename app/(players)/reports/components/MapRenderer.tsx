@@ -206,6 +206,27 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
                     })}
                 </svg>
             </div>
+            <div className="w-full flex justify-start mt-2">
+                <svg
+                    viewBox="0 0 105 10"
+                    className="w-full max-w-[120px] md:max-w-[180px] h-[22px]"
+                    preserveAspectRatio="none"
+                >
+                    <line
+                        x1="20"
+                        y1="5"
+                        x2="85"
+                        y2="5"
+                        className="stroke-foreground"
+                        strokeWidth="0.8"
+                    />
+
+                    <path
+                        d="M85 5 L78 1.5 L78 8.5 Z"
+                        className="fill-foreground"
+                    />
+                </svg>
+            </div>
         </div>
     );
 };
