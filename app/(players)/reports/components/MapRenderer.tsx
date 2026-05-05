@@ -21,7 +21,7 @@ interface Props {
 const FootballPitch: React.FC<Props> = ({ map }) => {
     if (!map?.value?.length) return null;
 
-    // استاندارد زمین
+    // ===== Pitch =====
     const pitchLength = 105;
     const pitchWidth = 68;
 
@@ -33,8 +33,6 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
 
     const cols = 6;
     const rows = 5;
-
-    const xStep = pitchLength / cols;
 
     const yBorders = [
         0,
@@ -62,6 +60,22 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
 
     const totalCells = map.value.length;
     const compactMode = totalCells <= 15;
+
+    // =========================
+    // usable area (2/3 right side)
+    // =========================
+    const usableWidth = compactMode
+        ? (pitchLength * 2) / 3
+        : pitchLength;
+
+    const xOffset = compactMode
+        ? pitchLength / 3
+        : 0;
+
+    // تعداد ستون واقعی
+    const activeCols = Math.ceil(totalCells / rows);
+
+    const cellWidth = usableWidth / activeCols;
 
     return (
         <div className="w-full space-y-3">
@@ -104,12 +118,6 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
                         fill="none"
                         stroke="#fff"
                         strokeWidth={0.5}
-                    />
-                    <circle
-                        cx={pitchLength / 2}
-                        cy={pitchWidth / 2}
-                        r={0.3}
-                        fill="#fff"
                     />
 
                     {/* Penalty areas */}
@@ -156,19 +164,19 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
                     <circle cx={11} cy={pitchWidth / 2} r={0.3} fill="#fff" />
                     <circle cx={pitchLength - 11} cy={pitchWidth / 2} r={0.3} fill="#fff" />
 
-                    {/* Heatmap */}
+                    {/* ===================== HEATMAP ===================== */}
                     {map.value.map((cell, idx) => {
                         const baseCol = Math.floor(idx / rows);
-                        const col = compactMode
-                            ? cols - 1 - baseCol
-                            : baseCol;
-
                         const row = idx % rows;
 
-                        const x = col * xStep;
+                        // از راست به چپ در compact
+                        const col = compactMode
+                            ? activeCols - 1 - baseCol
+                            : baseCol;
+
+                        const x = xOffset + col * cellWidth;
                         const y = yBorders[row];
 
-                        const cellWidth = xStep;
                         const cellHeight = yBorders[row + 1] - y;
 
                         const gap = 0.7;
