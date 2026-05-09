@@ -56,9 +56,9 @@ export interface SetUserColorPaletteDto {
 
 export interface MyLanguageResponse {
     languageId: string;
-    code: string;
-    fullName: string;
-    useSystemLanguage: boolean;
+    // code: string;
+    // fullName: string;
+    // useSystemLanguage: boolean;
 }
 
 export interface UpdateMyLanguageDto {

@@ -13,6 +13,7 @@ import {
 import { useGetSettingsVisibleLanguagesQuery } from "@/services/api/settingsApi";
 
 import { useUpdateMyLanguageMutation } from "@/services/api/usersApi";
+import {useAppSelector} from "@/store/hooks";
 
 function getInitialLocale() {
     if (typeof document === "undefined") return "fa";
@@ -27,6 +28,8 @@ function getInitialLocale() {
 
 export default function LocaleSwitcher() {
     const [currentLocale, setCurrentLocale] = React.useState<string>(getInitialLocale);
+    const user = useAppSelector(s => s.user.user);
+
 
     const {
         data,
@@ -51,11 +54,13 @@ export default function LocaleSwitcher() {
             // ذخیره داخل cookie
             document.cookie = `locale=${locale}; path=/; max-age=31536000`;
 
-            // فراخوانی API
-            await updateMyLanguage({
-                languageId: selectedLanguage.id,
-                useSystemLanguage: false,
-            }).unwrap();
+            // فقط اگر user وجود داشت → API call
+            if (user) {
+                await updateMyLanguage({
+                    languageId: selectedLanguage.id,
+                    useSystemLanguage: false,
+                }).unwrap();
+            }
 
             // reload
             window.location.reload();
