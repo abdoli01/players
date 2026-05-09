@@ -52,3 +52,16 @@ export interface SetUserColorPaletteDto {
     colorPaletteType: UserColorPaletteType;
     colorPaletteId?: string;
 }
+// types/user.ts
+
+export interface MyLanguageResponse {
+    languageId: string;
+    code: string;
+    fullName: string;
+    useSystemLanguage: boolean;
+}
+
+export interface UpdateMyLanguageDto {
+    languageId: string;
+    useSystemLanguage: boolean;
+}

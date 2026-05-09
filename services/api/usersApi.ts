@@ -2,7 +2,7 @@
 // services/usersApi.ts
 import { baseApi } from "./baseApi";
 import { User } from "@/types/user";
-import { UserSearchParams,SetPlayerIdDto, AdminSetPlayerIdDto, ChangePasswordDto, UpdateProfileDto,AdminChangePasswordDto,SetUserColorPaletteDto } from "@/types/user";
+import { UserSearchParams,SetPlayerIdDto, AdminSetPlayerIdDto, ChangePasswordDto, UpdateProfileDto,AdminChangePasswordDto,SetUserColorPaletteDto, MyLanguageResponse,UpdateMyLanguageDto } from "@/types/user";
 
 export const usersApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -144,6 +144,35 @@ export const usersApi = baseApi.injectEndpoints({
         }),
 
 
+        // ----------------------------
+        // GET /users/me/language
+        // دریافت زبان کاربر
+        // ----------------------------
+        getMyLanguage: builder.query<
+            MyLanguageResponse,
+            void
+        >({
+            query: () => "/users/me/language",
+            providesTags: ["USERS"],
+        }),
+
+        // ----------------------------
+        // PATCH /users/me/language
+        // به‌روزرسانی زبان کاربر
+        // ----------------------------
+        updateMyLanguage: builder.mutation<
+            MyLanguageResponse,
+            UpdateMyLanguageDto
+        >({
+            query: (body) => ({
+                url: "/users/me/language",
+                method: "PATCH",
+                body,
+            }),
+            invalidatesTags: ["USERS"],
+        }),
+
+
     }),
 });
 export const {
@@ -159,4 +188,6 @@ export const {
     useUpdateUserColorPaletteMutation,
     useGetMyDarkModeQuery,
     useUpdateMyDarkModeMutation,
+    useGetMyLanguageQuery,
+    useUpdateMyLanguageMutation,
 } = usersApi;
