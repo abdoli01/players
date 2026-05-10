@@ -53,7 +53,7 @@ const Page = () => {
     return (
         <div className="py-4">
             {/* ---------- KEYWORDS ---------- */}
-            <div className="flex gap-2 mb-0 overflow-x-auto whitespace-nowrap pb-2 pr-6">
+            <div className="flex gap-2 overflow-x-auto whitespace-nowrap pb-2 pr-6">
                 {keywords.map((item) => (
                     <Button
                         className="shrink-0"
