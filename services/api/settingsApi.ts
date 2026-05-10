@@ -15,7 +15,8 @@ import {
     WordToLanguagesVersion,
     WordToLanguagesListResponse,
     VisibleAccountTypesManagementResponse,
-    VisibleLanguagesResponse
+    VisibleLanguagesResponse,
+    VisibleAccountTypesResponse
 } from "@/types/settings";
 
 export const settingsApi = baseApi.injectEndpoints({
@@ -41,7 +42,7 @@ export const settingsApi = baseApi.injectEndpoints({
         // ==================================================
         // ACCOUNT TYPES SETTINGS
         // ==================================================
-        getSettingsVisibleAccountTypes: builder.query<VisibleAccountType[], void>({
+        getSettingsVisibleAccountTypes: builder.query<VisibleAccountTypesResponse, void>({
             query: () => "/settings/visible-account-types",
             providesTags: ["SETTINGS"],
         }),

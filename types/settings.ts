@@ -17,6 +17,9 @@ export interface VisibleAccountType {
     title: string;
     key: string;
 }
+export interface VisibleAccountTypesResponse {
+    items: VisibleAccountType[];
+}
 
 export interface VisibleAccountTypeManagement extends VisibleAccountType {
     visible: boolean;

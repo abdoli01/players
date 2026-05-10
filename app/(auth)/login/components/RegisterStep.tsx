@@ -7,6 +7,13 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import {
     Form,
     FormField,
     FormItem,
@@ -22,10 +29,12 @@ import {ArrowLeft, ArrowRight, Eye, EyeOff} from "lucide-react";
 import { useLocale, useTranslations } from 'next-intl';
 import Image from "next/image";
 import {setUser} from "@/store/slices/userSlice";
+import { useGetSettingsVisibleAccountTypesQuery } from "@/services/api/settingsApi";
 
 type FormValues = {
     firstName?: string;
     lastName?: string;
+    accountType: string;
     password: string;
     confirmPassword: string;
     code: string;
@@ -51,6 +60,9 @@ export default function RegisterStep({
         .object({
             firstName: z.string().optional(),
             lastName: z.string().optional(),
+            accountType: z.string().min(1, {
+                message: t('accountTypeRequired'),
+            }),
             password: z
                 .string()
                 .min(8, { message: t('passwordMin') })
@@ -73,6 +85,7 @@ export default function RegisterStep({
         defaultValues: {
             firstName: "",
             lastName: "",
+            accountType: "",
             password: "",
             confirmPassword: "",
             code: "",
@@ -82,6 +95,9 @@ export default function RegisterStep({
     // State برای کنترل نمایش رمز
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
+
+    const { data: accountTypes } =
+        useGetSettingsVisibleAccountTypesQuery();
 
     const startTimer = () => {
         setTimer(60);
@@ -201,6 +217,40 @@ export default function RegisterStep({
                             <FormControl>
                                 <Input {...field} />
                             </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    name="accountType"
+                    control={form.control}
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>{t('accountType')}</FormLabel>
+
+                            <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                            >
+                                <FormControl>
+                                    <SelectTrigger className="w-full">
+                                        <SelectValue
+                                        />
+                                    </SelectTrigger>
+                                </FormControl>
+
+                                <SelectContent>
+                                    {accountTypes?.items?.map((item) => (
+                                        <SelectItem
+                                            key={item.key}
+                                            value={item.key}
+                                        >
+                                            {item.title}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+
                             <FormMessage />
                         </FormItem>
                     )}
