@@ -109,7 +109,7 @@ const Page = () => {
             {/* ---------- GRID ---------- */}
             <div className="grid grid-cols-12 gap-4">
                 {/* ---------- LEFT CARDS ---------- */}
-                <div style={{marginTop:40}} className="col-span-12 lg:col-span-3 space-y-1 order-2 lg:order-1">
+                <div className="col-span-12 lg:col-span-3 space-y-1 lg:mt-10 order-2 lg:order-1">
                     {/* Positions */}
                     <Card className='py-4'>
                         <CardHeader className="flex flex-row items-center justify-between">

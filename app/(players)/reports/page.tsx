@@ -71,8 +71,7 @@ const Page = () => {
 
                 {/* ---------- LEFT CARDS ---------- */}
                 <div
-                    style={{ marginTop: 40 }}
-                    className="col-span-12 lg:col-span-3 space-y-1 order-2 lg:order-1"
+                    className="col-span-12 lg:col-span-3 space-y-1 order-2 lg:order-1 lg:mt-10"
                 >
                     {stats &&
                         Object.values(stats).map((item) => (
