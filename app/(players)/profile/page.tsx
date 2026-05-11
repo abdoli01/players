@@ -173,7 +173,7 @@ const Page = () => {
 
                 {/* ---------- RIGHT CHARTS ---------- */}
                 <div className="col-span-12 lg:col-span-6 space-y-4 order-1 lg:order-2">
-                    <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center justify-between mb-3">
                         <h2 className="text-lg font-semibold">
                             {chartType === "polar" ? "Polar Chart" : barData.title}
                         </h2>

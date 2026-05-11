@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import {Card} from "@/components/ui/card";
 
 interface MapRow {
     row: number;
@@ -80,7 +81,7 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
     return (
         <div className="w-full space-y-3">
             <h3 className="text-lg font-semibold">{map.title}</h3>
-
+            <Card>
             <div className="w-full relative" style={{ paddingTop: "61.9%" }}>
                 <svg
                     viewBox={`0 0 ${pitchLength} ${pitchWidth}`}
@@ -227,6 +228,7 @@ const FootballPitch: React.FC<Props> = ({ map }) => {
                     />
                 </svg>
             </div>
+            </Card>
         </div>
     );
 };
