@@ -41,13 +41,22 @@ const Page = () => {
     const activeKey = selectedKey ?? keywords[0]?.key;
 
     /* ---------- PROFILE DATA ---------- */
-    const { data: reportData, isFetching } = useGetReportQuery(
+    const { data: reportData, isLoading  } = useGetReportQuery(
         { keyword: user?.accountType, key: activeKey, playerId, seasonId },
         { skip: !activeKey || !playerId || !seasonId }
     );
 
     const data = reportData?.data;
     const stats = data?.stats as Stats | undefined;
+
+    const isReady = activeKey && playerId && seasonId;
+    if (!isReady || isLoading) {
+        return (
+            <div className="flex items-center justify-center h-[300px]">
+                <Spinner />
+            </div>
+        );
+    }
 
 
     return (
@@ -96,12 +105,6 @@ const Page = () => {
                 </div>
 
             </div>
-            {isFetching && (
-                // <div className="mt-4 text-sm text-muted-foreground">
-                //     Loading profile data...
-                // </div>
-                <Spinner/>
-            )}
         </div>
     );
 };
