@@ -5,7 +5,7 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>)
 
     return (
         <div className="bg-background rounded-md px-3 py-1 text-sm text-foreground">
-            {label}: <span className="text-lime-400 font-semibold">{payload[0].value}</span>
+            {label}: <span className="text-acn1 font-semibold">{payload[0].value}</span>
         </div>
     );
 };

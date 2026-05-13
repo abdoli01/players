@@ -20,6 +20,7 @@ import {
     YAxis,
     Tooltip,
     ResponsiveContainer,
+    Cell
 } from "recharts";
 import CustomTooltip from "./components/CustomTooltip"
 import { useGetMyColorPaletteQuery } from "@/services/api/usersApi";
@@ -225,7 +226,19 @@ const Page = () => {
                                         <XAxis dataKey="title" />
                                         <YAxis />
                                         <Tooltip cursor={false} content={<CustomTooltip />} />
-                                        <Bar dataKey="value" fill="#65ff00" />
+
+                                        <Bar dataKey="value">
+                                            {barData.value.map((entry: any, index: number) => (
+                                                <Cell
+                                                    key={`cell-${index}`}
+                                                    fill={
+                                                        gradeColors[
+                                                            entry.grade as keyof typeof gradeColors
+                                                            ] || "#9ca3af"
+                                                    }
+                                                />
+                                            ))}
+                                        </Bar>
                                     </BarChart>
                                 </ResponsiveContainer>
                             )}
