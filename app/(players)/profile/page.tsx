@@ -85,7 +85,7 @@ const Page = () => {
     const barData: any = Array.isArray(data?.bar?.value) ? data!.bar : [];
 
     /* ---------- Polar Area Chart DATA ---------- */
-    const polarData = useMemo(() => ({
+    const polarData = {
         labels: pieData.map(d => d.name),
         datasets: [
             {
@@ -96,7 +96,7 @@ const Page = () => {
                 ),
             },
         ],
-    }), [pieData, gradeColors]);
+    };
 
     return (
         <div className="py-4">
