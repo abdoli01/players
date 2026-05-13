@@ -112,6 +112,15 @@ const Page = () => {
         setIndex(i);
         setForcePlay((prev) => prev + 1);
     };
+    const goNext = () => {
+        if (index < videos.length - 1) {
+            setIndex(index + 1);
+        }
+    };
+
+    const goPrevious = () => {
+        if (index > 0) setIndex(index - 1);
+    };
 
     if (isLoadingKeywords) {
         return (
@@ -191,6 +200,8 @@ const Page = () => {
                                         : currentVideo.tacticalEndTimeCode
                                 )}
                                 resetTrigger={forcePlay}
+                                onNext={goNext}
+                                onPrev={goPrevious}
                             />
                         </>
                     ) : (
