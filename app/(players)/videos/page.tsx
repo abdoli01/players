@@ -212,7 +212,7 @@ const Page = () => {
                 </div>
 
                 {/* ================== LIST ================== */}
-                <div className="order-2 lg:order-1 flex flex-col lg:w-1/4 h-[400px]">
+                <div className="order-2 lg:order-1 flex flex-col lg:w-1/4">
 
                     {/* TOP ACTIONS */}
                     <div className="flex items-center gap-1 justify-end mb-2">
