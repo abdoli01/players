@@ -63,7 +63,7 @@ const Page = () => {
 
 
     return (
-        <div className="py-4">
+        <div className="py-2">
             {/* ---------- KEYWORDS ---------- */}
             <div className={`flex gap-2 overflow-x-auto whitespace-nowrap pb-2 scrollbar-hide ${isRtl ? 'pl-6' : 'pr-6'}`}>
                 {keywords.map((item) => (
