@@ -68,7 +68,7 @@ const Page = () => {
             <div className={`flex gap-2 overflow-x-auto whitespace-nowrap pb-2 scrollbar-hide ${isRtl ? 'pl-6' : 'pr-6'}`}>
                 {keywords.map((item) => (
                     <Button
-                        className="shrink-0"
+                        className="shrink-0 min-w-[100px]"
                         key={item.key}
                         variant={activeKey === item.key ? "default" : "outline"}
                         onClick={() => setSelectedKey(item.key)}

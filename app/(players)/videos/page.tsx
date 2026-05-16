@@ -142,7 +142,7 @@ const Page = () => {
                     videoKeywords.map((item) => (
                         <Button
                             key={item.key}
-                            className="shrink-0"
+                            className="shrink-0 min-w-[100px]"
                             variant={
                                 activeKey === item.key ? "default" : "outline"
                             }
