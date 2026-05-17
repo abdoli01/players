@@ -63,9 +63,9 @@ export function SidebarProfile() {
                 </DropdownMenuTrigger>
 
                 <DropdownMenuContent
-                    side="right"
-                    align="start"
-                    className="w-auto mb-16"
+                    side="top"
+                    align={locale === 'fa' ? 'end' : 'start'} // فارسی از راست، انگلیسی از چپ
+                    className="w-auto mx-1"
                     style={{ direction: locale === 'fa' ? 'rtl' : 'ltr' }}
                 >
                     {user.firstName && user.lastName && (
