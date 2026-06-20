@@ -1,6 +1,6 @@
 'use client';
 import React, { useRef, useEffect, useState } from 'react';
-import { RotateCcw, Play, SkipForward, SkipBack, Fullscreen, PictureInPicture2 } from "lucide-react";
+import { RotateCcw, Play, SkipForward, SkipBack, Fullscreen, PictureInPicture2, Pause } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile"
 
 
@@ -271,12 +271,25 @@ const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext
                         playerRef.current.pause();
                     }
                 }}>
-                    {isPlaying ? "Pause" : "Play"}
+                    {isPlaying ? <Pause size={20} color="white"/> : <Play size={20} color="white"/>}
                 </button>
-                
+
+                {/* VOLUME */}
+                <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    onChange={(e) => {
+                        if (!playerRef.current) return;
+                        playerRef.current.volume = Number(e.target.value);
+                    }}
+                />
+                <div className='flex items-center gap-4'>
+
                 {/* SPEED */}
                 <select
-                    className="text-foreground bg-muted px-2 py-1 rounded"
+                    className="text-foreground border-foreground bg-background px-2 py-1 rounded"
                     value={speed}
                     onChange={(e) => {
                         const value = Number(e.target.value);
@@ -292,18 +305,6 @@ const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext
                     <option value="1.5">1.5x</option>
                     <option value="2">2x</option>
                 </select>
-
-                {/* VOLUME */}
-                <input
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.1"
-                    onChange={(e) => {
-                        if (!playerRef.current) return;
-                        playerRef.current.volume = Number(e.target.value);
-                    }}
-                />
 
                 {/*pip*/}
                 <button
@@ -339,6 +340,7 @@ const CustomVideoPlayer: React.FC<VideoPlayerProps> = ({ url, start, end, onNext
                 }}>
                     <Fullscreen size={20} color="white"/>
                 </button>
+            </div>
 
             </div>
 
