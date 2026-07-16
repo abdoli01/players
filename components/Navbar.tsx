@@ -38,10 +38,22 @@ export default function Navbar({children}: { children: ReactNode }) {
            <div className="flex items-center justify-between">
                <span className="block md:hidden">{children}</span>
                <div className="flex items-center gap-3">
-                   <Image src="/images/alipor.png" alt="player"  width={40} height={40} className='rounded-full' />
+                   <Image src={header?.image?.value || "/images/user.jpg"} alt="player"  width={40} height={40} className='rounded-full' />
                    <div className="flex flex-col leading-tight">
-                       <span className="font-semibold text-lg text-foreground">{header?.fullName?.value || 'test testi'}</span>
-                       <span className="text-sm text-gray-400">{ header?.club?.value || 'Persepolis'} | #{ header?.kitNumber?.value || '09'} | {header?.age?.value}yo</span>
+                       <span className="text-lg text-foreground !font-vazir">{header?.fullName?.value || ' '}</span>
+                       <span className="text-sm text-gray-400 font-vazir">
+                            {header?.club?.value || " "}
+                                                   {" | "}
+                                                   <span dir="ltr">
+                                #{header?.kitNumber?.value || " "}
+                            </span>
+                                                   {" | "}
+                                                   <span dir="ltr">
+                                {header?.age?.value}
+                            </span>
+                                                   {" "}
+                                                   {t("age")}
+                        </span>
                    </div>
                </div>
                <Link

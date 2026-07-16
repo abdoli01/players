@@ -25,7 +25,7 @@ export default async  function RootLayout({
     const messages = await getMessages();
 
   return (
-    <html lang={locale} dir={locale === 'fa' ? 'rtl' : 'ltr'} suppressHydrationWarning  className={locale === "fa" ? vazir.variable : ubunto.variable}>
+    <html lang={locale} dir={locale === 'fa' ? 'rtl' : 'ltr'} suppressHydrationWarning className={`${vazir.variable} ${ubunto.variable}`}>
       <body
           suppressHydrationWarning
           dir={locale === 'fa' ? 'rtl' : 'ltr'}
