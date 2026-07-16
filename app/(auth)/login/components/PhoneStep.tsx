@@ -109,6 +109,11 @@ export default function PhoneStep({
                                         className="text-center"
                                         placeholder={t('phonePlaceholder')}
                                         autoFocus
+                                        maxLength={11}
+                                        inputMode="numeric"
+                                        onInput={(e) => {
+                                            e.currentTarget.value = e.currentTarget.value.replace(/\D/g, "");
+                                        }}
                                     />
                                 </FormControl>
                                 <FormMessage />
