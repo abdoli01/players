@@ -59,7 +59,7 @@ import {
 
 // این دیالوگ‌ها را خودت مثل Package ها بساز
 import { CreateTransactionLabelDialog } from "../components/CreateTransactionLabelDialog";
-// import { EditTransactionLabelDialog } from "../components/EditTransactionLabelDialog";
+import { EditTransactionLabelDialog } from "../components/EditTransactionLabelDialog";
 import { DeleteTransactionLabelDialog } from "../components/DeleteTransactionLabelDialog";
 
 export function TransactionLabelsTable() {
@@ -136,9 +136,9 @@ export function TransactionLabelsTable() {
 
                         <DropdownMenuSeparator />
 
-                        {/*<EditTransactionLabelDialog*/}
-                        {/*    transactionLabel={row.original}*/}
-                        {/*/>*/}
+                        <EditTransactionLabelDialog
+                            transactionLabel={row.original}
+                        />
 
                         <DeleteTransactionLabelDialog
                             transactionLabel={row.original}

@@ -243,7 +243,10 @@
     "transactionLabelCreatedSuccessfully": "Transaction label created successfully.",
     "needLoginAgain": "Please login again.",
     "transactionLabelDeleted": "Transaction label deleted successfully.",
-    "deleteTransactionLabelConfirm": "Are you sure you want to delete transaction label \"{key}\"?"
+    "deleteTransactionLabelConfirm": "Are you sure you want to delete transaction label \"{key}\"?",
+    "editTransactionLabel": "Edit Transaction Label",
+    "transactionLabelUpdated": "Transaction label updated successfully",
+    "updateTransactionLabelError": "Failed to update transaction label"
 
 
 

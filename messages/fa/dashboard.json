@@ -247,7 +247,10 @@
     "transactionLabelCreatedSuccessfully": "برچسب تراکنش با موفقیت ایجاد شد.",
     "needLoginAgain": "لطفاً دوباره وارد شوید.",
     "transactionLabelDeleted": "برچسب تراکنش با موفقیت حذف شد.",
-    "deleteTransactionLabelConfirm": "آیا از حذف برچسب تراکنش «{key}» اطمینان دارید؟"
+    "deleteTransactionLabelConfirm": "آیا از حذف برچسب تراکنش «{key}» اطمینان دارید؟",
+    "editTransactionLabel": "ویرایش لیبل تراکنش",
+    "transactionLabelUpdated": "لیبل تراکنش با موفقیت ویرایش شد",
+    "updateTransactionLabelError": "خطا در ویرایش لیبل تراکنش"
 
 
 
