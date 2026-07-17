@@ -245,7 +245,9 @@
     "query": "کوئری",
     "createTransactionLabel": "ایجاد برچسب تراکنش",
     "transactionLabelCreatedSuccessfully": "برچسب تراکنش با موفقیت ایجاد شد.",
-    "needLoginAgain": "لطفاً دوباره وارد شوید."
+    "needLoginAgain": "لطفاً دوباره وارد شوید.",
+    "transactionLabelDeleted": "برچسب تراکنش با موفقیت حذف شد.",
+    "deleteTransactionLabelConfirm": "آیا از حذف برچسب تراکنش «{key}» اطمینان دارید؟"
 
 
 

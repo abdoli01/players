@@ -241,7 +241,9 @@
     "query": "Query",
     "createTransactionLabel": "Create Transaction Label",
     "transactionLabelCreatedSuccessfully": "Transaction label created successfully.",
-    "needLoginAgain": "Please login again."
+    "needLoginAgain": "Please login again.",
+    "transactionLabelDeleted": "Transaction label deleted successfully.",
+    "deleteTransactionLabelConfirm": "Are you sure you want to delete transaction label \"{key}\"?"
 
 
 

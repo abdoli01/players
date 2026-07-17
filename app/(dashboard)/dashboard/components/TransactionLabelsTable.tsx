@@ -60,7 +60,7 @@ import {
 // این دیالوگ‌ها را خودت مثل Package ها بساز
 import { CreateTransactionLabelDialog } from "../components/CreateTransactionLabelDialog";
 // import { EditTransactionLabelDialog } from "../components/EditTransactionLabelDialog";
-// import { DeleteTransactionLabelDialog } from "../components/DeleteTransactionLabelDialog";
+import { DeleteTransactionLabelDialog } from "../components/DeleteTransactionLabelDialog";
 
 export function TransactionLabelsTable() {
     const t = useTranslations("Dashboard");
@@ -140,9 +140,9 @@ export function TransactionLabelsTable() {
                         {/*    transactionLabel={row.original}*/}
                         {/*/>*/}
 
-                        {/*<DeleteTransactionLabelDialog*/}
-                        {/*    transactionLabel={row.original}*/}
-                        {/*/>*/}
+                        <DeleteTransactionLabelDialog
+                            transactionLabel={row.original}
+                        />
                     </DropdownMenuContent>
                 </DropdownMenu>
             ),
