@@ -58,7 +58,7 @@ import {
 } from "@/components/ui/select";
 
 // این دیالوگ‌ها را خودت مثل Package ها بساز
-// import { CreateTransactionLabelDialog } from "../components/CreateTransactionLabelDialog";
+import { CreateTransactionLabelDialog } from "../components/CreateTransactionLabelDialog";
 // import { EditTransactionLabelDialog } from "../components/EditTransactionLabelDialog";
 // import { DeleteTransactionLabelDialog } from "../components/DeleteTransactionLabelDialog";
 
@@ -203,9 +203,9 @@ export function TransactionLabelsTable() {
                     />
                 </div>
 
-                {/*<div className="flex items-center justify-end flex-1">*/}
-                {/*    <CreateTransactionLabelDialog />*/}
-                {/*</div>*/}
+                <div className="flex items-center justify-end flex-1">
+                    <CreateTransactionLabelDialog />
+                </div>
 
             </div>
 

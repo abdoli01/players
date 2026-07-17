@@ -242,7 +242,10 @@
 
     "transactionLabels": "برچسب‌های تراکنش",
     "items": "آیتم‌ها",
-    "query": "کوئری"
+    "query": "کوئری",
+    "createTransactionLabel": "ایجاد برچسب تراکنش",
+    "transactionLabelCreatedSuccessfully": "برچسب تراکنش با موفقیت ایجاد شد.",
+    "needLoginAgain": "لطفاً دوباره وارد شوید."
 
 
 

@@ -238,7 +238,10 @@
 
     "transactionLabels": "Transaction Labels",
     "items": "Items",
-    "query": "Query"
+    "query": "Query",
+    "createTransactionLabel": "Create Transaction Label",
+    "transactionLabelCreatedSuccessfully": "Transaction label created successfully.",
+    "needLoginAgain": "Please login again."
 
 
 
