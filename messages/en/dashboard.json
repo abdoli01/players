@@ -234,7 +234,14 @@
     "time": "Time",
     "hostScore": "Home Score",
     "guestScore": "Guest Score",
-    "q": "Search"
+    "q": "Search",
+
+    "transactionLabels": "Transaction Labels",
+    "items": "Items",
+    "query": "Query"
+
+
+
 
   }
 }

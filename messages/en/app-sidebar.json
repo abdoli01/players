@@ -57,6 +57,8 @@
     "visibleAccountTypes": "Visible Account Types",
     "darkMode": "Dark Mode",
     "visibleLanguages": "Visible Languages",
-    "matches": "Matches"
+    "matches": "Matches",
+    "transactionLabels": "Transaction Labels"
+
   }
 }
