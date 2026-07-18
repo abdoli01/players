@@ -31,6 +31,7 @@ const Page = () => {
     const isRtl = locale === "fa";
 
     const user = useAppSelector((s) => s.user.user);
+    const seasonId = useAppSelector((s) => s.season.currentSeasonId?.currentSeasonId);
 
     // ========================
     // STATE
@@ -83,7 +84,7 @@ const Page = () => {
             keyword: user?.accountType,
             key: activeKey,
             playerId: user?.playerId,
-            sessionId: "sessionId",
+            sessionId: seasonId,
             page: 1,
             limit: 10,
             items: selectedItemsPath,

@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface SeasonState {
-    currentSeasonId: string | null;
+    currentSeasonId: any;
 }
 
 const initialState: SeasonState = {
