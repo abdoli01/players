@@ -14,6 +14,7 @@ const seasonSlice = createSlice({
     initialState,
     reducers: {
         setCurrentSeasonId(state, action: PayloadAction<string>) {
+            console.log('action.payload',action.payload)
             state.currentSeasonId = action.payload;
         },
         clearCurrentSeasonId(state) {

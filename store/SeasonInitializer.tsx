@@ -18,10 +18,11 @@ export default function SeasonInitializer() {
         useGetSettingsCurrentSeasonIdQuery(undefined, {
             skip: !user || !!storedSeasonId,
         });
+    console.log("Current seasonId: 777", currentSeasonId);
 
     useEffect(() => {
         if (!storedSeasonId && currentSeasonId) {
-            dispatch(setCurrentSeasonId(currentSeasonId));
+            dispatch(setCurrentSeasonId(currentSeasonId.currentSeasonId));
         }
     }, [currentSeasonId, storedSeasonId, dispatch]);
 

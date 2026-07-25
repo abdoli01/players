@@ -31,7 +31,7 @@ const Page = () => {
     const isRtl = locale === "fa";
 
     const user = useAppSelector((s) => s.user.user);
-    const seasonId = useAppSelector((s) => s.season.currentSeasonId?.currentSeasonId);
+    const seasonId = useAppSelector((s) => s.season.currentSeasonId);
 
     // ========================
     // STATE
