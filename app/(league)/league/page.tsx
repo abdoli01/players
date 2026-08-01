@@ -1,4 +1,4 @@
 import { redirect } from "next/navigation";
-export default function Home() {
-    redirect("/videos");
+export default function League() {
+    redirect("/league/matches");
 }
